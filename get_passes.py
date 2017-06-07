@@ -4,7 +4,7 @@ import math
 
 
 # get_passes() function definition
-def get_passes_two(observer, tle, start_time, num_passes=None, duration=None):
+def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     """Config obs and sat, Return pass data for all passes in given interval.
 
     Arguments:
