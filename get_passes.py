@@ -1,6 +1,8 @@
 # Import necessary libraries
 import ephem
 import math
+from datetime import timedelta
+from datetime import datetime
 
 
 # get_passes() function definition
@@ -33,54 +35,64 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     # Read in most recent satellite TLE data
     sat = ephem.readtle(tle_line0, tle_line1, tle_line2)
 
-    pass_data = []
-    i = 0
+    contacts = []
 
     if num_passes is not None and duration is None:
         # if only num_passes specified
         try:
             for i in range(num_passes):
-                sat.compute(ground_station)  # compute all sat body attributes
-                """next pass command yields array with [0]=rise time,
-                [1]=rise azimuth, [2]=max alt time, [3]=max alt,
-                [4]=set time, [5]=set azimuth"""
+                sat.compute(ground_station)  # compute all body attributes for sat
+                # next pass command yields array with [0]=rise time,
+                # [1]=rise azimuth, [2]=max alt time, [3]=max alt,
+                # [4]=set time, [5]=set azimuth
                 info = ground_station.next_pass(sat)
                 rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
-                deg_per_rad = 180.0/math.pi  # use to conv azimuth to deg
-                pass_duration = (set_time-rise_time)  # fraction of a day
+                deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
+                pass_duration = timedelta(days = set_time-rise_time)  # fraction of a day
 
                 if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time  # new obs_t = prev set_t
+                    ground_station.date = set_time  # new obs time = prev set time
 
-                pass_data.append([rise_time, set_time, pass_duration,
-                                (rise_az*deg_per_rad), (set_az*deg_per_rad)])
+                pass_data = {
+                    'start' : rise_time.datetime().ctime(),
+                    'end' : set_time.datetime().ctime(),
+                    'duration' : str(pass_duration),
+                    'rise_az' : (rise_az*deg_per_rad),
+                    'set_az' : (set_az*deg_per_rad)
+                }
 
                 # increase by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
+                contacts.append(pass_data)
         except ValueError:
             # No (more) visible passes
             pass
-        return pass_data
+        return contacts
 
     if num_passes is None and duration is not None:
         # if only duration specified
         try:
             end_time = ephem.date(ground_station.date+duration*ephem.hour)
             while (ground_station.date <= end_time):
-                sat.compute(ground_station)  # compute all sat body attributes
-                """next pass command yields array with [0]=rise time,
-                [1]=rise azimuth, [2]=max alt time, [3]=max alt,
-                [4]=set time, [5]=set azimuth"""
+                sat.compute(ground_station)  # compute all body attributes for sat
+                # next pass command yields array with [0]=rise time,
+                # [1]=rise azimuth, [2]=max alt time, [3]=max alt,
+                # [4]=set time, [5]=set azimuth
                 info = ground_station.next_pass(sat)
                 rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
-                deg_per_rad = 180.0/math.pi  # use to conv azimuth to deg
-                pass_duration = (set_time-rise_time)  # fraction of a day
+                deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
+                pass_duration = timedelta(set_time-rise_time)  # fraction of a day
 
                 if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time  # new obs_t = prev set_t
+                    ground_station.date = set_time  # new obs time = prev set time
 
-                pass_data.append([rise_time, set_time, pass_duration,
-                                (rise_az*deg_per_rad), (set_az*deg_per_rad)])
+                pass_data = {
+                    'start' : rise_time.datetime().ctime(),
+                    'end' : set_time.datetime().ctime(),
+                    'duration' : str(pass_duration),
+                    'rise_az' : (rise_az*deg_per_rad),
+                    'set_az' : (set_az*deg_per_rad)
+                }
 
                 # increase time by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
@@ -93,20 +105,25 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
         # if both are specified, use num_passes
         try:
             for i in range(num_passes):
-                sat.compute(ground_station)  # compute all sat body attributes
-                """next pass command yields array with [0]=rise time,
-                [1]=rise azimuth, [2]=max alt time, [3]=max alt,
-                [4]=set time, [5]=set azimuth"""
+                sat.compute(ground_station)  # compute all body attributes for sat
+                # next pass command yields array with [0]=rise time,
+                # [1]=rise azimuth, [2]=max alt time, [3]=max alt,
+                # [4]=set time, [5]=set azimuth
                 info = ground_station.next_pass(sat)
                 rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
-                deg_per_rad = 180.0/math.pi  # use to conv azimuth to deg
-                pass_duration = (set_time-rise_time)  # fraction of a day
+                deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
+                pass_duration = timedelta(set_time-rise_time)  # fraction of a day
 
                 if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time   # new obs_t = prev set_t
+                    ground_station.date = set_time   # new obs time = prev set time
 
-                pass_data.append([rise_time, set_time, pass_duration,
-                                (rise_az*deg_per_rad), (set_az*deg_per_rad)])
+                pass_data = {
+                    'start' : rise_time.datetime().ctime(),
+                    'end' : set_time.datetime().ctime(),
+                    'duration' : str(pass_duration),
+                    'rise_az' : (rise_az*deg_per_rad),
+                    'set_az' : (set_az*deg_per_rad)
+                }
 
                 # increase time by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
@@ -120,20 +137,25 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
         try:
             end_time = ephem.date(ground_station.date+1)
             while (ground_station.date <= end_time):
-                sat.compute(ground_station)  # compute all sat body attributes
-                """next pass command yields array with [0]=rise time,
-                [1]=rise azimuth, [2]=max alt time, [3]=max alt,
-                [4]=set time, [5]=set azimuth"""
+                sat.compute(ground_station)  # compute all body attributes for sat
+                # next pass command yields array with [0]=rise time,
+                # [1]=rise azimuth, [2]=max alt time, [3]=max alt,
+                # [4]=set time, [5]=set azimuth
                 info = ground_station.next_pass(sat)
                 rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
-                deg_per_rad = 180.0/math.pi  # use to conv azimuth to deg
-                pass_duration = (set_time-rise_time)  # fraction of a day
+                deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
+                pass_duration = timedelta(set_time-rise_time)  # fraction of a day
 
                 if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time   # new obs_t = prev set_t
+                    ground_station.date = set_time   # new obs time = prev set time
 
-                pass_data.append([rise_time, set_time, pass_duration,
-                                (rise_az*deg_per_rad), (set_az*deg_per_rad)])
+                pass_data = {
+                    'start' : rise_time.datetime().ctime(),
+                    'end' : set_time.datetime().ctime(),
+                    'duration' : str(pass_duration),
+                    'rise_az' : (rise_az*deg_per_rad),
+                    'set_az' : (set_az*deg_per_rad)
+                }
 
                 # increase time by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
