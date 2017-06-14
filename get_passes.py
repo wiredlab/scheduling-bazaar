@@ -50,9 +50,6 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                 deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
                 pass_duration = timedelta(days = set_time-rise_time)  # fraction of a day
 
-                if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time  # new obs time = prev set time
-
                 pass_data = {
                     'start' : rise_time.datetime().ctime(),
                     'end' : set_time.datetime().ctime(),
@@ -61,9 +58,13 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                     'set_az' : (set_az*deg_per_rad)
                 }
 
+                if set_time > rise_time:  # only update if set time > rise time
+                    ground_station.date = set_time  # new obs time = prev set time
+                    contacts.append(pass_data)
+
                 # increase by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
-                contacts.append(pass_data)
+
         except ValueError:
             # No (more) visible passes
             pass
@@ -83,9 +84,6 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                 deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
                 pass_duration = timedelta(set_time-rise_time)  # fraction of a day
 
-                if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time  # new obs time = prev set time
-
                 pass_data = {
                     'start' : rise_time.datetime().ctime(),
                     'end' : set_time.datetime().ctime(),
@@ -94,12 +92,17 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                     'set_az' : (set_az*deg_per_rad)
                 }
 
+                if set_time > rise_time:  # only update if set time > rise time
+                    ground_station.date = set_time  # new obs time = prev set time
+                    contacts.append(pass_data)
+
                 # increase time by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
+
         except ValueError:
             # No (more) visible passes
             pass
-        return pass_data
+        return contacts
 
     if num_passes is not None and duration is not None:
         # if both are specified, use num_passes
@@ -114,9 +117,6 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                 deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
                 pass_duration = timedelta(set_time-rise_time)  # fraction of a day
 
-                if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time   # new obs time = prev set time
-
                 pass_data = {
                     'start' : rise_time.datetime().ctime(),
                     'end' : set_time.datetime().ctime(),
@@ -125,12 +125,17 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                     'set_az' : (set_az*deg_per_rad)
                 }
 
+                if set_time > rise_time:  # only update if set time > rise time
+                    ground_station.date = set_time   # new obs time = prev set time
+                    contacts.append(pass_data)
+
                 # increase time by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
+
         except ValueError:
             # No (more) visible passes
             pass
-        return pass_data
+        return contacts
 
     if num_passes is None and duration is None:
         # if neither are specified, get passes for the next 24 hours
@@ -146,9 +151,6 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                 deg_per_rad = 180.0/math.pi           # use to conv azimuth to deg
                 pass_duration = timedelta(set_time-rise_time)  # fraction of a day
 
-                if set_time > rise_time:  # only update if set time > rise time
-                    ground_station.date = set_time   # new obs time = prev set time
-
                 pass_data = {
                     'start' : rise_time.datetime().ctime(),
                     'end' : set_time.datetime().ctime(),
@@ -157,9 +159,14 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                     'set_az' : (set_az*deg_per_rad)
                 }
 
+                if set_time > rise_time:  # only update if set time > rise time
+                    ground_station.date = set_time   # new obs time = prev set time
+                    contacts.append(pass_data)
+
                 # increase time by 1 min and look for next pass
                 ground_station.date = ground_station.date + ephem.minute
+
         except ValueError:
             # No (more) visible passes
             pass
-        return pass_data
+        return contacts
