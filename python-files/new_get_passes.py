@@ -81,7 +81,8 @@ def new_get_passes(observer, tle, start_time, num_passes=None, duration=None):
 
             if set_time > rise_time:  # only update if set time > rise time
                 ground_station.date = set_time  # new obs time = prev set time
-                contacts.append(pass_data)
+                if ground_station.date <= end_time:
+                    contacts.append(pass_data)
 
             # increase by 1 min and look for next pass
             ground_station.date = ground_station.date + ephem.minute
