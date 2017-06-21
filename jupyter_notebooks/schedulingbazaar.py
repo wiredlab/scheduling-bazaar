@@ -61,6 +61,33 @@ def get_tles(file):
     return data
 
 
+# get_gs() function definition
+def get_gs(file):
+    """Returns a list of gs from a file.
+
+    Arguments:
+    file -- file name string containing unparsed gs
+
+    gs has four elements: name, lat, lon, alt
+    """
+    stations = []
+    with open(file) as f:
+        while True:
+            # an iterator that returns the next N lines and stops
+            fourline = islice(f, 4)
+            # loop over these N lines, removing trailing spaces and \n
+            gs = [x.rstrip() for x in fourline]
+
+            # only accept complete data
+            # the end of the file *should* have len(tle)==0 but
+            # this also handles extra junk at the end
+            if len(gs) == 4:
+                stations.append(gs)
+            else:
+                break
+    return stations
+
+
 # get_passes() function definition
 def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     """Config obs and sat, Return pass data for all passes in given interval.
@@ -85,7 +112,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     ground_station.name = obs_name                # name string
     ground_station.lon = obs_lon                  # in degrees (+E)
     ground_station.lat = obs_lat                  # in degrees (+N)
-    ground_station.elevation = obs_alt            # in meters
+    ground_station.elevation = int(obs_alt)       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
 
     # Read in most recent satellite TLE data
