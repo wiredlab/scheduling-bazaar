@@ -1,6 +1,7 @@
 # Python module for scheduling bazaar project
 # Includes: TLE class
-#           get_tles()
+#           load_gs()
+#           load_tles()
 #           get_passes()
 #           calc_access_time()
 #           plot_access_time()
@@ -36,8 +37,8 @@ class TLE:
         return '%s\n%s\n%s' % (self.tle0, self.tle1, self.tle2)
 
 
-# get_tles() function definition
-def get_tles(file):
+# load_tles() function definition
+def load_tles(file):
     """Returns a list of tle's from a file.
 
     Arguments:
@@ -61,8 +62,8 @@ def get_tles(file):
     return data
 
 
-# get_gs() function definition
-def get_gs(file):
+# load_gs() function definition
+def load_gs(file):
     """Returns a list of gs from a file.
 
     Arguments:
