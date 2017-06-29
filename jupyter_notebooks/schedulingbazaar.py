@@ -90,7 +90,7 @@ def load_gs(file):
 
 
 # get_passes() function definition
-def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizon=0):
+def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizon='00:00'):
     """Config obs and sat, Return pass data for all passes in given interval.
 
     Arguments:
@@ -99,7 +99,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
     start_time -- ephem.date string formatted 'yyyy/mm/dd hr:min:sec'
     num_passes -- integer number of desired passes (defualt None)
     duration -- float number of hours or fraction of hours (default None)
-    horizon -- optional specification for observer horizon (defualt 0 deg)
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
 
     Specify either num_passes or duration.
     If both, use min(num_passes, duration).
@@ -164,8 +164,8 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
                 # when no set or rise time
                 pass
             try:
-                rising = rise_time.datetime().ctime()
-                setting = set_time.datetime().ctime()
+                rising = rise_time.datetime()
+                setting = set_time.datetime()
                 pass_seconds = timedelta.total_seconds(pass_duration)
             except AttributeError:
                 # when no set or rise time
@@ -198,7 +198,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
 
 
 # calc_access_time() function definition
-def calc_access_time(start, gs, tle, days, horizon=0):
+def calc_access_time(start, gs, tle, days, horizon='00:00'):
     """Calculates Access Time in seconds/day.
 
     Arguments:
@@ -206,7 +206,7 @@ def calc_access_time(start, gs, tle, days, horizon=0):
     gs -- 4 element list containing desired [name,lat,lon,alt]
     tle -- 3 element list containing desired tle [line0,line1,line2]
     days -- num of day to calc/plot access time
-    horizon -- optional specification for observer horizon (defualt 0 deg)
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
     """
     time = days
     start_time = ephem.date(start)
@@ -234,7 +234,7 @@ def calc_access_time(start, gs, tle, days, horizon=0):
 
 
 # plot_access_time() function definition
-def plot_access_time(start, gs, tle, days, horizon=0):
+def plot_access_time(start, gs, tle, days, horizon='00:00'):
     """Plots Access Time in seconds/day.
 
     Arguments:
@@ -242,7 +242,7 @@ def plot_access_time(start, gs, tle, days, horizon=0):
     gs -- 4 element list containing desired [name,lat,lon,alt]
     tle -- 3 element list containing desired tle [line0,line1,line2]
     days -- num of day to calc/plot access time
-    horizon -- optional specification for observer horizon (defualt 0 deg)
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
     """
     tle = TLE(tle)
 
