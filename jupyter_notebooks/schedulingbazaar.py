@@ -198,7 +198,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
 
 
 # calc_access_time() function definition
-def calc_access_time(start, gs, tle, days):
+def calc_access_time(start, gs, tle, days, horizon=0):
     """Calculates Access Time in seconds/day.
 
     Arguments:
@@ -206,6 +206,7 @@ def calc_access_time(start, gs, tle, days):
     gs -- 4 element list containing desired [name,lat,lon,alt]
     tle -- 3 element list containing desired tle [line0,line1,line2]
     days -- num of day to calc/plot access time
+    horizon -- optional specification for observer horizon (defualt 0 deg)
     """
     time = days
     start_time = ephem.date(start)
@@ -219,7 +220,8 @@ def calc_access_time(start, gs, tle, days):
 
         gs_passes[tle.noradid] = get_passes(gs, tle.tle, start_time,
                                             num_passes=num_passes,
-                                            duration=duration)
+                                            duration=duration,
+                                            horizon=horizon)
 
         access_time = 0
         for sat, passes in gs_passes.items():
@@ -232,7 +234,7 @@ def calc_access_time(start, gs, tle, days):
 
 
 # plot_access_time() function definition
-def plot_access_time(start, gs, tle, days):
+def plot_access_time(start, gs, tle, days, horizon=0):
     """Plots Access Time in seconds/day.
 
     Arguments:
@@ -240,10 +242,12 @@ def plot_access_time(start, gs, tle, days):
     gs -- 4 element list containing desired [name,lat,lon,alt]
     tle -- 3 element list containing desired tle [line0,line1,line2]
     days -- num of day to calc/plot access time
+    horizon -- optional specification for observer horizon (defualt 0 deg)
     """
     tle = TLE(tle)
 
-    day_list, access_list = calc_access_time(start, gs, tle, days)
+    day_list, access_list = calc_access_time(start, gs, tle, days,
+                                             horizon=horizon)
 
     fig = plt.figure(1)
     fig.suptitle('%s Access time for %s GS' % (tle.name, gs[0]))
