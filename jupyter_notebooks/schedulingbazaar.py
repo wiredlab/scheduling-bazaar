@@ -90,7 +90,7 @@ def load_gs(file):
 
 
 # get_passes() function definition
-def get_passes(observer, tle, start_time, num_passes=None, duration=None):
+def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizon=0):
     """Config obs and sat, Return pass data for all passes in given interval.
 
     Arguments:
@@ -99,6 +99,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     start_time -- ephem.date string formatted 'yyyy/mm/dd hr:min:sec'
     num_passes -- integer number of desired passes (defualt None)
     duration -- float number of hours or fraction of hours (default None)
+    horizon -- optional specification for observer horizon (defualt 0 deg)
 
     Specify either num_passes or duration.
     If both, use min(num_passes, duration).
@@ -115,6 +116,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     ground_station.lat = obs_lat                  # in degrees (+N)
     ground_station.elevation = int(obs_alt)       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
+    ground_station.horizon = horizon              # in degrees
 
     # Read in most recent satellite TLE data
     sat = ephem.readtle(tle_line0, tle_line1, tle_line2)
