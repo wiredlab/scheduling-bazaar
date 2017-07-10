@@ -1,0 +1,87 @@
+/* Schema to describe a **request** object.
+
+This is addressed to a certain Client and is a preliminary Job to become scheduled.  The Network first makes a request to a client with all information needed to execute the job.  To the Job data, it adds a **bounty** (or other name) that indicates the priority of this job or the "payment" to the client if the job's observation is successfully uploaded to the Network.
+
+ http://json-schema.org/
+*/
+
+
+{
+  "title": "SatNOGS Broker - Offer",
+  "description": "A Client offer to make a (new or requested) scheduled Job with a Network.",
+  "$id": "http://satnogs.org/schemas/v0.1#",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "required": ["job", "fee"],
+  "properties": {
+    "job": {"$ref": "#/definitions/job"},
+    "fee": {
+      "description": "Requested payment for a successful job.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": "An ISO 4217 code or other network-specific string.",
+          "currency": {"type": "string"},
+          "amount": {"type": "number", "minimum": 0}
+        },
+        "required": ["currency", "amount"]
+      },
+      "minItems": 1
+    }
+  },
+
+  "definitions": {
+    "job": {
+      "description": "Information about a (potentially) scheduled Job.",
+      "type": "object",
+      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier for this request.",
+          "type": ["number", "string"]
+        },
+        "start": {
+          "description": "Time to start the job.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "description": "Time to end the job.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ground_station": {
+          "description": "Network-specific identifier of the intended ground station.",
+          "type": ["number", "string"]
+        }
+        "tle0": {
+          "description": "Satellite name.",
+          "type": "string"
+        },
+        "tle1": {
+          "description": "First line of TLE.",
+          "type": "string"
+        },
+        "tle2": {
+          "description": "Second line of TLE.",
+          "type": "string"
+        },
+        "frequency": {
+          "description": "Center frequency in Hz of reception request, without doppler compensation.",
+          "type": "number"
+        },
+        "mode": {
+          "description": "Name of RF demodulator to use.",
+          "type": "string"
+        },
+        "transmitter": {
+          "description": "Unique identifier of transmitter in SatNOGS DB.",
+          "type": "string"
+        },
+      }
+    }
+}
+
+
+
+// vim: sw=2
