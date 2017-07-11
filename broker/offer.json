@@ -53,7 +53,7 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
         "ground_station": {
           "description": "Network-specific identifier of the intended ground station.",
           "type": ["number", "string"]
-        }
+        },
         "tle0": {
           "description": "Satellite name.",
           "type": "string"
@@ -80,6 +80,7 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
         },
       }
     }
+  }
 }
 
 
