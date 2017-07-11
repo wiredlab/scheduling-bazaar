@@ -1,6 +1,7 @@
 # Python module for scheduling bazaar project
 # Includes: TLE class
-#           get_tles()
+#           load_gs()
+#           load_tles()
 #           get_passes()
 #           calc_access_time()
 #           plot_access_time()
@@ -36,8 +37,8 @@ class TLE:
         return '%s\n%s\n%s' % (self.tle0, self.tle1, self.tle2)
 
 
-# get_tles() function definition
-def get_tles(file):
+# load_tles() function definition
+def load_tles(file):
     """Returns a list of tle's from a file.
 
     Arguments:
@@ -61,8 +62,8 @@ def get_tles(file):
     return data
 
 
-# get_gs() function definition
-def get_gs(file):
+# load_gs() function definition
+def load_gs(file):
     """Returns a list of gs from a file.
 
     Arguments:
@@ -89,7 +90,7 @@ def get_gs(file):
 
 
 # get_passes() function definition
-def get_passes(observer, tle, start_time, num_passes=None, duration=None):
+def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizon='00:00'):
     """Config obs and sat, Return pass data for all passes in given interval.
 
     Arguments:
@@ -98,6 +99,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     start_time -- ephem.date string formatted 'yyyy/mm/dd hr:min:sec'
     num_passes -- integer number of desired passes (defualt None)
     duration -- float number of hours or fraction of hours (default None)
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
 
     Specify either num_passes or duration.
     If both, use min(num_passes, duration).
@@ -114,6 +116,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
     ground_station.lat = obs_lat                  # in degrees (+N)
     ground_station.elevation = int(obs_alt)       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
+    ground_station.horizon = horizon              # in degrees
 
     # Read in most recent satellite TLE data
     sat = ephem.readtle(tle_line0, tle_line1, tle_line2)
@@ -161,8 +164,8 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
                 # when no set or rise time
                 pass
             try:
-                rising = rise_time.datetime().ctime()
-                setting = set_time.datetime().ctime()
+                rising = rise_time.datetime()
+                setting = set_time.datetime()
                 pass_seconds = timedelta.total_seconds(pass_duration)
             except AttributeError:
                 # when no set or rise time
@@ -195,7 +198,7 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None):
 
 
 # calc_access_time() function definition
-def calc_access_time(start, gs, tle, days):
+def calc_access_time(start, gs, tle, days, horizon='00:00'):
     """Calculates Access Time in seconds/day.
 
     Arguments:
@@ -203,6 +206,7 @@ def calc_access_time(start, gs, tle, days):
     gs -- 4 element list containing desired [name,lat,lon,alt]
     tle -- 3 element list containing desired tle [line0,line1,line2]
     days -- num of day to calc/plot access time
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
     """
     time = days
     start_time = ephem.date(start)
@@ -216,7 +220,8 @@ def calc_access_time(start, gs, tle, days):
 
         gs_passes[tle.noradid] = get_passes(gs, tle.tle, start_time,
                                             num_passes=num_passes,
-                                            duration=duration)
+                                            duration=duration,
+                                            horizon=horizon)
 
         access_time = 0
         for sat, passes in gs_passes.items():
@@ -229,7 +234,7 @@ def calc_access_time(start, gs, tle, days):
 
 
 # plot_access_time() function definition
-def plot_access_time(start, gs, tle, days):
+def plot_access_time(start, gs, tle, days, horizon='00:00'):
     """Plots Access Time in seconds/day.
 
     Arguments:
@@ -237,10 +242,12 @@ def plot_access_time(start, gs, tle, days):
     gs -- 4 element list containing desired [name,lat,lon,alt]
     tle -- 3 element list containing desired tle [line0,line1,line2]
     days -- num of day to calc/plot access time
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
     """
     tle = TLE(tle)
 
-    day_list, access_list = calc_access_time(start, gs, tle, days)
+    day_list, access_list = calc_access_time(start, gs, tle, days,
+                                             horizon=horizon)
 
     fig = plt.figure(1)
     fig.suptitle('%s Access time for %s GS' % (tle.name, gs[0]))
