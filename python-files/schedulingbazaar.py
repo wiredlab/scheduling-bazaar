@@ -7,14 +7,16 @@
 #           plot_access_time()
 
 # Import necessary libraries
-import ephem
-import math
-import seaborn
-
-import matplotlib.pyplot as plt
-
+from collections import namedtuple
 from datetime import timedelta
-from itertools import islice
+from itertools import islice, product
+import math
+
+import ephem
+import intervaltree
+import matplotlib.pyplot as plt
+#import seaborn
+
 
 
 # TLE class definition
@@ -167,6 +169,8 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
                 rising = rise_time.datetime()
                 setting = set_time.datetime()
                 pass_seconds = timedelta.total_seconds(pass_duration)
+                tca = max_alt_time.datetime()
+                max_el = (max_alt * deg_per_rad)
             except AttributeError:
                 # when no set or rise time
                 pass
@@ -177,6 +181,8 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
                 'duration': pass_seconds,
                 'rise_az': r_angle,
                 'set_az': s_angle,
+                'tca': tca,
+                'max_el': max_el,
             }
 
             try:
@@ -196,6 +202,106 @@ def get_passes(observer, tle, start_time, num_passes=None, duration=None, horizo
         pass
     return contacts
 
+
+PassTuple = namedtuple('PassTuple', 'start end duration rise_az set_az tca max_el gs sat')
+
+def _compute(args):
+    """Wrapper for get_passes() for use with map() and converts the list of dicttionaries to
+    a list of namedtuples to save RAM.
+    """
+    gs, sat, start, npasses, dur, horizon = args
+    print(gs[0], sat[0].strip())
+    passes = get_passes(gs, sat, start,
+                        num_passes=npasses,
+                        duration=dur,
+                        horizon=horizon)
+    #convert to namedtuples since the info doesn't change
+    data = []
+    for p in passes:
+        d = PassTuple(str(p['start']),
+                      str(p['end']),
+                      p['duration'],
+                      p['rise_az'],
+                      p['set_az'],
+                      str(p['tca']),
+                      p['max_el'],
+                      gs[0],
+                      sat[0].rstrip())
+        data.append(d)
+    return data
+
+def compute_all_passes(stations, satellites, start_time, dbfile='passes.db', num_passes=None, duration=None, horizon='10:00'):
+    """Finds passes for all combinations of stations and satellites.
+
+    Saves the pass info as rows in an sqlite3 database and returns the data as an IntervalTree with
+    each data member set to the pass info as a namedtuple.
+
+    horizon is a string in degrees:minutes for pyephem
+    """
+    import multiprocessing
+    import sqlite3
+
+    conn = sqlite3.connect(dbfile)
+    cur = conn.cursor()
+    cur.execute('''DROP TABLE IF EXISTS passes;''')
+    #column order needs to match PassTuple order
+    cur.execute('''CREATE TABLE passes
+              (start text,
+              end text,
+              duration real,
+              rise_az real,
+              set_az real,
+              tca text,
+              max_el real,
+              gs text,
+              sat text);''')
+
+    tree = intervaltree.IntervalTree()
+
+    with multiprocessing.Pool(4) as pool:
+        jobargs = product(stations,
+                          satellites,
+                          (start_time,),
+                          (num_passes,),
+                          (duration,),
+                          (horizon,))
+        result = pool.map(_compute, jobargs)
+        print('Computed', len(result), 'Sat--GS pairs')
+
+    # for (gs, sat) in product(stations, satellites):
+        # passdata = compute(gs, sat)
+
+    for passdata in result:
+        for d in passdata:
+            try:
+                tree.addi(d.start, d.end, d)
+                cur.execute('''INSERT INTO passes VALUES (?,?,?,?,?,?,?,?,?)''', d)
+            except ValueError:
+                print('!!! Invalid pass !!!')
+                print(d)
+    conn.commit()
+    conn.close()
+    return tree
+
+def load_all_passes(dbfile='passes.db'):
+    """Loads pre-computed passes from the SQLite database into an IntervalTree whose data is a
+    namedtuple PassTuple.
+    """
+    import sqlite3
+
+    tree = intervaltree.IntervalTree()
+    conn = sqlite3.connect(dbfile)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    for p in cur.execute('''SELECT * FROM passes;'''):
+        data = PassTuple(p['start'], p['end'], p['duration'],
+                            p['rise_az'], p['set_az'],
+                            p['tca'], p['max_el'],
+                            p['gs'], p['sat'])
+        tree.addi(data.start, data.end, data)
+    conn.close()
+    return tree
 
 # calc_access_time() function definition
 def calc_access_time(start, gs, tle, days, horizon='00:00'):
