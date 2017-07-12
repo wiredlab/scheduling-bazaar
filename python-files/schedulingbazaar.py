@@ -210,7 +210,7 @@ def _compute(args):
     a list of namedtuples to save RAM.
     """
     gs, sat, start, npasses, dur, horizon = args
-    print(gs[0], sat[0].strip())
+    print(gs[0], sat[0].strip(), flush=True)
     passes = get_passes(gs, sat, start,
                         num_passes=npasses,
                         duration=dur,
