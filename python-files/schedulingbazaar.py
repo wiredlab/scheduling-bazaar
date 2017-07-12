@@ -8,7 +8,7 @@
 
 # Import necessary libraries
 from collections import namedtuple
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from itertools import islice, product
 import math
 
@@ -206,6 +206,22 @@ def get_passes(observer, tle, start_time,
 PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs sat')
 
+def rfc3339_to_dt(s):
+    """Convert from an RFC3339 formatted string to a datetime object
+    in UTC."""
+    formats = ('%Y-%m-%dT%H:%M:%SZ',
+               '%Y-%m-%d %H:%M:%S.%f',
+               )
+    for fmt in formats:
+        try:
+            d = datetime.strptime(s, fmt)
+        except ValueError:
+            pass
+        else:
+            d = d.replace(tzinfo=timezone.utc)
+            return d
+    raise ValueError('Unknown date string format: %s' % s)
+
 
 def _compute(args):
     """Wrapper for get_passes() for use with map() and converts the list of
@@ -280,7 +296,9 @@ def compute_all_passes(stations, satellites, start_time,
     for passdata in result:
         for d in passdata:
             try:
-                tree.addi(d.start, d.end, d)
+                start = rfc3339_to_dt(d.start)
+                end = rfc3339_to_dt(d.end)
+                tree.addi(start, end, d)
                 cur.execute(
                         'INSERT INTO passes VALUES (?,?,?,?,?,?,?,?,?);', d)
             except ValueError:
@@ -307,7 +325,9 @@ def load_all_passes(dbfile='passes.db'):
                          p['rise_az'], p['set_az'],
                          p['tca'], p['max_el'],
                          p['gs'], p['sat'])
-        tree.addi(data.start, data.end, data)
+        start = rfc3339_to_dt(data.start)
+        end = rfc3339_to_dt(data.end)
+        tree.addi(start, end, data)
     conn.close()
     return tree
 

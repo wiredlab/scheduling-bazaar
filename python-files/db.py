@@ -1,8 +1,11 @@
 
 from collections import namedtuple
+from datetime import datetime, timezone
 import sqlite3
 
 import intervaltree
+
+from schedulingbazaar import rfc3339_to_dt
 
 
 # this should be only defined in one place (schedulingbazaar)
@@ -28,6 +31,8 @@ def getpasses(dbfile, gs='%', sat='%'):
                          p['rise_az'], p['set_az'],
                          p['tca'], p['max_el'],
                          p['gs'], p['sat'])
-        tree.addi(data.start, data.end, data)
+        start = rfc3339_to_dt(data.start)
+        end = rfc3339_to_dt(data.end)
+        tree.addi(start, end, data)
     conn.close()
     return tree
