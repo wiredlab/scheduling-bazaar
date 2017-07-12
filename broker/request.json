@@ -14,20 +14,8 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
   "required": ["job", "bounty"],
   "properties": {
     "job": {"$ref": "#/definitions/job"},
-    "bounty": {
-      "description": "Offered payment for a successful job.",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "description": "An ISO 4217 code or other network-specific string.",
-          "currency": {"type": "string"},
-          "amount": {"type": "number", "minimum": 0}
-        },
-        "required": ["currency", "amount"]
-      },
-      "minItems": 1
-    }
+    "bounty": {"$ref": "#/definitions/price"},
+    "status": {"$ref": "#/definitions/status"}
   },
 
   "definitions": {
@@ -79,6 +67,25 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
           "type": "string"
         },
       }
+    },
+    "price": {
+      "description": "Payment for a successful job.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": "An ISO 4217 code or other network-specific string.",
+          "currency": {"type": "string"},
+          "amount": {"type": "number", "minimum": 0}
+        },
+        "required": ["currency", "amount"]
+      },
+      "minItems": 1
+    },
+    "status": {
+      "description": "Description of the type of communication.",
+      "type": "object",
+      // accept, update, 
     }
   }
 }

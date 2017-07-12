@@ -1,4 +1,4 @@
-/* Schema to describe a **request** object.
+/* Schema to describe an **offer** object.
 
 This is addressed to a certain Client and is a preliminary Job to become scheduled.  The Network first makes a request to a client with all information needed to execute the job.  To the Job data, it adds a **bounty** (or other name) that indicates the priority of this job or the "payment" to the client if the job's observation is successfully uploaded to the Network.
 
@@ -14,23 +14,19 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
   "required": ["job", "fee"],
   "properties": {
     "job": {"$ref": "#/definitions/job"},
-    "fee": {
-      "description": "Requested payment for a successful job.",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "description": "An ISO 4217 code or other network-specific string.",
-          "currency": {"type": "string"},
-          "amount": {"type": "number", "minimum": 0}
-        },
-        "required": ["currency", "amount"]
-      },
-      "minItems": 1
-    }
-  },
+    "fee": {"$ref": "#/definitions/price"},
+    "status": {"$ref": "#/definitions/status"}
+  }
 
   "definitions": {
+    "accept": {
+      "required": ["jobid"],
+      "properties": {
+        "jobid": {
+          "description": "Reference to an existing network-specific job identifier",
+          "type": ["number", "string"]
+      }
+    },
     "job": {
       "description": "Information about a (potentially) scheduled Job.",
       "type": "object",
@@ -79,6 +75,20 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
           "type": "string"
         },
       }
+    },
+    "price": {
+      "description": "Payment for a successful job.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": "An ISO 4217 code or other network-specific string.",
+          "currency": {"type": "string"},
+          "amount": {"type": "number", "minimum": 0}
+        },
+        "required": ["currency", "amount"]
+      },
+      "minItems": 1
     }
   }
 }
