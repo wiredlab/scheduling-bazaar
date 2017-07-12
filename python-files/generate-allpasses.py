@@ -11,17 +11,25 @@ from schedulingbazaar import (load_tles,
                               load_all_passes)
 
 
-sats = load_tles('amateur.txt')
-stations = load_gs('groundstations.txt')
+print(sys.argv)
+
+stationsfile = 'groundstations.txt'
+satsfile = 'amateur.txt'
+
+if len(sys.argv) == 3:
+    stationsfile = sys.argv[1]
+    satsfile = sys.argv[2]
+
+stations = load_gs(stationsfile)
+sats = load_tles(satsfile)
 
 start_time = '2017/6/8 00:00:00'
-# duration = 8760 #a year worth of hours
-duration = 3
+duration = 8760 #a year worth of hours
 
 line = '-- %-30s -------------'
 print(line % 'Computing passes')
-tree = compute_all_passes(stations[:3],
-                          sats[:3],
+tree = compute_all_passes(stations,
+                          sats,
                           start_time,
                           duration=duration,
                           dbfile='somepasses.db')
