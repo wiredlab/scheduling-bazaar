@@ -182,6 +182,8 @@ def get_passes(observer, tle, start_time,
                 'set_az': s_angle,
                 'tca': tca,
                 'max_el': max_el,
+                'gs': obs_name,
+                'sat': tle_line0.strip(),
             }
 
             try:
