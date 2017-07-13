@@ -1,9 +1,12 @@
+"""db` -- Interaction with the database of passes and storage of data
+========================================================================
 
+Pass predictions are stored in the database
+"""
 from collections import namedtuple
-from datetime import datetime, timezone
 import sqlite3
 
-import intervaltree
+from intervaltree import Interval, IntervalTree
 from iso8601 import parse_date
 
 
@@ -12,11 +15,22 @@ from iso8601 import parse_date
 PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs sat')
 
+def passrow2interval(pass):
+    data = PassTuple(p['start'], p['end'], p['duration'],
+                        p['rise_az'], p['set_az'],
+                        p['tca'], p['max_el'],
+                        p['gs'], p['sat'])
+    start = parse_date(data.start)
+    end = parse_date(data.end)
+    return Interval(start, end, data)
+
 
 def getpasses(dbfile, gs='%', sat='%'):
     """Return an IntervalTree of PassTuples, filtered by the named GS or Sat.
+    Use SQLite wildcards for matching.  Unspecified terms default to matching
+    all.
     """
-    tree = intervaltree.IntervalTree()
+    tree = IntervalTree()
 
     conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True)
     conn.row_factory = sqlite3.Row
@@ -26,12 +40,7 @@ def getpasses(dbfile, gs='%', sat='%'):
     args = [gs, sat]
 
     for p in cur.execute(query, args):
-        data = PassTuple(p['start'], p['end'], p['duration'],
-                         p['rise_az'], p['set_az'],
-                         p['tca'], p['max_el'],
-                         p['gs'], p['sat'])
-        start = parse_date(data.start)
-        end = parse_date(data.end)
-        tree.addi(start, end, data)
+        i = passrow2interval(p)
+        tree.add(i)
     conn.close()
     return tree
