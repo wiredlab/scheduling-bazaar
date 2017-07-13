@@ -13,6 +13,7 @@ from itertools import islice, product
 import math
 
 import ephem
+from iso8601 import parse_date
 import intervaltree
 import matplotlib.pyplot as plt
 # import seaborn
@@ -206,16 +207,20 @@ def get_passes(observer, tle, start_time,
 PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs sat')
 
+# TODO: should this instead use a package like
+# ** python3-iso8601  https://bitbucket.org/micktwomey/pyiso8601
 def rfc3339_to_dt(s):
     """Convert from an RFC3339 formatted string to a datetime object
-    in UTC."""
-    formats = ('%Y-%m-%dT%H:%M:%SZ',
-               '%Y-%m-%d %H:%M:%S.%f',
+    in UTC.  Assumes UTC unless the string otherwise specifies."""
+    formats = ('%Y-%m-%dT%H:%M:%SZ',  # SatNOGS API format
+               '%Y-%m-%d %H:%M:%S.%f',  # str(datetime)
+               '%Y-%m-%d %H:%M:%S',  # ... integral seconds
                )
     for fmt in formats:
         try:
             d = datetime.strptime(s, fmt)
         except ValueError:
+            # print('format(%s) str(%s)' % (fmt, s))
             pass
         else:
             d = d.replace(tzinfo=timezone.utc)
@@ -296,13 +301,15 @@ def compute_all_passes(stations, satellites, start_time,
     for passdata in result:
         for d in passdata:
             try:
-                start = rfc3339_to_dt(d.start)
-                end = rfc3339_to_dt(d.end)
+                start = parse_date(d.start)
+                end = parse_date(d.end)
                 tree.addi(start, end, d)
                 cur.execute(
                         'INSERT INTO passes VALUES (?,?,?,?,?,?,?,?,?);', d)
             except ValueError:
                 print('!!! Invalid pass !!!')
+                print(start)
+                print(end)
                 print(d)
     conn.commit()
     conn.close()
@@ -325,8 +332,8 @@ def load_all_passes(dbfile='passes.db'):
                          p['rise_az'], p['set_az'],
                          p['tca'], p['max_el'],
                          p['gs'], p['sat'])
-        start = rfc3339_to_dt(data.start)
-        end = rfc3339_to_dt(data.end)
+        start = parse_date(data.start)
+        end = parse_date(data.end)
         tree.addi(start, end, data)
     conn.close()
     return tree

@@ -2,9 +2,9 @@
 
 from collections import defaultdict
 from collections import namedtuple
-from datetime import datetime, timezone
 
 from intervaltree import Interval, IntervalTree
+from iso8601 import parse_date
 
 
 # NOTE:
@@ -25,12 +25,6 @@ def dict2tuple(tupletemplate, d):
 def tuple2dict(t):
     return t._asdict()
 
-
-
-def rfc3339_to_dt(s):
-    d = datetime.strptime(s, '%Y-%m-%dT%H:%M:%SZ')
-    d = d.replace(tzinfo=timezone.utc)
-    return d
 
 
 class BaseClient:
@@ -76,8 +70,8 @@ class YesClient(BaseClient):
         job = r['job']
         bounty = r['bounty']
 
-        start = rfc3339_to_dt(job['start'])
-        end = rfc3339_to_dt(job['end'])
+        start = parse_date(job['start'])
+        end = parse_date(job['end'])
 
         ri = Interval(start, end, r)
 

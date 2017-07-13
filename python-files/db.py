@@ -4,8 +4,7 @@ from datetime import datetime, timezone
 import sqlite3
 
 import intervaltree
-
-from schedulingbazaar import rfc3339_to_dt
+from iso8601 import parse_date
 
 
 # this should be only defined in one place (schedulingbazaar)
@@ -31,8 +30,8 @@ def getpasses(dbfile, gs='%', sat='%'):
                          p['rise_az'], p['set_az'],
                          p['tca'], p['max_el'],
                          p['gs'], p['sat'])
-        start = rfc3339_to_dt(data.start)
-        end = rfc3339_to_dt(data.end)
+        start = parse_date(data.start)
+        end = parse_date(data.end)
         tree.addi(start, end, data)
     conn.close()
     return tree
