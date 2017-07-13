@@ -207,6 +207,7 @@ def get_passes(observer, tle, start_time,
 PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs sat')
 
+
 # TODO: should this instead use a package like
 # ** python3-iso8601  https://bitbucket.org/micktwomey/pyiso8601
 def rfc3339_to_dt(s):

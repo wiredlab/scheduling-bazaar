@@ -14,9 +14,11 @@ JobTuple = namedtuple('JobTuple', ['id', 'start', 'end', 'ground_station',
                                    'tle0', 'tle1', 'tle2', 'frequency',
                                    'mode', 'transmitter'])
 
-RequestTuple = namedtuple('RequestTuple', ['id', 'start', 'end', 'ground_station',
-                                   'tle0', 'tle1', 'tle2', 'frequency',
-                                   'mode', 'transmitter'])
+RequestTuple = namedtuple('RequestTuple',
+                          ['id', 'start', 'end', 'ground_station',
+                           'tle0', 'tle1', 'tle2', 'frequency',
+                           'mode', 'transmitter'])
+
 
 def dict2tuple(tupletemplate, d):
     return tupletemplate(**d)
@@ -24,7 +26,6 @@ def dict2tuple(tupletemplate, d):
 
 def tuple2dict(t):
     return t._asdict()
-
 
 
 class BaseClient:
@@ -68,7 +69,7 @@ class YesClient(BaseClient):
     """
     def request(self, r):
         job = r['job']
-        bounty = r['bounty']
+        # bounty = r['bounty']
 
         start = parse_date(job['start'])
         end = parse_date(job['end'])
@@ -93,12 +94,12 @@ if __name__ == '__main__':
          'end': '2017-07-12T20:51:30Z',
          'ground_station': 12,
          'tle0': 'XW-2D',
-         'tle1': '1 40907U 15049J   17192.53573606  .00000798  00000-0  46540-4 0  9991',
-         'tle2': '2 40907  97.4515 197.2956 0016027 124.7938 235.4805 15.14668467 99926',
+         'tle1': '1 40907U 15049J   17192.53573606  .00000798  00000-0  46540-4 0  9991',  # noqa
+         'tle2': '2 40907  97.4515 197.2956 0016027 124.7938 235.4805 15.14668467 99926',  # noqa
          'frequency': 145855000,
          'mode': 'CW',
          'transmitter': 'V76m6YW7nVsTrgCboMVHEb'
-        }
+         }
 
     b = [{'currency': 'SNC', 'amount': 10.0}]
 
