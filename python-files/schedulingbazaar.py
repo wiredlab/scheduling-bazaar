@@ -11,6 +11,9 @@ from collections import namedtuple
 from datetime import datetime, timedelta, timezone
 from itertools import islice, product
 import math
+import multiprocessing
+import sqlite3
+
 
 import ephem
 from iso8601 import parse_date
@@ -265,9 +268,6 @@ def compute_all_passes(stations, satellites, start_time,
 
     horizon is a string in degrees:minutes for pyephem
     """
-    import multiprocessing
-    import sqlite3
-
     conn = sqlite3.connect(dbfile)
     cur = conn.cursor()
     cur.execute('''DROP TABLE IF EXISTS passes;''')
@@ -321,8 +321,6 @@ def load_all_passes(dbfile='passes.db'):
     """Loads pre-computed passes from the SQLite database into an IntervalTree
     whose data is a namedtuple PassTuple.
     """
-    import sqlite3
-
     tree = intervaltree.IntervalTree()
     conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True)
     conn.row_factory = sqlite3.Row
