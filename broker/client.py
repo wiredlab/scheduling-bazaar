@@ -31,6 +31,8 @@ def tuple2dict(t):
 class BaseClient:
     """Base class to represent a SatNOGS client.  Subclasses implement the
     various ways a client accepts Requests or independently generates Offers.
+
+    calendar - an IntervalTree of accepted/scheduled requests
     """
     def __init__(self, name, lat, lon, alt):
         self.name = name
@@ -65,11 +67,12 @@ class YesClient(BaseClient):
     interface.
 
     This one always accepts a requested job if it doesn't overlap with an
-    already scheduled job.
+    already scheduled job.  It does no other sanity checking of the request
+    data.
     """
     def request(self, r):
         job = r['job']
-        # bounty = r['bounty']
+        bounty = r['bounty']
 
         start = parse_date(job['start'])
         end = parse_date(job['end'])
@@ -80,15 +83,20 @@ class YesClient(BaseClient):
 
         if len(overlaps) == 0:
             self.calendar.add(ri)
-            return {'status': 'accept'}
+            offer = {'status': 'accept',
+                     'job': job,
+                     'fee': bounty}
         else:
-            return {'status': 'reject',
-                    'reason': 'time overlap',
-                    'extra': [o.data for o in overlaps]}
+            offer = {'status': 'reject',
+                     'reason': 'time overlap',
+                     'extra': [o.data for o in overlaps]}
+        return offer
 
 
 # testing the implementation
 if __name__ == '__main__':
+    # build job
+    # taken directly from https://network.satnogs.org/api/jobs
     j = {'id': 9247,
          'start': '2017-07-12T20:42:06Z',
          'end': '2017-07-12T20:51:30Z',
@@ -103,22 +111,39 @@ if __name__ == '__main__':
 
     b = [{'currency': 'SNC', 'amount': 10.0}]
 
+    # a complete request for a job
     r = {'job': j,
          'bounty': b,
          }
 
+    # Create a client
     client = YesClient('VU-1', 41.4639, -87.0439, 245)
+
+
+    # send request to client, get an offer in response
+    # (no checking against satellite visibility, only checks times
+    # for overlaps)
     offer = client.request(r)
+    assert offer['status'] == 'accept'  # verify expected response
     print(offer)
 
-    j2 = j.copy()
-    j2['start'] = '2017-07-12T20:45:00Z'
+
+    # create a second offer
+    # sets start to a time inside of the last one
+    # client should reject because it overlaps with a scheduled job
+    j2 = j.copy()  # make new dict with same info
+    j2['start'] = '2017-07-12T20:45:00Z'  # just replace one value
     r2 = r.copy()
     r2['job'] = j2
 
+    # send request
     offer2 = client.request(r2)
+    assert offer2['status'] == 'reject'
     print(offer2)
 
+
+    # third offer with start/end times that do not overlap
+    # client accepts this one
     j3 = j.copy()
     j3['start'] = '2017-07-13T20:45:00Z'
     j3['end'] = '2017-07-13T20:51:30Z'
@@ -126,7 +151,9 @@ if __name__ == '__main__':
     r3['job'] = j3
 
     offer3 = client.request(r3)
+    assert offer['status'] == 'accept'
     print(offer3)
 
-    print()
+    # ask client for the total value of all its scheduled jobs
+    print('Total scheduled value:')
     print(client.calendar_value())
