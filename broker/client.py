@@ -2,6 +2,7 @@
 
 from collections import defaultdict
 from collections import namedtuple
+from datetime import timedelta
 
 from intervaltree import Interval, IntervalTree
 from iso8601 import parse_date
@@ -61,6 +62,42 @@ class BaseClient:
                 value[unit['currency']] += unit['amount']
         return value
 
+    def _choprange(self, start=None, end=None):
+        """Helper to return a sub IntervalTree chopped to the given range.
+        """
+        b = self.calendar.begin()
+        e = self.calendar.end()
+        if start is not None:
+            if isinstance(start, Interval):
+                b = start.begin
+                e = start.end
+            else:
+                b = start
+
+            if end is not None:
+                e = end
+        # get trimmed intervals in requested range
+        # .search() returns a set()
+        iv = IntervalTree(self.calendar.search(b, e))
+        # the following should work, but chop() is having issues with chopping
+        # too much
+        # iv.chop(b, e)  # <--- whuzzup??
+        # cheat and expand the chop interval by a microsecond on each side
+        iv.chop(b-timedelta(microseconds=1), e-timedelta(microseconds=1))
+        return iv
+
+    def busy_time(self, start=None, end=None):
+        """Returns the total time in seconds of scheduled jobs during the
+        given range.  Defaults to the entire range.
+        """
+        total = timedelta(0)
+        iv = self._choprange(start, end)
+        for r in iv:
+            s = parse_date(r.data['job']['start'])
+            e = parse_date(r.data['job']['end'])
+            total += e - s
+        return total.total_seconds()
+
 
 class YesClient(BaseClient):
     """Represents a SatNOGS client which implements the SatNOGS-Broker
@@ -119,7 +156,7 @@ if __name__ == '__main__':
     # Create a client
     client = YesClient('VU-1', 41.4639, -87.0439, 245)
 
-
+    #
     # send request to client, get an offer in response
     # (no checking against satellite visibility, only checks times
     # for overlaps)
@@ -127,7 +164,7 @@ if __name__ == '__main__':
     assert offer['status'] == 'accept'  # verify expected response
     print(offer)
 
-
+    #
     # create a second offer
     # sets start to a time inside of the last one
     # client should reject because it overlaps with a scheduled job
@@ -141,7 +178,7 @@ if __name__ == '__main__':
     assert offer2['status'] == 'reject'
     print(offer2)
 
-
+    #
     # third offer with start/end times that do not overlap
     # client accepts this one
     j3 = j.copy()
@@ -155,5 +192,9 @@ if __name__ == '__main__':
     print(offer3)
 
     # ask client for the total value of all its scheduled jobs
-    print('Total scheduled value:')
+    print('\nTotal scheduled value:')
     print(client.calendar_value())
+
+    # ask client for the total duration of scheduled jobs
+    print('\nTotal job duration:')
+    print(client.busy_time())
