@@ -9,7 +9,6 @@ import multiprocessing
 import sqlite3
 
 from intervaltree import Interval, IntervalTree
-from iso8601 import parse_date
 
 import schedulingbazaar
 
@@ -21,13 +20,8 @@ PassTuple = namedtuple('PassTuple',
 
 
 def passrow2interval(p):
-    data = PassTuple(p['start'], p['end'], p['duration'],
-                     p['rise_az'], p['set_az'],
-                     p['tca'], p['max_el'],
-                     p['gs'], p['sat'])
-    start = parse_date(data.start)
-    end = parse_date(data.end)
-    return Interval(start, end, data)
+    data = PassTuple(**p)
+    return Interval(data.start, data.end, data)
 
 
 def getpasses(dbfile, gs='%', sat='%'):
@@ -37,7 +31,8 @@ def getpasses(dbfile, gs='%', sat='%'):
     """
     tree = IntervalTree()
 
-    conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True)
+    conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True,
+                           detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
@@ -45,8 +40,7 @@ def getpasses(dbfile, gs='%', sat='%'):
     args = [gs, sat]
 
     for p in cur.execute(query, args):
-        i = passrow2interval(p)
-        tree.add(i)
+        tree.add(passrow2interval(p))
     conn.close()
     return tree
 
@@ -65,15 +59,7 @@ def _compute(args):
     # convert to namedtuples since the info doesn't change
     data = []
     for p in passes:
-        d = PassTuple(str(p['start']),
-                      str(p['end']),
-                      p['duration'],
-                      p['rise_az'],
-                      p['set_az'],
-                      str(p['tca']),
-                      p['max_el'],
-                      gs[0],
-                      sat[0].rstrip())
+        d = PassTuple(**p)
         data.append(d)
     return data
 
@@ -88,18 +74,19 @@ def compute_all_passes(stations, satellites, start_time,
 
     horizon is a string in degrees:minutes for pyephem
     """
-    conn = sqlite3.connect(dbfile)
+    conn = sqlite3.connect('file:' + dbfile, uri=True,
+                           detect_types=sqlite3.PARSE_DECLTYPES)
     cur = conn.cursor()
     cur.execute('''DROP TABLE IF EXISTS passes;''')
 
     # column order needs to match PassTuple order
     cur.execute('''CREATE TABLE passes
-              (start text,
-              end text,
+              (start timestamp,
+              end timestamp,
               duration real,
               rise_az real,
               set_az real,
-              tca text,
+              tca timestamp,
               max_el real,
               gs text,
               sat text);''')
@@ -122,15 +109,13 @@ def compute_all_passes(stations, satellites, start_time,
     for passdata in result:
         for d in passdata:
             try:
-                start = parse_date(d.start)
-                end = parse_date(d.end)
-                tree.addi(start, end, d)
+                tree.addi(d.start, d.end, d)
                 cur.execute(
                         'INSERT INTO passes VALUES (?,?,?,?,?,?,?,?,?);', d)
             except ValueError:
                 print('!!! Invalid pass !!!')
-                print(start)
-                print(end)
+                print(d.start)
+                print(d.end)
                 print(d)
     conn.commit()
     conn.close()
@@ -142,17 +127,12 @@ def load_all_passes(dbfile='passes.db'):
     whose data is a namedtuple PassTuple.
     """
     tree = IntervalTree()
-    conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True)
+    conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True,
+                           detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
     for p in cur.execute('''SELECT * FROM passes;'''):
-        data = PassTuple(p['start'], p['end'], p['duration'],
-                         p['rise_az'], p['set_az'],
-                         p['tca'], p['max_el'],
-                         p['gs'], p['sat'])
-        start = parse_date(data.start)
-        end = parse_date(data.end)
-        tree.addi(start, end, data)
+        tree.add(passrow2interval(p))
     conn.close()
     return tree
