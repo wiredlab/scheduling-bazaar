@@ -66,13 +66,16 @@ def _compute(args):
 
 def compute_all_passes(stations, satellites, start_time,
                        dbfile='passes.db',
-                       num_passes=None, duration=None, horizon='10:00'):
+                       num_passes=None, duration=None, horizon='10:00',
+                       nprocesses=4):
     """Finds passes for all combinations of stations and satellites.
 
     Saves the pass info as rows in an sqlite3 database and returns the data as
     an IntervalTree with each data member set to the pass info as a namedtuple.
 
     horizon is a string in degrees:minutes for pyephem
+
+    nprocesses > 0 (default: 4) will use a parallel map() for computation.
     """
     conn = sqlite3.connect('file:' + dbfile, uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
@@ -93,18 +96,20 @@ def compute_all_passes(stations, satellites, start_time,
 
     tree = IntervalTree()
 
-    with multiprocessing.Pool(4) as pool:
-        jobargs = product(stations,
-                          satellites,
-                          (start_time,),
-                          (num_passes,),
-                          (duration,),
-                          (horizon,))
-        result = pool.map(_compute, jobargs)
-        print('Computed', len(result), 'Sat--GS pairs')
+    jobargs = product(stations,
+                      satellites,
+                      (start_time,),  # single args are repeated
+                      (num_passes,),
+                      (duration,),
+                      (horizon,))
 
-    # for (gs, sat) in product(stations, satellites):
-        # passdata = compute(gs, sat)
+    if nprocesses > 0:
+        with multiprocessing.Pool(4) as pool:
+            result = pool.map(_compute, jobargs)
+    else:
+        result = list(map(_compute, jobargs))
+
+    print('Computed', len(result), 'Sat--GS pairs')
 
     for passdata in result:
         for d in passdata:
