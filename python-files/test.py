@@ -26,11 +26,16 @@ def test_saveload():
 
     line = '-- %-20s -------------'
     print(line % 'Computing passes')
-    tree = compute_all_passes(random.sample(stations, NSTATIONS),
-                            random.sample(sats, NSATS),
-                            start_time,
-                            duration=duration,
-                            dbfile='somepasses.db')
+    # tree = compute_all_passes(random.sample(stations, NSTATIONS),
+                            # random.sample(sats, NSATS),
+                            # start_time,
+                            # duration=duration,
+                            # dbfile='somepasses.db')
+    tree = compute_all_passes(stations[:NSTATIONS],
+                              sats[:NSATS],
+                              start_time,
+                              duration=duration,
+                              dbfile='somepasses.db')
 
     print('Found %i passes' % len(tree))
 
@@ -62,8 +67,17 @@ def test_saveload():
         print(line % 'FAILURES DETECTED')
 
 
+def test_getpasses():
+    d = getpasses('somepasses.db', gs='Stony')
+    print(len(d))
+
+    d = getpasses('somepasses.db', sat='%AO-7%')
+    print(len(d))
+
+
 if __name__ == '__main__':
     test_saveload()
+    test_getpasses()
 # print()
 # t = [i for i in tree]
 # tp= [i for i in treepkl]
