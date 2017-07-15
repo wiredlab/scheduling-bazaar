@@ -104,7 +104,7 @@ def compute_all_passes(stations, satellites, start_time,
                       (horizon,))
 
     if nprocesses > 0:
-        with multiprocessing.Pool(4) as pool:
+        with multiprocessing.Pool(nprocesses) as pool:
             result = pool.map(_compute, jobargs)
     else:
         result = list(map(_compute, jobargs))
