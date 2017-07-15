@@ -15,10 +15,12 @@ print(sys.argv)
 
 stationsfile = 'groundstations.txt'
 satsfile = 'amateur.txt'
+dbfile = 'allpasses.db'
 
-if len(sys.argv) == 3:
+if len(sys.argv) == 4:
     stationsfile = sys.argv[1]
     satsfile = sys.argv[2]
+    dbfile = sys.argv[3]
 
 stations = load_gs(stationsfile)
 sats = load_tles(satsfile)
@@ -32,7 +34,7 @@ tree = compute_all_passes(stations,
                           sats,
                           start_time,
                           duration=duration,
-                          dbfile='somepasses.db')
+                          dbfile=dbfile)
 
 # give the filesystem some time to finish closing the database file
 time.sleep(1)
@@ -43,7 +45,7 @@ time.sleep(1)
 treepkl = pickle.load(open('somepasses.pkl', 'rb'))
 
 print(line % 'Load from db')
-treeload = load_all_passes('somepasses.db')
+treeload = load_all_passes(dbfile)
 
 
 print(line % 'All diffs should be empty')
