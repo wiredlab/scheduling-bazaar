@@ -5,10 +5,8 @@ import pickle
 import sys
 import time
 
-from schedulingbazaar import (load_tles,
-                              load_gs,
-                              compute_all_passes,
-                              load_all_passes)
+from db import compute_all_passes, load_all_passes
+from schedulingbazaar import load_tles, load_gs
 
 
 print(sys.argv)
