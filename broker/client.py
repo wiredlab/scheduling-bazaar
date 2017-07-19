@@ -65,6 +65,9 @@ class BaseClient:
     def _choprange(self, start=None, end=None):
         """Helper to return a sub IntervalTree chopped to the given range.
         """
+        # IntervalTree doesn't behave well when searching zero-length tress
+        if len(self.calendar) == 0:
+            return self.calendar
         b = self.calendar.begin()
         e = self.calendar.end()
         if start is not None:
@@ -83,7 +86,7 @@ class BaseClient:
         # too much
         # iv.chop(b, e)  # <--- whuzzup??
         # cheat and expand the chop interval by a microsecond on each side
-        iv.chop(b-timedelta(microseconds=1), e-timedelta(microseconds=1))
+        iv.chop(b - timedelta(microseconds=1), e + timedelta(microseconds=1))
         return iv
 
     def busy_time(self, start=None, end=None):
