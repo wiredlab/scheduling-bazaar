@@ -102,6 +102,30 @@ class BaseClient:
         return total.total_seconds()
 
 
+class AllClient(BaseClient):
+    """Represents a SatNOGS client which implements the SatNOGS-Broker
+    interface.
+
+    This one always accepts all jobs unconditionally.  It represents the
+    maximum performance Client that can receive horizon-to-horizon and with an
+    arbitrary number of simultaneous receivers.
+    """
+    def request(self, r):
+        job = r['job']
+        bounty = r['bounty']
+
+        start = parse_date(job['start'])
+        end = parse_date(job['end'])
+
+        ri = Interval(start, end, r)
+
+        self.calendar.add(ri)
+        offer = {'status': 'accept',
+                 'job': job,
+                 'fee': bounty}
+        return offer
+
+
 class YesClient(BaseClient):
     """Represents a SatNOGS client which implements the SatNOGS-Broker
     interface.
