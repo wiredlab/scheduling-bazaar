@@ -38,14 +38,14 @@ class TLE:
 
 
 # load_tles() function definition
-def load_tles(file):
+def load_tles(filename):
     """Returns a list of tle's from a file.
 
     Arguments:
-    file -- file name string containing unparsed tles
+    filename -- file name string containing unparsed tles
     """
     data = []
-    with open(file) as f:
+    with open(filename) as f:
         while True:
             # an iterator that returns the next N lines and stops
             tripleline = islice(f, 3)
@@ -63,16 +63,16 @@ def load_tles(file):
 
 
 # load_gs() function definition
-def load_gs(file):
+def load_gs(filename):
     """Returns a list of gs from a file.
 
     Arguments:
-    file -- file name string containing unparsed gs
+    filename -- file name string containing unparsed gs
 
     gs has four elements: name, lat, lon, alt
     """
     stations = []
-    with open(file) as f:
+    with open(filename) as f:
         while True:
             # an iterator that returns the next N lines and stops
             fourline = islice(f, 4)
