@@ -37,10 +37,15 @@ class BaseClient:
     """
     def __init__(self, name, lat, lon, alt):
         self.name = name
-        self.lat = lat
-        self.lon = lon
-        self.alt = alt
+        self.lat = float(lat)
+        self.lon = float(lon)
+        self.alt = float(alt)
         self.calendar = IntervalTree()
+
+    def __str__(self):
+        """Return a better string than __repr__() for humans to read."""
+        return ('%s (lat=%.2f, lon=%.2f, alt=%.2f)'
+                % (self.name, self.lat, self.lon, self.alt))
 
     def request(self, r):
         """Takes a Request object (dict) for a potential Job.
@@ -51,12 +56,14 @@ class BaseClient:
         """
         raise NotImplemented('Cannot directly use the BaseClient class.')
 
-    def calendar_value(self):
+    def calendar_value(self, start=None, end=None):
         """Returns a dict of the total potential bounties offered for the
-        scheduled jobs.
+        scheduled jobs during the requested range.  Default to the entire
+        range.
         """
+        calendar_range = self._choprange(start, end)
         value = defaultdict(float)
-        for i in self.calendar:
+        for i in calendar_range:
             bounties = i.data['bounty']
             for unit in bounties:
                 value[unit['currency']] += unit['amount']
@@ -65,6 +72,9 @@ class BaseClient:
     def _choprange(self, start=None, end=None):
         """Helper to return a sub IntervalTree chopped to the given range.
         """
+        # IntervalTree doesn't behave well when searching zero-length tress
+        if len(self.calendar) == 0:
+            return self.calendar
         b = self.calendar.begin()
         e = self.calendar.end()
         if start is not None:
@@ -80,10 +90,13 @@ class BaseClient:
         # .search() returns a set()
         iv = IntervalTree(self.calendar.search(b, e))
         # the following should work, but chop() is having issues with chopping
-        # too much
+        # too much (all the way to zero!)
         # iv.chop(b, e)  # <--- whuzzup??
         # cheat and expand the chop interval by a microsecond on each side
-        iv.chop(b-timedelta(microseconds=1), e-timedelta(microseconds=1))
+        # iv.chop(b - timedelta(seconds=1), e + timedelta(seconds=1))
+        # ^^^ still doesn't work.
+        # TODO: fix iv.chop()
+        # Just return the searched interval and not trim the ends
         return iv
 
     def busy_time(self, start=None, end=None):
@@ -95,8 +108,33 @@ class BaseClient:
         for r in iv:
             s = parse_date(r.data['job']['start'])
             e = parse_date(r.data['job']['end'])
-            total += e - s
+            diff = e - s
+            total += diff
         return total.total_seconds()
+
+
+class AllClient(BaseClient):
+    """Represents a SatNOGS client which implements the SatNOGS-Broker
+    interface.
+
+    This one always accepts all jobs unconditionally.  It represents the
+    maximum performance Client that can receive horizon-to-horizon and with an
+    arbitrary number of simultaneous receivers.
+    """
+    def request(self, r):
+        job = r['job']
+        bounty = r['bounty']
+
+        start = parse_date(job['start'])
+        end = parse_date(job['end'])
+
+        ri = Interval(start, end, r)
+
+        self.calendar.add(ri)
+        offer = {'status': 'accept',
+                 'job': job,
+                 'fee': bounty}
+        return offer
 
 
 class YesClient(BaseClient):
@@ -162,7 +200,7 @@ if __name__ == '__main__':
     # for overlaps)
     offer = client.request(r)
     assert offer['status'] == 'accept'  # verify expected response
-    print(offer)
+    print('Offer:', offer)
 
     #
     # create a second offer
@@ -176,7 +214,7 @@ if __name__ == '__main__':
     # send request
     offer2 = client.request(r2)
     assert offer2['status'] == 'reject'
-    print(offer2)
+    print('Offer2:', offer2)
 
     #
     # third offer with start/end times that do not overlap
@@ -189,7 +227,7 @@ if __name__ == '__main__':
 
     offer3 = client.request(r3)
     assert offer['status'] == 'accept'
-    print(offer3)
+    print('Offer3:', offer3)
 
     # ask client for the total value of all its scheduled jobs
     print('\nTotal scheduled value:')
