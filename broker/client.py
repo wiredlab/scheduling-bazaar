@@ -44,8 +44,9 @@ class BaseClient:
 
     def __str__(self):
         """Return a better string than __repr__() for humans to read."""
-        return ('%s (lat=%.2f, lon=%.2f, alt=%.2f)'
-                % (self.name, self.lat, self.lon, self.alt))
+        return ('%s (%s lat=%.2f, lon=%.2f, alt=%.2f)'
+                % (self.__class__.__name__,
+                   self.name, self.lat, self.lon, self.alt))
 
     def request(self, r):
         """Takes a Request object (dict) for a potential Job.
