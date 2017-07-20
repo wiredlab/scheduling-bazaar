@@ -44,7 +44,6 @@ def pass2request(pd):
     return request
 
 
-
 # load a dict of GSs
 stationlist = load_gs('../python-files/groundstations.txt')
 stations = {s[0]: s for s in stationlist}
@@ -64,13 +63,13 @@ for s in satelliteslist:
 
 # get a bunch of passes and schedule them on our set of GSs
 passes = db.getpasses(
-    '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db',
+    'allpasses.db',
     gs='Valparaiso University')
 # passes = db.getpasses(
-    # '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db',
-    # sat='ISS (ZARYA)')
+#     '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db',
+#   . sat='ISS (ZARYA)')
 # passes = db.getpasses(
-    # '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db')
+#     '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db')
 print(len(passes))
 
 
