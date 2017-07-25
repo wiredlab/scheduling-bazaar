@@ -70,6 +70,14 @@ class BaseClient:
                 value[unit['currency']] += unit['amount']
         return value
 
+    def calendar_begin(self):
+        """Returns start time of first job in calendar."""
+        return self.calendar.begin()
+
+    def calendar_end(self):
+        """Returns end time of last job in calendar."""
+        return self.calendar.end()
+
     def _choprange(self, start=None, end=None):
         """Helper to return a sub IntervalTree chopped to the given range.
         """
@@ -112,6 +120,23 @@ class BaseClient:
             diff = e - s
             total += diff
         return total.total_seconds()
+
+    def daily_busy_time(self, start=None, end=None):
+        """Returns the total time in seconds of scheduled jobs per day
+        during the given range. Defaults to the entire range.
+        """
+        start = self.calendar_begin()
+        end = self.calendar_end()
+        start_ = start.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_ = end.replace(hour=0, minute=0, second=0, microsecond=0)
+        day = timedelta(days=1)
+        busy_time_days = []
+        while start_ <= end_:
+            dayend = start_ + day
+            sec = self.busy_time(start_, dayend)
+            busy_time_days.append(sec)
+            start_ = dayend
+        return busy_time_days
 
 
 class AllClient(BaseClient):
