@@ -74,12 +74,17 @@ print(len(passes))
 
 
 #################################################################
-# create a set of lients
+#
+# Core implementation of a specific set of Client policies and
+# Network strategies
+#
+#################################################################
+# create a set of clients
 clients = {}
 for gsname, gsdata in stations.items():
     name, lat, lon, alt = gsdata
-    c = client.AllClient(gsname, lat, lon, alt)
-    # c = client.YesClient(gsname, lat, lon, alt)
+    # c = client.AllClient(gsname, lat, lon, alt)
+    c = client.YesClient(gsname, lat, lon, alt)
     clients[name] = c
 
 
@@ -90,6 +95,7 @@ for gsname, gsdata in stations.items():
 #
 # If these are all AllClients, the total busy_time() for all clients will be
 # simply the summation of all pass durations in seconds.
+passes = random.sample(passes, len(passes))
 for pd in passes:
     # create a request
     r = pass2request(pd)
@@ -100,6 +106,14 @@ for pd in passes:
     else:
         print('.', end='', flush=True)
 print()
+#
+# Done with scheduling.
+#
+# Everything else following will use 'clients' to extract info
+# about the scheduled jobs.  The accept/reject data could also be
+# stored for later analysis also (it's not currently, just printed)
+#
+#################################################################
 
 
 # Extract a specific client from the group of Clients and look at some info
@@ -126,3 +140,6 @@ print('calendar_value():')
 for currency, amount in c.calendar_value(start, end).items():
     print('%11s: %f' % (currency, amount))
 print('busy_time():', c.busy_time(start, end))
+
+# daily busy time
+print('Daily Busy Time:', len(c.daily_busy_time()))
