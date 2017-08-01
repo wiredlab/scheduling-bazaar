@@ -42,13 +42,10 @@ def simulate():
         c = client.YesClient(gsname, lat, lon, alt)
         clients[name] = c
 
+    random_scheduler(passes=passes, clients=clients, debug=True)
 
-def pass2request(pd):
-    """Take a pass (as returned from db.getpasses() and construct a request
-    dict for the Network to send to a Client.
+    return clients
 
-    The bounty is SNC (SatNOGS Credits) with an amount set to the pass duration
-    in seconds.
 
     When transmitted over a network, this is then converted to JSON.
     """
