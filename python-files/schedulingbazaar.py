@@ -204,40 +204,40 @@ def get_passes(observer, tle, start_time,
     return contacts
 
 
-# calc_access_time() function definition
-def calc_access_time(start, gs, tle, days, horizon='00:00'):
-    """Calculates Access Time in seconds/day.
-
-    Arguments:
-    start -- string formatted 'yyyy/mm/dd HH:MM:SS'
-    gs -- 4 element list containing desired [name,lat,lon,alt]
-    tle -- 3 element list containing desired tle [line0,line1,line2]
-    days -- num of day to calc/plot access time
-    horizon -- str optional specification for observer horizon (defualt 0 deg)
-    """
-    time = days
-    start_time = ephem.date(start)
-    access_list = []
-    day_list = []
-
-    for days in range(time):
-        num_passes = None
-        duration = 24.0
-        gs_passes = {}
-
-        gs_passes[tle.noradid] = get_passes(gs, tle.tle, start_time,
-                                            num_passes=num_passes,
-                                            duration=duration,
-                                            horizon=horizon)
-
-        access_time = 0
-        for sat, passes in gs_passes.items():
-            for obs in passes:
-                access_time = access_time + obs['duration']
-        access_list.append(access_time)
-        day_list.append(days)
-        start_time = start_time + 1
-    return day_list, access_list
+## calc_access_time() function definition
+#def calc_access_time(start, gs, tle, days, horizon='00:00'):
+#    """Calculates Access Time in seconds/day.
+#
+#    Arguments:
+#    start -- string formatted 'yyyy/mm/dd HH:MM:SS'
+#    gs -- 4 element list containing desired [name,lat,lon,alt]
+#    tle -- 3 element list containing desired tle [line0,line1,line2]
+#    days -- num of day to calc/plot access time
+#    horizon -- str optional specification for observer horizon (defualt 0 deg)
+#    """
+#    time = days
+#    start_time = ephem.date(start)
+#    access_list = []
+#    day_list = []
+#
+#    for days in range(time):
+#        num_passes = None
+#        duration = 24.0
+#        gs_passes = {}
+#
+#        gs_passes[tle.noradid] = get_passes(gs, tle.tle, start_time,
+#                                            num_passes=num_passes,
+#                                            duration=duration,
+#                                            horizon=horizon)
+#
+#        access_time = 0
+#        for sat, passes in gs_passes.items():
+#            for obs in passes:
+#                access_time = access_time + obs['duration']
+#        access_list.append(access_time)
+#        day_list.append(days)
+#        start_time = start_time + 1
+#    return day_list, access_list
 
 
 # plot_access_time() function definition
