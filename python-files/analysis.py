@@ -1,9 +1,16 @@
-# calc_access_time() function definition
-def calc_access_time(passtree):
-    """Calculates Access Time in seconds/day.
+# plot_access_time() function definition
+def plot_busy_time(daily_totals, client=None, sat=None):
+    """Plots Busy Time in seconds/day.
 
     Arguments:
-    passtree - interval tree containing all intervals for access time
+    daily_totals - list of daily sec/day
+    client - Name of gs used for passes (default None)
+    sat - Name of sat used for passes (default None)
+
+    If both client and sat specified, one client/sat combo
+    If client not specified, means one sat all client
+    If sat not specified, means one client all sats
+    If neither, use generic "client" and "sat"
     """
     # Find total access time for tree
     #     Including: one gs tree, one sat tree, one gs/one sat tree
