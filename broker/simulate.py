@@ -13,6 +13,7 @@ def simulate():
 
     # from ../python-files/
     import db
+    import schedulers
     from schedulingbazaar import load_gs, load_tles
 
     # from ./
