@@ -91,7 +91,7 @@ def load_gs(filename):
 
 # get_passes() function definition
 def get_passes(observer, tle, start_time,
-               num_passes=None, duration=None, horizon='00:00'):
+               num_passes=None, duration=None, horizon='10:00'):
     """Config obs and sat, Return pass data for all passes in given interval.
 
     Arguments:
