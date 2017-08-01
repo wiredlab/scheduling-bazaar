@@ -47,24 +47,15 @@ def simulate():
     return clients
 
 
-    When transmitted over a network, this is then converted to JSON.
-    """
-    d = pd.data
-    job = {'id': random.randrange(2**16),  # fake an ID number
-           'start': d.start.isoformat(' '),
-           'end': d.end.isoformat(' '),
-           'ground_station': d.gs,
-           'tle0': satellites[d.sat]['tle0'],
-           'tle1': satellites[d.sat]['tle1'],
-           'tle2': satellites[d.sat]['tle2'],
-           'frequency': -1,
-           'mode': 'null',
-           'transmitter': 'asdfasdasdfadsf',
-           }
-    duration = (d.end - d.start).total_seconds()
-    bounty = [{'currency': 'SNC', 'amount': duration}]
+clients = simulate()
+# Extract a specific client from the group of Clients and look at some info
+c = clients['Valparaiso University']
+print('Client:', c)
 
-    request = {'job': job,
-               'bounty': bounty,
-               }
-    return request
+print('calendar_value():')
+for currency, amount in c.calendar_value().items():
+    print('%11s: %f' % (currency, amount))
+print('busy_time():', c.busy_time())
+
+
+print()
