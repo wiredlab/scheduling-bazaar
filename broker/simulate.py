@@ -1,5 +1,6 @@
-# simulate used for comparing different scheduling methods
+#!/usr/bin/env python
 
+# simulate used for comparing different scheduling methods
 def simulate():
     """Simulates client and network interaction using
     given scheduling method.
