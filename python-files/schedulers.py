@@ -43,6 +43,7 @@ def pass2request(pd):
 
     When transmitted over a network, this is then converted to JSON.
     """
+    satellites = load_sat_dict()
     d = pd.data
     job = {'id': random.randrange(2**16),  # fake an ID number
            'start': d.start.isoformat(' '),
