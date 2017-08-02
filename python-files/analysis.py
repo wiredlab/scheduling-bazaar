@@ -1,3 +1,17 @@
+# standard analysis function
+def standard_analysis(clients):
+    results = {}
+    for c in clients:
+        results[c.name] = client_results(c)
+    return results
+
+
+def client_results(client):
+    c_results = {}
+    c_results['daily_sat_access'] = client.daily_busy_time()
+    c_results['total_busy_time'] = client.busy_time()
+    return c_results
+
 # plot_access_time() function definition
 def plot_busy_time(daily_totals, client=None, sat=None):
     """Plots Busy Time in seconds/day.
