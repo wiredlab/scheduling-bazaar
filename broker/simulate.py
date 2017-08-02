@@ -41,7 +41,7 @@ def simulate():
         c = client.YesClient(gsname, lat, lon, alt)
         clients[name] = c
 
-    schedulers.random_scheduler(passes=passes, clients=clients, debug=True)
+    schedulers.random_scheduler(passes=passes, clients=clients, debug=False)
 
     return clients
 
