@@ -56,5 +56,8 @@ for currency, amount in c.calendar_value().items():
     print('%11s: %f' % (currency, amount))
 print('busy_time():', c.busy_time())
 
+import analysis
+results = {}
+reuslts = analysis.standard_analysis(clients)
 
 print()
