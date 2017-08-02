@@ -7,7 +7,6 @@ def simulate():
     """
 
     from datetime import datetime, timezone
-    import random
     import sys
     sys.path.append('../python-files')  # noqa
 
