@@ -1,5 +1,6 @@
 # This file contains the different scheduling method definitions to be used
 # when simulating.
+import random
 
 
 def random_scheduler(passes, clients, debug=False):
