@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # simulate used for comparing different scheduling methods
 def simulate():
