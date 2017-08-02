@@ -2,6 +2,8 @@
 # when simulating.
 import random
 
+from schedulingbazaar import load_tles
+
 
 def random_scheduler(passes, clients, debug=False):
     """Randomly schedules passes on the given clients (which are already
