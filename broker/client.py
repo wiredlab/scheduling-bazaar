@@ -127,15 +127,15 @@ class BaseClient:
         """
         start = self.calendar_begin()
         end = self.calendar_end()
-        start_ = start.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_ = end.replace(hour=0, minute=0, second=0, microsecond=0)
-        day = timedelta(days=1)
+        start = start.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = end.replace(hour=0, minute=0, second=0, microsecond=0)
+        oneday = timedelta(days=1)
         busy_time_days = []
-        while start_ <= end_:
-            dayend = start_ + day
-            sec = self.busy_time(start_, dayend)
+        while start <= end:  # we want the thru the end of this day
+            dayend = start + oneday
+            sec = self.busy_time(start, dayend)
             busy_time_days.append(sec)
-            start_ = dayend
+            start = dayend
         return busy_time_days
 
 
