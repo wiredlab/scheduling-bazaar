@@ -2,6 +2,7 @@
 
 from datetime import datetime, timezone
 import random
+import pickle
 import sys
 sys.path.append('../python-files')  # noqa
 
@@ -63,8 +64,7 @@ for s in satelliteslist:
 
 # get a bunch of passes and schedule them on our set of GSs
 passes = db.getpasses(
-    'allpasses.db',
-    gs='Valparaiso University')
+    'allpasses.db')
 # passes = db.getpasses(
 #     '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db',
 #   . sat='ISS (ZARYA)')
@@ -114,6 +114,13 @@ print()
 # stored for later analysis also (it's not currently, just printed)
 #
 #################################################################
+
+
+# save results
+pickle.dump(clients, open('results.pkl', 'wb'))
+
+
+
 
 
 # Extract a specific client from the group of Clients and look at some info

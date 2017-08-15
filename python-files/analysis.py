@@ -2,8 +2,38 @@
 def standard_analysis(clients):
     results = {}
     for c in clients:
-        results[c.name] = client_results(c)
+        results[c.name] = # another function for calling all analyses?
     return results
+
+
+def standard_plots(results):
+    """Generate a canonical (large) figure which shows the normal plots
+    that are of interest
+    """
+
+
+def daily_busy_time(name=None, clients=None, sats=None):
+    #find the time range over which we should loop our days.
+    firstday = min([c.begin() for c in clients])
+    lastday = max([c.end() for c in clients])
+
+    firstday = firstday.replace(hours=0, minutes=0, seconds=0, microseconds=0)
+    lastday = lastday.replace(hours=0, minutes=0, seconds=0, microseconds=0)
+    oneday = timedelta(days=1)
+
+    days = []
+    times = []
+    day = firstday
+    while day < lastday:
+        #handle name=None? or force a value?
+        c = clients[name]
+        times.append(c.busy_time(day, day + oneday))
+        # only create the days element if the prev line doesn't barf
+        days.append(day)  #for our x-axis
+        day += oneday
+    return (days, times)
+
+
 
 
 # plot_access_time() function definition
