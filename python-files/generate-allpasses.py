@@ -13,20 +13,30 @@ from schedulingbazaar import load_tles, load_gs
 
 print(sys.argv)
 
-stationsfile = 'groundstations.txt'
-satsfile = 'amateur.txt'
-dbfile = 'allpasses.db'
+# stationsfile = 'groundstations.txt'
+stationsfile = 'network-stations.json'
+# satsfile = 'amateur.txt'
+satsfile = 'amateur-prune.txt'
+# dbfile = 'allpasses.db'
+# dbfile = 'ephem-passes.db'
+dbfile = 'orbital-passes.db'
 
 if len(sys.argv) == 4:
     stationsfile = sys.argv[1]
     satsfile = sys.argv[2]
     dbfile = sys.argv[3]
 
+# ground stations
 stations = load_gs(stationsfile)
+print(len(stations))
+stations = [s for s in stations if s['status'] in ('Online',)]
+print(len(stations))
+
 sats = load_tles(satsfile)
 
 start_time = '2017/6/8 00:00:00'
-duration = 8760 #a year worth of hours
+# duration = 8760 #a year worth of hours
+duration = 12
 
 line = '-- %-30s -------------'
 print(line % 'Computing passes')
