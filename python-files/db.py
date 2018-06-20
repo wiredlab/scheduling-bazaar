@@ -75,7 +75,7 @@ def compute_all_passes(stations, satellites, start_time,
 
     horizon is a string in degrees:minutes for pyephem
 
-    nprocesses > 0 (default: 4) will use a parallel map() for computation.
+    nprocesses > 1 (default: 4) will use a parallel map() for computation.
     """
     conn = sqlite3.connect('file:' + dbfile, uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
@@ -103,7 +103,7 @@ def compute_all_passes(stations, satellites, start_time,
                       (duration,),
                       (horizon,))
 
-    if nprocesses > 0:
+    if nprocesses > 1:
         with multiprocessing.Pool(nprocesses) as pool:
             result = pool.map(_compute, jobargs)
     else:
