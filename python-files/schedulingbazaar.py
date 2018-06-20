@@ -221,6 +221,76 @@ def get_passes(observer, tle, start_time,
     return contacts
 
 
+
+
+def get_passes2(observer, tle, start_time,
+               num_passes=None, duration=None, horizon='10:00'):
+    """Config obs and sat, Return pass data for all passes in given interval.
+
+    Arguments:
+    observer -- 4 element list containing desired [name,lat,lon,alt]
+    tle -- 3 element list containing desired tle [line0,line1,line2]
+    start_time -- ephem.date string formatted 'yyyy/mm/dd hr:min:sec'
+    num_passes -- integer number of desired passes (defualt None)
+    duration -- float number of hours or fraction of hours (default None)
+    horizon -- str optional specification for observer horizon (defualt 0 deg)
+
+    Specify either num_passes or duration.
+    If both, use min(num_passes, duration).
+    If neither, find passes for next 24 hours.
+    """
+    from pyorbital.orbital import Orbital
+    import datetime
+
+    sat = Orbital(tle[0], line1=tle[1], line2=tle[2])
+
+    time = ephem.date(start_time).datetime()
+    passes = sat.get_next_passes(time,
+                                 duration,
+                                 observer['lng'],
+                                 observer['lat'],
+                                 observer['altitude'],
+                                 horizon=10.0
+                                 )
+
+    contacts = []
+    for rise, fall, maxtime in passes:
+        pass_duration = fall - rise  # timedelta
+        pass_seconds = timedelta.total_seconds(pass_duration)
+        tca = maxtime
+
+        # ignore bogus passes
+        if pass_seconds < 1.0:
+            continue
+
+        def azel(time):
+            az, el = sat.get_observer_look(
+                time,
+                observer['lng'],
+                observer['lat'],
+                observer['altitude']
+            )
+            return az, el
+
+        _, max_el = azel(maxtime)
+        r_angle, _ = azel(rise)
+        s_angle, _ = azel(fall)
+
+        pass_data = {
+            'start': rise,
+            'end': fall,
+            'duration': pass_seconds,
+            'rise_az': r_angle,
+            'set_az': s_angle,
+            'tca': tca,
+            'max_el': max_el,
+            'gs': observer['name'],
+            'sat': tle[0].strip(),
+        }
+        contacts.append(pass_data)
+    return contacts
+
+
 ## calc_access_time() function definition
 #def calc_access_time(start, gs, tle, days, horizon='00:00'):
 #    """Calculates Access Time in seconds/day.
