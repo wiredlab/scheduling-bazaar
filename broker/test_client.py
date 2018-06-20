@@ -96,15 +96,16 @@ for gsname, gsdata in stations.items():
 # If these are all AllClients, the total busy_time() for all clients will be
 # simply the summation of all pass durations in seconds.
 passes = random.sample(passes, len(passes))
-for pd in passes:
+for n, pd in enumerate(passes):
     # create a request
     r = pass2request(pd)
     # print(r)
     offer = clients[pd.data.gs].request(r)
-    if offer['status'] == 'accept':
-        print('*', end='', flush=True)
-    else:
-        print('.', end='', flush=True)
+    if (n % 100) == 0:
+        if offer['status'] == 'accept':
+            print('*', end='', flush=True)
+        else:
+            print('.', end='', flush=True)
 print()
 #
 # Done with scheduling.
