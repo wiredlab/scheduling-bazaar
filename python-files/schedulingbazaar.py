@@ -9,6 +9,7 @@
 # Import necessary libraries
 from datetime import timedelta
 from itertools import islice
+import json
 import math
 
 
@@ -62,30 +63,47 @@ def load_tles(filename):
     return data
 
 
-# load_gs() function definition
 def load_gs(filename):
-    """Returns a list of gs from a file.
+    """Returns a list of gs dicts from a file.
 
     Arguments:
     filename -- file name string containing unparsed gs
+        either JSON format, read directly to the dict
+        or a text file with 4 lines per station
 
     gs has four elements: name, lat, lon, alt
     """
-    stations = []
-    with open(filename) as f:
-        while True:
-            # an iterator that returns the next N lines and stops
-            fourline = islice(f, 4)
-            # loop over these N lines, removing trailing spaces and \n
-            gs = [x.rstrip() for x in fourline]
 
-            # only accept complete data
-            # the end of the file *should* have len(tle)==0 but
-            # this also handles extra junk at the end
-            if len(gs) == 4:
-                stations.append(gs)
-            else:
-                break
+    if filename.lower().endswith('.json'):
+        with open(filename) as f:
+            stations = json.load(f)
+        # satnogs network API returns "lng" instead of "lon".  Make both
+        # available.
+        for gs in stations:
+            gs['lon'] = gs['lng']
+    else:
+        stations = []
+        with open(filename) as f:
+            while True:
+                # an iterator that returns the next N lines and stops
+                fourline = islice(f, 4)
+                # loop over these N lines, removing trailing spaces and \n
+                gs = [x.rstrip() for x in fourline]
+
+                # only accept complete data
+                # the end of the file *should* have len(tle)==0 but
+                # this also handles extra junk at the end
+                if len(gs) == 4:
+                    stations.append(
+                        dict(name=gs[0],
+                             lat=float(gs[1]),
+                             lon=float(gs[2]),
+                             lng=float(gs[2]),
+                             altitude=float(gs[3]),
+                             )
+                        )
+                else:
+                    break
     return stations
 
 
@@ -107,15 +125,14 @@ def get_passes(observer, tle, start_time,
     If neither, find passes for next 24 hours.
     """
 
-    obs_name, obs_lat, obs_lon, obs_alt = observer
     tle_line0, tle_line1, tle_line2 = tle
 
     # Set up location of observer
     ground_station = ephem.Observer()
-    ground_station.name = obs_name                # name string
-    ground_station.lon = obs_lon                  # in degrees (+E)
-    ground_station.lat = obs_lat                  # in degrees (+N)
-    ground_station.elevation = int(obs_alt)       # in meters
+    ground_station.name = observer['name']        # name string
+    ground_station.lon = str(observer['lon'])          # in degrees (+E)
+    ground_station.lat = str(observer['lat'])          # in degrees (+N)
+    ground_station.elevation = observer['altitude']       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
     ground_station.horizon = horizon              # in degrees
 
@@ -182,7 +199,7 @@ def get_passes(observer, tle, start_time,
                 'set_az': s_angle,
                 'tca': tca,
                 'max_el': max_el,
-                'gs': obs_name,
+                'gs': observer['name'],
                 'sat': tle_line0.strip(),
             }
 
