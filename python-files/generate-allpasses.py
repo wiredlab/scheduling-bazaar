@@ -5,6 +5,8 @@ import pickle
 import sys
 import time
 
+import cProfile
+
 from db import compute_all_passes, load_all_passes
 from schedulingbazaar import load_tles, load_gs
 
@@ -28,12 +30,17 @@ duration = 8760 #a year worth of hours
 
 line = '-- %-30s -------------'
 print(line % 'Computing passes')
+
+pr = cProfile.Profile()
+pr.enable()
 tree = compute_all_passes(stations,
                           sats,
                           start_time,
                           duration=duration,
-                          dbfile=dbfile)
-
+                          dbfile=dbfile,
+                          nprocesses=0)
+pr.disable()
+pr.print_stats(sort='time')
 # give the filesystem some time to finish closing the database file
 time.sleep(1)
 
