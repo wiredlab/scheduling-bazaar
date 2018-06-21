@@ -1,32 +1,13 @@
 
 
 from collections import defaultdict
-from collections import namedtuple
 from datetime import timedelta
 
 from intervaltree import Interval, IntervalTree
 from iso8601 import parse_date
 
 
-# NOTE:
-# the namedtuple stuff and the two converters are not likely to stay
-#
-JobTuple = namedtuple('JobTuple', ['id', 'start', 'end', 'ground_station',
-                                   'tle0', 'tle1', 'tle2', 'frequency',
-                                   'mode', 'transmitter'])
 
-RequestTuple = namedtuple('RequestTuple',
-                          ['id', 'start', 'end', 'ground_station',
-                           'tle0', 'tle1', 'tle2', 'frequency',
-                           'mode', 'transmitter'])
-
-
-def dict2tuple(tupletemplate, d):
-    return tupletemplate(**d)
-
-
-def tuple2dict(t):
-    return t._asdict()
 
 
 class BaseClient:
