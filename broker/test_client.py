@@ -26,8 +26,8 @@ def pass2request(pd):
     """
     d = pd.data
     job = {'id': random.randrange(2**16),  # fake an ID number
-           'start': d.start.isoformat(' '),
-           'end': d.end.isoformat(' '),
+           'start': d.start.isoformat(),
+           'end': d.end.isoformat(),
            'ground_station': d.gs,
            'tle0': satellites[d.sat]['tle0'],
            'tle1': satellites[d.sat]['tle1'],

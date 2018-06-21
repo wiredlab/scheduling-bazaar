@@ -3,6 +3,7 @@
 This is addressed to a certain Client and is a preliminary Job to become scheduled.  The Network first makes a request to a client with all information needed to execute the job.  To the Job data, it adds a **bounty** (or other name) that indicates the priority of this job or the "payment" to the client if the job's observation is successfully uploaded to the Network.
 
  http://json-schema.org/
+      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"],
 */
 
 
@@ -11,30 +12,56 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
   "description": "A Network request to schedule a Job with a Client.",
   "$id": "http://satnogs.org/schemas/v0.1#",
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "required": ["job", "bounty"],
+  "required": ["status"],
   "properties": {
-    "job": {"$ref": "#/definitions/job"},
-    "bounty": {"$ref": "#/definitions/price"},
-    "status": {"$ref": "#/definitions/status"}
+    "if": {
+      "status": {
+        "type": "string",
+        "enum": ["initial"]
+      }
+    },
+    "then": {
+        "status": {
+          "type": "string",
+          "enum": ["initial"]
+        },
+        "job": {
+          "$ref": "#/definitions/job",
+          "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"]
+        },
+        "bounty": { "$ref": "#/definitions/bounty" }
+    },
+    "else": {
+        "status": {
+          "type": "string",
+          "enum": ["accept", "reject", "update", "modify"]
+        },
+        "job": {
+          "$ref": "#/definitions/job",
+          "required": ["id"]
+        },
+        "bounty": { "$ref": "#/definitions/bounty" }
+    }
   },
 
   "definitions": {
     "job": {
       "description": "Information about a (potentially) scheduled Job.",
       "type": "object",
-      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"],
       "properties": {
         "id": {
-          "description": "Unique identifier for this request.",
+          "description": "Unique (to the network) identifier for this request.",
           "type": ["number", "string"]
         },
         "start": {
           "description": "Time to start the job.",
+          "$comment": "RFC 3339 section 5.6 date-time format.  https://tools.ietf.org/html/rfc3339#section-5.6",
           "type": "string",
           "format": "date-time"
         },
         "end": {
           "description": "Time to end the job.",
+          "$comment": "RFC 3339 section 5.6 date-time format.  https://tools.ietf.org/html/rfc3339#section-5.6",
           "type": "string",
           "format": "date-time"
         },
@@ -65,31 +92,36 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
         "transmitter": {
           "description": "Unique identifier of transmitter in SatNOGS DB.",
           "type": "string"
-        },
+        }
       }
     },
-    "price": {
+    "bounty": {
       "description": "Payment for a successful job.",
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/price"}
+    },
+    "price": {
+      "description": "A currency amount.",
+      "type": "object",
+      "required": ["currency", "amount"],
+      "properties": {
+        "currency": {
           "description": "An ISO 4217 code or other network-specific string.",
-          "currency": {"type": "string"},
-          "amount": {"type": "number", "minimum": 0}
+          "type": "string"
         },
-        "required": ["currency", "amount"]
-      },
-      "minItems": 1
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
     },
     "status": {
-      "description": "Description of the type of communication.",
-      "type": "object",
-      // accept, update, 
+      "description": "Type of communication.",
+      "type": "string",
+      "enum": ["initial", "accept", "reject", "update", "modify"]
     }
   }
 }
-
-
 
 // vim: sw=2

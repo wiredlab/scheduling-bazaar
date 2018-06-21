@@ -19,6 +19,8 @@ def random_scheduler(passes, clients, debug=False):
     for pd in passes:
         # create a request
         r = pass2request(pd)
+        import json
+        print(json.dumps(r))
         offer = clients[pd.data.gs].request(r)
         if debug is True:
             if offer['status'] == 'accept':
@@ -46,8 +48,8 @@ def pass2request(pd):
     satellites = load_sat_dict()
     d = pd.data
     job = {'id': random.randrange(2**16),  # fake an ID number
-           'start': d.start.isoformat(' '),
-           'end': d.end.isoformat(' '),
+           'start': d.start.isoformat(),
+           'end': d.end.isoformat(),
            'ground_station': d.gs,
            'tle0': satellites[d.sat]['tle0'],
            'tle1': satellites[d.sat]['tle1'],
@@ -61,6 +63,7 @@ def pass2request(pd):
 
     request = {'job': job,
                'bounty': bounty,
+               'status': 'initial',
                }
     return request
 
