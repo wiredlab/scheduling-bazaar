@@ -77,10 +77,10 @@ def load_gs(filename):
     if filename.lower().endswith('.json'):
         with open(filename) as f:
             stations = json.load(f)
-        # satnogs network API returns "lng" instead of "lon".  Make both
-        # available.
+        # some aliases.  TODO may go away!
         for gs in stations:
             gs['lon'] = gs['lng']
+            gs['alt'] = gs['altitude']
     else:
         stations = []
         with open(filename) as f:
@@ -98,8 +98,10 @@ def load_gs(filename):
                         dict(name=gs[0],
                              lat=float(gs[1]),
                              lon=float(gs[2]),
-                             lng=float(gs[2]),
                              altitude=float(gs[3]),
+                             #aliases
+                             lng=float(gs[2]),
+                             alt=float(gs[3]),
                              )
                         )
                 else:
@@ -135,6 +137,7 @@ def get_passes(observer, tle, start_time,
     ground_station.elevation = observer['altitude']       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
     ground_station.horizon = horizon              # in degrees
+    ground_station.pressure = 0  # ignore atmospheric refraction at the horizon
 
     # Read in most recent satellite TLE data
     sat = ephem.readtle(tle_line0, tle_line1, tle_line2)

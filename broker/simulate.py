@@ -30,16 +30,14 @@ def simulate():
     #
     #################################################################
     # load a dict of GSs
-    stationlist = load_gs('../python-files/groundstations.txt')
-    stations = {s[0]: s for s in stationlist}
+    stations = load_gs('../python-files/groundstations.txt')
 
     # create a set of clients
     clients = {}
-    for gsname, gsdata in stations.items():
-        name, lat, lon, alt = gsdata
+    for gs in stations:
         # c = client.AllClient(gsname, lat, lon, alt)
-        c = client.YesClient(gsname, lat, lon, alt)
-        clients[name] = c
+        c = client.YesClient(gs)
+        clients[c.name] = c
 
     schedulers.random_scheduler(passes=passes, clients=clients, debug=False)
 

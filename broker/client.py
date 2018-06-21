@@ -35,11 +35,19 @@ class BaseClient:
 
     calendar - an IntervalTree of accepted/scheduled requests
     """
-    def __init__(self, name, lat, lon, alt):
-        self.name = name
-        self.lat = float(lat)
-        self.lon = float(lon)
-        self.alt = float(alt)
+    def __init__(self, name, lat=None, lon=None, alt=None):
+        if isinstance(name, dict):
+            self.name = name['name']
+            self.lat = name['lat']
+            self.lon = name['lon']
+            self.alt = name['alt']
+            self.data = name
+        else:
+            self.name = name
+            self.lat = float(lat)
+            self.lon = float(lon)
+            self.alt = float(alt)
+
         self.calendar = IntervalTree()
 
     def __str__(self):
