@@ -59,10 +59,12 @@ class BaseClient:
                 value[unit['currency']] += unit['amount']
         return value
 
+    @property
     def calendar_begin(self):
         """Returns start time of first job in calendar."""
         return self.calendar.begin()
 
+    @property
     def calendar_end(self):
         """Returns end time of last job in calendar."""
         return self.calendar.end()
