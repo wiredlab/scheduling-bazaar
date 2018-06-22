@@ -14,7 +14,9 @@ import orbit
 
 
 # default expire time is 24 hours
-orbit.tle.requests_cache.configure(expire_after=60*60*6)
+orbit.tle.requests_cache.uninstall_cache()
+orbit.tle.requests_cache.install_cache(cache_name='requests-cache',
+                                       expire_after=60*60)
 
 
 URL = 'https://db.satnogs.org/api/satellites'
@@ -48,18 +50,25 @@ for sat in satellites:
     print(norad, end='')
     try:
         # fetch information from CelesTrak
-        tle = orbit.satellite(norad)
+        body = orbit.satellite(norad)
 
         # TODO: merge information from
         # https://www.amsat.org/tle/current/nasabare.txt
-    except KeyError:
+    except IndexError:
+        # bad parse of data, typically response was "No TLE found"
         print(' ** not at CelesTrak')
         continue
+    else:
+        epoch = body.tle_parsed._epoch.datetime()
 
     try:
         cur.execute(
           'INSERT INTO tle VALUES (?,?,?,?,?);',
-          (norad, tle.epoch(), tle.tle_raw[0], tle.tle_raw[1], tle.tle_raw[2]))
+          (norad,
+           epoch,
+           body.tle_raw[0],
+           body.tle_raw[1],
+           body.tle_raw[2]))
         # 'INSERT OR IGNORE INTO ...' will suppress the exception
     except sqlite3.IntegrityError:
         pass
