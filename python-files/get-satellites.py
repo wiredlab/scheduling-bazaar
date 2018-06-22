@@ -47,7 +47,11 @@ for sat in satellites:
     norad = sat['norad_cat_id']
     print(norad, end='')
     try:
+        # fetch information from CelesTrak
         tle = orbit.satellite(norad)
+
+        # TODO: merge information from
+        # https://www.amsat.org/tle/current/nasabare.txt
     except KeyError:
         print(' ** not at CelesTrak')
         continue
