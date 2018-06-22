@@ -63,51 +63,6 @@ def load_tles(filename):
     return data
 
 
-def load_gs(filename):
-    """Returns a list of gs dicts from a file.
-
-    Arguments:
-    filename -- file name string containing unparsed gs
-        either JSON format, read directly to the dict
-        or a text file with 4 lines per station
-
-    gs has four elements: name, lat, lon, alt
-    """
-
-    if filename.lower().endswith('.json'):
-        with open(filename) as f:
-            stations = json.load(f)
-        # some aliases.  TODO may go away!
-        for gs in stations:
-            gs['lon'] = gs['lng']
-            gs['alt'] = gs['altitude']
-    else:
-        stations = []
-        with open(filename) as f:
-            while True:
-                # an iterator that returns the next N lines and stops
-                fourline = islice(f, 4)
-                # loop over these N lines, removing trailing spaces and \n
-                gs = [x.rstrip() for x in fourline]
-
-                # only accept complete data
-                # the end of the file *should* have len(tle)==0 but
-                # this also handles extra junk at the end
-                if len(gs) == 4:
-                    stations.append(
-                        dict(name=gs[0],
-                             lat=float(gs[1]),
-                             lon=float(gs[2]),
-                             altitude=float(gs[3]),
-                             #aliases
-                             lng=float(gs[2]),
-                             alt=float(gs[3]),
-                             )
-                        )
-                else:
-                    break
-    return stations
-
 
 ## calc_access_time() function definition
 #def calc_access_time(start, gs, tle, days, horizon='00:00'):

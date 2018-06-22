@@ -28,6 +28,30 @@ def tlerow2tuple(t):
     return TleTuple(**t)
 
 
+def load_stations(filename):
+    """Returns a list of gs dicts from a file.
+
+    Arguments:
+    filename -- JSON format as returned by SatNOGS Network api/stations endpoint
+
+    required keys:
+        altitude
+        lat
+        lng
+        min_horizon
+        name
+        status  (one of: Online, Testing, Offline)
+    """
+
+    with open(filename) as f:
+        stations = json.load(f)
+    # some aliases.  TODO may go away!
+    for gs in stations:
+        gs['lon'] = gs['lng']
+        gs['alt'] = gs['altitude']
+    return stations
+
+
 def load_satellites(satsfile, tledb='tle.sqlite'):
     """Load satellites from satsfile (json) and pickup the latest TLE from
     tledb.
@@ -89,8 +113,7 @@ def getpasses(dbfile='allpasses.sqlite', gs='%', sat='%'):
     return tree
 
 
-def compute_passes_ephem(observer, satellite, start_time,
-               num_passes=None, duration=None, horizon='10:00'):
+def compute_passes_ephem(args):
     """Config obs and sat, Return pass data for all passes in given interval.
     uses PyEphem library
 
@@ -100,12 +123,13 @@ def compute_passes_ephem(observer, satellite, start_time,
     start_time -- ephem.date string formatted 'yyyy/mm/dd hr:min:sec'
     num_passes -- integer number of desired passes (defualt None)
     duration -- float number of hours or fraction of hours (default None)
-    horizon -- str optional specification for observer horizon (defualt 0 deg)
 
     Specify either num_passes or duration.
     If both, use min(num_passes, duration).
     If neither, find passes for next 24 hours.
     """
+    (observer, satellite, start_time, num_passes, duration) = args
+    print("%s <--> %s" % (observer['name'], satellite['name'].strip()), flush=True)
 
     tle_line0, tle_line1, tle_line2 = satellite['tle']
 
@@ -116,7 +140,7 @@ def compute_passes_ephem(observer, satellite, start_time,
     ground_station.lat = str(observer['lat'])          # in degrees (+N)
     ground_station.elevation = observer['altitude']       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
-    ground_station.horizon = horizon              # in degrees
+    ground_station.horizon = observer['min_horizon'] # in degrees
     ground_station.pressure = 0  # ignore atmospheric refraction at the horizon
 
     # Read in most recent satellite TLE data
@@ -201,11 +225,16 @@ def compute_passes_ephem(observer, satellite, start_time,
     except ValueError:
         # No (more) visible passes
         pass
-    return contacts
+
+    # convert to namedtuples since the info doesn't change
+    data = []
+    for p in contacts:
+        d = PassTuple(**p)
+        data.append(d)
+    return data
 
 
-def compute_passes_orbital(observer, sat, start_time,
-               num_passes=None, duration=None, horizon='10:00'):
+def compute_passes_orbital(args):
     """Config obs and sat, Return pass data for all passes in given interval.
     uses Pyorbital library
 
@@ -215,13 +244,15 @@ def compute_passes_orbital(observer, sat, start_time,
     start_time -- ephem.date string formatted 'yyyy/mm/dd hr:min:sec'
     num_passes -- integer number of desired passes (defualt None)
     duration -- float number of hours or fraction of hours (default None)
-    horizon -- str optional specification for observer horizon (defualt 0 deg)
 
     Specify either num_passes or duration.
     If both, use min(num_passes, duration).
     If neither, find passes for next 24 hours.
     """
-    tle = sat['tle']
+    (observer, satellite, start_time, num_passes, duration) = args
+    print("%s <--> %s" % (observer['name'], satellite['name'].strip()), flush=True)
+
+    tle = satellite['tle']
 
     try:
         body = Orbital(tle[0], line1=tle[1], line2=tle[2])
@@ -231,15 +262,16 @@ def compute_passes_orbital(observer, sat, start_time,
         print('*** deep space')
         return []
 
-    time = ephem.date(start_time).datetime()
+    start_time = ephem.date(start_time).datetime()
 
     try:
-        passes = body.get_next_passes(time,
-                                    duration,
-                                    observer['lng'],
-                                    observer['lat'],
-                                    observer['altitude'],
-                                    horizon=10.0)
+        passes = body.get_next_passes(
+            start_time,
+            duration,
+            observer['lng'],
+            observer['lat'],
+            observer['altitude'],
+            horizon=observer['min_horizon'])
     except Exception:
         # or just plain crashed
         print('*** crash')
@@ -277,28 +309,12 @@ def compute_passes_orbital(observer, sat, start_time,
             'tca': tca,
             'max_el': max_el,
             'gs': observer['name'],
-            'sat': sat['name'],
+            'sat': satellite['name'],
         }
         contacts.append(pass_data)
-    return contacts
-
-
-def _compute(args, fn):
-    """Wrapper for get_passes() for use with map() and converts the list of
-    dicttionaries to a list of namedtuples to save RAM.
-
-    fn is one of compute_passes_{ephem, orbital}
-    """
-    gs, sat, start, npasses, dur, horizon = args
-    print("%s <--> %s" % (gs['name'], sat['name'].strip()), flush=True)
-    passes = fn(
-        gs, sat, start,
-        num_passes=npasses,
-        duration=dur,
-        horizon=horizon)
     # convert to namedtuples since the info doesn't change
     data = []
-    for p in passes:
+    for p in contacts:
         d = PassTuple(**p)
         data.append(d)
     return data
@@ -306,17 +322,15 @@ def _compute(args, fn):
 
 def compute_all_passes(stations, satellites, start_time,
                        dbfile='passes.db',
-                       num_passes=None, duration=None, horizon='10:00',
-                       nprocesses=4,
-                       function='ephem'):
+                       num_passes=None, duration=None,
+                       num_processes=4,
+                       compute_function=compute_passes_ephem):
     """Finds passes for all combinations of stations and satellites.
 
     Saves the pass info as rows in an sqlite3 database and returns the data as
     an IntervalTree with each data member set to the pass info as a namedtuple.
 
-    horizon is a string in degrees:minutes for pyephem
-
-    nprocesses > 1 (default: 4) will use a parallel map() for computation.
+    num_processes > 1 (default: 4) will use a parallel map() for computation.
     """
     conn = sqlite3.connect('file:' + dbfile, uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
@@ -341,21 +355,13 @@ def compute_all_passes(stations, satellites, start_time,
                       satellites,
                       (start_time,),  # single args are repeated
                       (num_passes,),
-                      (duration,),
-                      (horizon,))
+                      (duration,))
 
-    if function == 'ephem':
-        def _fn(args):
-            return _compute(args, fn=compute_passes_ephem)
-    elif function == 'orbital':
-        def _fn(args):
-            return _compute(args, fn=compute_passes_orbital)
-
-    if nprocesses > 1:
-        with multiprocessing.Pool(nprocesses) as pool:
-            result = pool.map(_fn, jobargs)
+    if num_processes > 1:
+        with multiprocessing.Pool(num_processes) as pool:
+            result = pool.map(compute_function, jobargs)
     else:
-        result = list(map(_fn, jobargs))
+        result = list(map(compute_function, jobargs))
 
     print('Computed', len(result), 'Sat--GS pairs')
 

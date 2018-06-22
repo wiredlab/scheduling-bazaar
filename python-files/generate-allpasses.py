@@ -7,24 +7,31 @@ import time
 
 import cProfile
 
-from db import compute_all_passes, load_all_passes, load_satellites
-from schedulingbazaar import load_tles, load_gs
+import db
 
 
-print(sys.argv)
 
-# stationsfile = 'groundstations.txt'
+###########################################################
+#
+# Configuration
+
 stationsfile = 'network-stations.json'
-# satsfile = 'amateur.txt'
 satsfile = 'satellites.json'
 
+# dbfile = 'allpasses.sqlite'
+dbfile = 'testpasses.sqlite'
 
-dbfile = 'allpasses.sqlite'
-compute_function = 'ephem'
-# dbfile = 'ephem-passes.sqlite'
-# compute_function = 'orbital'
-# dbfile = 'orbital-passes.sqlite'
+# compute_function = db.compute_passes_ephem
+compute_function = db.compute_passes_orbital
 
+start_time = '2018/6/20 00:00:00'
+# duration = 8760 #a year worth of hours
+duration = 24*90
+
+num_processes = 4
+
+# TODO: convert to argparse or other better CLI args system
+print(sys.argv)
 if len(sys.argv) == 4:
     stationsfile = sys.argv[1]
     satsfile = sys.argv[2]
@@ -33,40 +40,46 @@ if len(sys.argv) == 4:
 #
 # ground stations
 #
-stations = load_gs(stationsfile)
-print(len(stations))
+stations = db.load_stations(stationsfile)
+print('N stations:', len(stations))
 
 # only include online stations
 stations[:] = [s for s in stations if s['status'] in ('Online',)]
-print(len(stations))
+print('N filtered stations:', len(stations))
 
 
 #
 # satellites
 #
-sats = load_satellites(satsfile)
+sats = db.load_satellites(satsfile)
+
+
+#
+# end configuration variables and filters
+#
+###########################################################
+
 
 # pyorbital chokes on INMARSAT 4-F1 because it is classified as deep-space
-sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
-# sats = load_tles(satsfile)
+if compute_function == db.compute_passes_orbital:
+    sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
+
+print('N satellites:', len(sats))
 
 
-start_time = '2018/6/20 00:00:00'
-# duration = 8760 #a year worth of hours
-duration = 24*90
 
 line = '-- %-30s -------------'
 print(line % 'Computing passes')
 
 pr = cProfile.Profile()
 pr.enable()
-tree = compute_all_passes(stations,
+tree = db.compute_all_passes(stations,
                           sats,
                           start_time,
                           duration=duration,
                           dbfile=dbfile,
-                          nprocesses=1,
-                          function=compute_function)
+                          num_processes=num_processes,
+                          compute_function=compute_function)
 pr.disable()
 pr.print_stats(sort='time')
 # give the filesystem some time to finish closing the database file
@@ -81,7 +94,7 @@ if False:
     treepkl = pickle.load(open('testpasses.pkl', 'rb'))
 
     print(line % 'Load from db')
-    treeload = load_all_passes(dbfile)
+    treeload = db.load_all_passes(dbfile)
 
 
     print(line % 'All diffs should be empty')
