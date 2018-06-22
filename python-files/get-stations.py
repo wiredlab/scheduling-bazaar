@@ -28,5 +28,5 @@ while nextpage:
 stations = sorted(stations, key=lambda s: s['id'])
 
 with open(STATIONS_JSON, 'w') as fp:
-    json.dump(stations, fp)
+    json.dump(stations, fp, sort_keys=True, indent=2)
 
