@@ -49,11 +49,7 @@ sats = load_satellites(satsfile)
 # pyorbital chokes on INMARSAT 4-F1 because it is classified as deep-space
 sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
 # sats = load_tles(satsfile)
-#
-#
-#
-#
-#
+
 
 start_time = '2018/6/20 00:00:00'
 # duration = 8760 #a year worth of hours
@@ -76,27 +72,29 @@ pr.print_stats(sort='time')
 # give the filesystem some time to finish closing the database file
 time.sleep(1)
 
-print(line % 'Save/load as pickle')
-pickle.dump(tree, open('somepasses.pkl', 'wb'))
-time.sleep(1)
-treepkl = pickle.load(open('somepasses.pkl', 'rb'))
-
-print(line % 'Load from db')
-treeload = load_all_passes(dbfile)
-
-
-print(line % 'All diffs should be empty')
-trees = (tree, treepkl, treeload)
+#testing save/load between pickle and sqlite3
 nfail = 0
-for a,b in product(trees, trees):
-    diff = a.difference(b)
-    print(diff)
-    if len(diff) != 0:
-        nfail += 1
+if False:
+    print(line % 'Save/load as pickle')
+    pickle.dump(tree, open('testpasses.pkl', 'wb'))
+    time.sleep(1)
+    treepkl = pickle.load(open('testpasses.pkl', 'rb'))
 
-if nfail == 0:
-    print(line % 'All good!')
-else:
-    print(line % 'FAILURES DETECTED')
+    print(line % 'Load from db')
+    treeload = load_all_passes(dbfile)
+
+
+    print(line % 'All diffs should be empty')
+    trees = (tree, treepkl, treeload)
+    for a,b in product(trees, trees):
+        diff = a.difference(b)
+        print(diff)
+        if len(diff) != 0:
+            nfail += 1
+
+    if nfail == 0:
+        print(line % 'All good!')
+    else:
+        print(line % 'FAILURES DETECTED')
 
 sys.exit(nfail)
