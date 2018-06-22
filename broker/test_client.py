@@ -64,7 +64,7 @@ for s in satelliteslist:
 
 # get a bunch of passes and schedule them on our set of GSs
 passes = db.getpasses(
-    'allpasses.db')
+    'allpasses.sqlite')
 # passes = db.getpasses(
 #     '/home/dan/ed/satnogs/scheduling-bazaar/python-files/allpasses.db',
 #   . sat='ISS (ZARYA)')

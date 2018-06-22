@@ -20,8 +20,8 @@ def simulate():
 
     # get passes
     passes = db.getpasses(
-        'allpasses.db',
-        gs='Valparaiso University')
+        'allpasses.sqlite',
+        gs='KB9JHU')
 
     #################################################################
     #
@@ -46,7 +46,7 @@ def simulate():
 
 clients = simulate()
 # Extract a specific client from the group of Clients and look at some info
-c = clients['Valparaiso University']
+c = clients['KB9JHU']
 print('Client:', c)
 
 print('calendar_value():')
@@ -55,7 +55,6 @@ for currency, amount in c.calendar_value().items():
 print('busy_time():', c.busy_time())
 
 import analysis
-results = {}
-reuslts = analysis.standard_analysis(clients)
+results = analysis.standard_analysis(clients)
 
 print()

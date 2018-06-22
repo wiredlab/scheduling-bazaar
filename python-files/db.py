@@ -15,11 +15,8 @@ import ephem
 from intervaltree import Interval, IntervalTree
 from pyorbital.orbital import Orbital
 
-import schedulingbazaar
 
 
-# this should be only defined in one place (schedulingbazaar)
-# but I'm not getting it to work right yet...
 PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs sat')
 
@@ -71,7 +68,7 @@ def passrow2interval(p):
     return Interval(data.start, data.end, data)
 
 
-def getpasses(dbfile, gs='%', sat='%'):
+def getpasses(dbfile='allpasses.sqlite', gs='%', sat='%'):
     """Return an IntervalTree of PassTuples, filtered by the named GS or Sat.
     Use SQLite wildcards for matching.  Unspecified terms default to matching
     all.
