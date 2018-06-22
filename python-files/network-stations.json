@@ -1,5 +1,23 @@
 [
   {
+    "altitude": 104,
+    "created": "2015-07-22T13:26:49Z",
+    "min_horizon": 10,
+    "name": "Hackerspace.gr 1",
+    "status": "Testing",
+    "observations": 1905,
+    "lng": 23.7314,
+    "lat": 38.01697,
+    "qthlocator": "KM18rd",
+    "antenna": [
+      "UHF Helical"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:30Z",
+    "id": 1,
+    "location": ""
+  },
+  {
     "altitude": 280,
     "created": "2015-07-22T14:24:10Z",
     "min_horizon": 10,
@@ -16,607 +34,6 @@
     "description": "Yaesu G-5000 with M2 cross yagi antennas",
     "last_seen": "2018-06-19T17:21:04Z",
     "id": 2,
-    "location": ""
-  },
-  {
-    "altitude": 150,
-    "created": "2016-01-17T19:28:26Z",
-    "min_horizon": 25,
-    "name": "Apomahon",
-    "status": "Online",
-    "observations": 12522,
-    "lng": 23.739312,
-    "lat": 38.048444,
-    "qthlocator": "KM18ub",
-    "antenna": [
-      "UHF Helical",
-      "VHF Yagi"
-    ],
-    "description": "G5500 rotator with SatNOGS g5500 rotator controller, USRP B200mini, Wimo X-Quad VHF and SatNOGS Helical 438-2 UHF",
-    "last_seen": "2018-06-19T17:21:48Z",
-    "id": 6,
-    "location": ""
-  },
-  {
-    "altitude": 65,
-    "created": "2017-05-04T20:21:09Z",
-    "min_horizon": 25,
-    "name": "Stony",
-    "status": "Online",
-    "observations": 6939,
-    "lng": 23.71394,
-    "lat": 37.97034,
-    "qthlocator": "KM17ux",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:19Z",
-    "id": 7,
-    "location": ""
-  },
-  {
-    "altitude": 67,
-    "created": "2017-06-02T14:29:33Z",
-    "min_horizon": 0,
-    "name": "W2BFJ",
-    "status": "Online",
-    "observations": 5507,
-    "lng": -71.538,
-    "lat": 42.744,
-    "qthlocator": "FN42fr",
-    "antenna": [
-      "VHF Lindenblad"
-    ],
-    "description": "NOTE: During AO-92 commissioning, the UHF station is down, and the VHF is a crossed Yagi tracking AO-85, AO-91, and AO-92",
-    "last_seen": "2018-06-19T17:21:25Z",
-    "id": 12,
-    "location": ""
-  },
-  {
-    "altitude": 48,
-    "created": "2017-06-10T22:12:33Z",
-    "min_horizon": 15,
-    "name": "OZ9AEC-VHF1",
-    "status": "Online",
-    "observations": 7992,
-    "lng": 11.74,
-    "lat": 55.51,
-    "qthlocator": "JO55um",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "Airspy One connected to Up-board running Ubuntu server 16.04.",
-    "last_seen": "2018-06-19T17:21:34Z",
-    "id": 13,
-    "location": ""
-  },
-  {
-    "altitude": 8,
-    "created": "2017-07-13T12:38:23Z",
-    "min_horizon": 20,
-    "name": "VK5QI-2M",
-    "status": "Online",
-    "observations": 7427,
-    "lng": 138.6949,
-    "lat": -34.8463,
-    "qthlocator": "PF95id",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:53Z",
-    "id": 15,
-    "location": ""
-  },
-  {
-    "altitude": 5,
-    "created": "2017-07-15T12:59:11Z",
-    "min_horizon": 30,
-    "name": "VK5QI-70CM",
-    "status": "Online",
-    "observations": 8919,
-    "lng": 138.6928,
-    "lat": -34.721,
-    "qthlocator": "PF95ig",
-    "antenna": [
-      "UHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:16Z",
-    "id": 16,
-    "location": ""
-  },
-  {
-    "altitude": 45,
-    "created": "2017-09-30T14:16:08Z",
-    "min_horizon": 20,
-    "name": "Avia",
-    "status": "Online",
-    "observations": 7295,
-    "lng": 22.14489,
-    "lat": 36.96089,
-    "qthlocator": "KM16bx",
-    "antenna": [
-      "UHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:31Z",
-    "id": 21,
-    "location": ""
-  },
-  {
-    "altitude": 229,
-    "created": "2017-10-08T21:10:41Z",
-    "min_horizon": 45,
-    "name": "Ferns-1",
-    "status": "Online",
-    "observations": 5259,
-    "lng": -87.97,
-    "lat": 43.28,
-    "qthlocator": "EN63ag",
-    "antenna": [
-      "VHF Quadrafilar"
-    ],
-    "description": "Home made QFH antenna, FM band block. Not in a good location, trees on north and houses on south side blocking lot of signals",
-    "last_seen": "2018-06-19T17:21:33Z",
-    "id": 22,
-    "location": ""
-  },
-  {
-    "altitude": 6,
-    "created": "2017-10-09T01:56:32Z",
-    "min_horizon": 4,
-    "name": "Zath-VHF",
-    "status": "Online",
-    "observations": 5533,
-    "lng": 115.988,
-    "lat": -32.066,
-    "qthlocator": "OF77xw",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "RPi 3, RTL-SDR v3, Mini-Kits 144-148MHz preamp,  Stanislav Palo VHF turnstile",
-    "last_seen": "2018-06-19T17:21:38Z",
-    "id": 23,
-    "location": ""
-  },
-  {
-    "altitude": 6,
-    "created": "2017-10-09T01:59:47Z",
-    "min_horizon": 4,
-    "name": "Zath-UHF",
-    "status": "Online",
-    "observations": 6199,
-    "lng": 115.988,
-    "lat": -32.066,
-    "qthlocator": "OF77xw",
-    "antenna": [
-      "UHF Turnstile"
-    ],
-    "description": "RPi 3, RTL-SDR v3, Mini-Kits 430MHz preamp,  Stanislav Palo UHF turnstile",
-    "last_seen": "2018-06-19T17:21:18Z",
-    "id": 24,
-    "location": ""
-  },
-  {
-    "altitude": 634,
-    "created": "2017-10-11T22:13:35Z",
-    "min_horizon": 15,
-    "name": "NB3T - VHF",
-    "status": "Online",
-    "observations": 2677,
-    "lng": -80.489,
-    "lat": 37.194,
-    "qthlocator": "EM97se",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "Turnstile Antenna, LNA4ALL, NooElec NESDR SMArt",
-    "last_seen": "2018-06-19T17:21:04Z",
-    "id": 27,
-    "location": ""
-  },
-  {
-    "altitude": 634,
-    "created": "2017-10-11T22:17:21Z",
-    "min_horizon": 15,
-    "name": "NB3T - UHF",
-    "status": "Online",
-    "observations": 2778,
-    "lng": -80.489,
-    "lat": 37.194,
-    "qthlocator": "EM97se",
-    "antenna": [
-      "UHF Turnstile"
-    ],
-    "description": "Turnstile Antenna, LNA4ALL, NooElec NESDR SMArt",
-    "last_seen": "2018-06-19T17:21:11Z",
-    "id": 28,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2017-10-31T22:42:22Z",
-    "min_horizon": 30,
-    "name": "GI7UGV - UHF",
-    "status": "Online",
-    "observations": 6769,
-    "lng": -5.713397,
-    "lat": 54.594049,
-    "qthlocator": "IO74do",
-    "antenna": [
-      "UHF Helical"
-    ],
-    "description": "QFH, Preamp/Filter, RTLSDR. Noisy environment.",
-    "last_seen": "2018-06-19T17:21:33Z",
-    "id": 31,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2017-11-26T17:50:54Z",
-    "min_horizon": 30,
-    "name": "G7KSE",
-    "status": "Online",
-    "observations": 4430,
-    "lng": -3.588,
-    "lat": 54.488,
-    "qthlocator": "IO84el",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "No rotator RPi with NooElec SMArt dongle and a Wimo TA-1 turnstile antenna loft mounted",
-    "last_seen": "2018-06-19T17:21:21Z",
-    "id": 33,
-    "location": ""
-  },
-  {
-    "altitude": 50,
-    "created": "2017-12-16T17:30:41Z",
-    "min_horizon": 5,
-    "name": "LA1NGS",
-    "status": "Online",
-    "observations": 6338,
-    "lng": 10.39957,
-    "lat": 63.41817,
-    "qthlocator": "JP53ek",
-    "antenna": [
-      "VHF Turnstile",
-      "UHF Turnstile",
-      "VHF Helical"
-    ],
-    "description": "Orbit NTNU Ground Station (prev. NTNU Test Satellite) --- Specs: Fedora Linux (headless), x86_64 desktop computer, USRP2 SDR, 2m & 70cm crossed Yagi-Uda beams (RHCP/LHCP) on Az+El rotator. --- Contact: nutsgroup-gs [[funky-a]] nutsgroup [[dot]] org [[dot]] ntnu [[dot]] no",
-    "last_seen": "2018-06-19T17:21:32Z",
-    "id": 35,
-    "location": ""
-  },
-  {
-    "altitude": 275,
-    "created": "2018-01-06T10:04:16Z",
-    "min_horizon": 1,
-    "name": "DL4PD",
-    "status": "Online",
-    "observations": 5058,
-    "lng": 6.216089,
-    "lat": 50.749782,
-    "qthlocator": "JO30cr",
-    "antenna": [
-      "UHF Yagi",
-      "VHF Yagi"
-    ],
-    "description": "Please use the DUV transmitter for AMSAT-FOX satellites!",
-    "last_seen": "2018-06-19T17:21:51Z",
-    "id": 37,
-    "location": ""
-  },
-  {
-    "altitude": 5,
-    "created": "2018-03-04T10:32:23Z",
-    "min_horizon": 10,
-    "name": "Technikraum Lanzenhäusern",
-    "status": "Online",
-    "observations": 1871,
-    "lng": 7.35009,
-    "lat": 46.83592,
-    "qthlocator": "JN36qu",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:35Z",
-    "id": 38,
-    "location": ""
-  },
-  {
-    "altitude": 189,
-    "created": "2018-03-10T23:43:21Z",
-    "min_horizon": 10,
-    "name": "Chicago1",
-    "status": "Online",
-    "observations": 1388,
-    "lng": -87.64,
-    "lat": 41.84,
-    "qthlocator": "EN61eu",
-    "antenna": [
-      "HF Dipole"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:04Z",
-    "id": 41,
-    "location": ""
-  },
-  {
-    "altitude": 350,
-    "created": "2018-03-11T18:25:37Z",
-    "min_horizon": 20,
-    "name": "Grenoble - F4HVX",
-    "status": "Online",
-    "observations": 1279,
-    "lng": 5.6080818,
-    "lat": 45.2676834,
-    "qthlocator": "JN25tg",
-    "antenna": [
-      "UHF Yagi"
-    ],
-    "description": "RTLSDR V3 + DIY UHF Yagi OR  DIY VHF Yagi + DIY rotator ( https://wiki.satnogs.org/Metal_antenna_rotator ) + \r\n[Big mountain on west]",
-    "last_seen": "2018-06-19T17:21:40Z",
-    "id": 43,
-    "location": ""
-  },
-  {
-    "altitude": 470,
-    "created": "2018-03-22T12:04:12Z",
-    "min_horizon": 4,
-    "name": "DB0RV",
-    "status": "Online",
-    "observations": 2158,
-    "lng": 9.633,
-    "lat": 47.8067,
-    "qthlocator": "JN47tt",
-    "antenna": [
-      "VHF Turnstile",
-      "UHF Turnstile"
-    ],
-    "description": "DB0RV SatNOGS client",
-    "last_seen": "2018-06-19T17:21:22Z",
-    "id": 47,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2018-03-24T01:06:46Z",
-    "min_horizon": 10,
-    "name": "OZ7SAT",
-    "status": "Online",
-    "observations": 1959,
-    "lng": 12.601,
-    "lat": 55.634,
-    "qthlocator": "JO65hp",
-    "antenna": [
-      "UHF Yagi",
-      "VHF Yagi"
-    ],
-    "description": "AMSAT OZ ground station. Wimo VHF/UHF X-Quads with preamp and bandpass filters. Yaesu G-5500 rotator with G6LVB computer interface. Airspy One connected to PC (AMD Athlon II X4 620) running Ubuntu server 16.04.",
-    "last_seen": "2018-06-19T17:21:29Z",
-    "id": 49,
-    "location": ""
-  },
-  {
-    "altitude": 45,
-    "created": "2018-03-28T09:38:34Z",
-    "min_horizon": 10,
-    "name": "ZL4VBJ",
-    "status": "Online",
-    "observations": 1245,
-    "lng": 168.333,
-    "lat": -46.2128,
-    "qthlocator": "RE43ds",
-    "antenna": [
-      "VHF Quadrafilar"
-    ],
-    "description": "QFH Antenna",
-    "last_seen": "2018-06-19T17:21:45Z",
-    "id": 56,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2018-03-28T19:10:41Z",
-    "min_horizon": 10,
-    "name": "SR1GEO_RACK01",
-    "status": "Online",
-    "observations": 1585,
-    "lng": 15.05798,
-    "lat": 53.340457,
-    "qthlocator": "JO73mi",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "Some problems with DNR, should work as expected.\r\n \r\nThis prod stations belongs to SR1GEO groundstation. It is a 1U rack SatNOGS receiver.",
-    "last_seen": "2018-06-19T17:21:56Z",
-    "id": 58,
-    "location": ""
-  },
-  {
-    "altitude": 1499,
-    "created": "2018-03-30T18:05:48Z",
-    "min_horizon": 10,
-    "name": "ZR6TG Sat Ground Station (VHF)",
-    "status": "Online",
-    "observations": 1144,
-    "lng": 27.834,
-    "lat": -26.709,
-    "qthlocator": "KG33wg",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:24Z",
-    "id": 62,
-    "location": ""
-  },
-  {
-    "altitude": 275,
-    "created": "2018-04-01T12:36:31Z",
-    "min_horizon": 5,
-    "name": "KE8FZT - UHF",
-    "status": "Online",
-    "observations": 1192,
-    "lng": -85.6075,
-    "lat": 42.209,
-    "qthlocator": "EN72ef",
-    "antenna": [
-      "UHF Yagi"
-    ],
-    "description": "Arrow UHF Corner Reflector, Fixed 20 Deg Elevation & Pointed 180 Deg South,  AMSAT LNA,, MFJ Duplexer, \r\n Raspberry Pi3b",
-    "last_seen": "2018-06-19T17:21:57Z",
-    "id": 66,
-    "location": ""
-  },
-  {
-    "altitude": 60,
-    "created": "2018-04-24T07:39:25Z",
-    "min_horizon": 20,
-    "name": "VHF QFH Minikits LNA RTL-SDR",
-    "status": "Online",
-    "observations": 1521,
-    "lng": -2.02,
-    "lat": 50.77,
-    "qthlocator": "IO80xs",
-    "antenna": [
-      "VHF Quadrafilar"
-    ],
-    "description": "Timestep Stainless Steel QFH + LNA",
-    "last_seen": "2018-06-19T17:21:19Z",
-    "id": 91,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2018-04-28T11:51:34Z",
-    "min_horizon": 10,
-    "name": "sam210723 VHF",
-    "status": "Online",
-    "observations": 355,
-    "lng": 151.33,
-    "lat": -33.62,
-    "qthlocator": "QF56pj",
-    "antenna": [
-      "VHF Quadrafilar"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:52Z",
-    "id": 96,
-    "location": ""
-  },
-  {
-    "altitude": 612,
-    "created": "2018-05-01T18:32:58Z",
-    "min_horizon": 10,
-    "name": "RIYADH1",
-    "status": "Online",
-    "observations": 984,
-    "lng": 46.7083,
-    "lat": 24.7708,
-    "qthlocator": "LL34is",
-    "antenna": [
-      "UHF Turnstile"
-    ],
-    "description": "Actually a UHF QFH without balun, UHF LNA, 20m of PCTEL PFP400 RF cable with RTL-SDR with TCXO on Rpi2. Some big palms trees to the South",
-    "last_seen": "2018-06-19T17:21:42Z",
-    "id": 97,
-    "location": ""
-  },
-  {
-    "altitude": 62,
-    "created": "2018-05-03T19:28:09Z",
-    "min_horizon": 20,
-    "name": "Grove-UHF-01",
-    "status": "Online",
-    "observations": 546,
-    "lng": -71.44789,
-    "lat": 42.31404,
-    "qthlocator": "FN42gh",
-    "antenna": [
-      "UHF Lindenblad"
-    ],
-    "description": "Running on a Raspberry Pi 3 B+. with Airspy.   Sample rate was reduced to 2.5E6 and automatic decoding began on June 8, 2018.   Raspberry Pi was not able to ingest all data from Airspy at default sample rate of 10E6.  investigating USB isolation techniques to limit EMI from R Pi into Airspy",
-    "last_seen": "2018-06-19T17:21:25Z",
-    "id": 98,
-    "location": ""
-  },
-  {
-    "altitude": 110,
-    "created": "2018-05-07T19:36:42Z",
-    "min_horizon": 10,
-    "name": "Marcs",
-    "status": "Online",
-    "observations": 611,
-    "lng": 2.231068,
-    "lat": 48.64358,
-    "qthlocator": "JN18cp",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "DIY VHF Turnstile + FM BC block filter + preamp.\r\nHave a high horizon (min 45deg) on the north-east, do not select\r\ntoo low satellites in this direction.",
-    "last_seen": "2018-06-19T17:21:50Z",
-    "id": 101,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2018-05-09T19:58:52Z",
-    "min_horizon": 10,
-    "name": "PA3RVG VHF Moxon",
-    "status": "Online",
-    "observations": 519,
-    "lng": 5.5584172,
-    "lat": 51.4719052,
-    "qthlocator": "JO21sl",
-    "antenna": [
-      "VHF Yagi"
-    ],
-    "description": "Double VHF Moxon antenna mounted at fixed elevation of 20 degrees. Currently also at fixed azimuth pointing north, since the rotator is not computer controlled yet. Only one of the two moxons is currently connected, so fading is expected. I will add a phasing/delay harness for circular polarization later. During day time there is interference from my solar panels. Using Odroid U3 and Airspy Mini.",
-    "last_seen": "2018-06-19T17:21:43Z",
-    "id": 102,
-    "location": ""
-  },
-  {
-    "altitude": 50,
-    "created": "2018-06-06T21:29:12Z",
-    "min_horizon": 10,
-    "name": "XTOPHE",
-    "status": "Online",
-    "observations": 100,
-    "lng": 2.17693,
-    "lat": 48.882767,
-    "qthlocator": "JN18cv",
-    "antenna": [
-      "VHF Turnstile",
-      "UHF Turnstile"
-    ],
-    "description": "Station without rotor, for testing purpose.",
-    "last_seen": "2018-06-19T17:21:24Z",
-    "id": 130,
-    "location": ""
-  },
-  {
-    "altitude": 104,
-    "created": "2015-07-22T13:26:49Z",
-    "min_horizon": 10,
-    "name": "Hackerspace.gr 1",
-    "status": "Testing",
-    "observations": 1905,
-    "lng": 23.7314,
-    "lat": 38.01697,
-    "qthlocator": "KM18rd",
-    "antenna": [
-      "UHF Helical"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:30Z",
-    "id": 1,
     "location": ""
   },
   {
@@ -658,421 +75,40 @@
     "location": ""
   },
   {
-    "altitude": 50,
-    "created": "2017-10-10T01:49:27Z",
-    "min_horizon": 15,
-    "name": "N7IPY",
-    "status": "Testing",
-    "observations": 1767,
-    "lng": -121.29,
-    "lat": 38.7708,
-    "qthlocator": "CM98is",
-    "antenna": [
-      "UHF Yagi",
-      "VHF Yagi"
-    ],
-    "description": "This Ground Station Operated from a Raspberry Pi-3B  and an RTLSDR dongle.  The Antennas are both from M2 Antennas.  The Rotor System is provided by Portable Rotation.  The property is on a decline and the antenna location is south of the main house, so signals are blocked to 30 degrees to the North.  Currently there is a pre-Amp on the feed line at the antenna location.  The feedline is 50 Feet of LMR400. - MECHANICAL FAILURE in the Elevation Unit.  Off line for Testing Right now 06/13/18",
-    "last_seen": "2018-06-19T17:21:12Z",
-    "id": 25,
-    "location": ""
-  },
-  {
-    "altitude": 208,
-    "created": "2017-11-20T05:59:48Z",
-    "min_horizon": 10,
-    "name": "SV1QZZ - UHF #2",
-    "status": "Testing",
-    "observations": 6747,
-    "lng": 23.828,
-    "lat": 38.022,
-    "qthlocator": "KM18va",
-    "antenna": [
-      "UHF Lindenblad"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:25Z",
-    "id": 32,
-    "location": ""
-  },
-  {
-    "altitude": 43,
-    "created": "2018-03-26T21:56:09Z",
-    "min_horizon": 20,
-    "name": "IntimelyEights-vhf",
-    "status": "Testing",
-    "observations": 333,
-    "lng": -71.297,
-    "lat": 42.291,
-    "qthlocator": "FN42ig",
-    "antenna": [
-      "VHF Lindenblad"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:42Z",
-    "id": 54,
-    "location": ""
-  },
-  {
-    "altitude": 46,
-    "created": "2018-03-26T22:05:17Z",
-    "min_horizon": 20,
-    "name": "IntimelyEights-uhf",
-    "status": "Testing",
-    "observations": 33,
-    "lng": -71.297,
-    "lat": 42.291,
-    "qthlocator": "FN42ig",
-    "antenna": [
-      "UHF Lindenblad"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:44Z",
-    "id": 55,
-    "location": ""
-  },
-  {
-    "altitude": 80,
-    "created": "2018-03-28T16:05:40Z",
-    "min_horizon": 10,
-    "name": "Selinia",
-    "status": "Testing",
-    "observations": 56,
-    "lng": 23.528,
-    "lat": 37.931,
-    "qthlocator": "KM17sw",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:45Z",
-    "id": 57,
-    "location": ""
-  },
-  {
-    "altitude": 49,
-    "created": "2018-03-28T19:11:06Z",
-    "min_horizon": 10,
-    "name": "Aardvark Station #1",
-    "status": "Testing",
-    "observations": 75,
-    "lng": -122.91,
-    "lat": 49.217,
-    "qthlocator": "CN89nf",
-    "antenna": [
-      "HF Dipole"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:17Z",
-    "id": 59,
-    "location": ""
-  },
-  {
-    "altitude": 7,
-    "created": "2018-04-01T09:54:14Z",
-    "min_horizon": 10,
-    "name": "QG62",
-    "status": "Testing",
-    "observations": 90,
-    "lng": 153.3152,
-    "lat": -27.8635,
-    "qthlocator": "QG62pd",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:50Z",
-    "id": 65,
-    "location": ""
-  },
-  {
-    "altitude": 119,
-    "created": "2018-04-01T15:34:52Z",
-    "min_horizon": 15,
-    "name": "Massena",
-    "status": "Testing",
-    "observations": 377,
-    "lng": 3.929062,
-    "lat": 43.641937,
-    "qthlocator": "JN13xp",
+    "altitude": 150,
+    "created": "2016-01-17T19:28:26Z",
+    "min_horizon": 25,
+    "name": "Apomahon",
+    "status": "Online",
+    "observations": 12522,
+    "lng": 23.739312,
+    "lat": 38.048444,
+    "qthlocator": "KM18ub",
     "antenna": [
       "UHF Helical",
-      "UHF Eggbeater"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:05Z",
-    "id": 67,
-    "location": ""
-  },
-  {
-    "altitude": 1034,
-    "created": "2018-04-01T20:09:30Z",
-    "min_horizon": 10,
-    "name": "stoffl",
-    "status": "Testing",
-    "observations": 24,
-    "lng": 9.900062,
-    "lat": 47.094166,
-    "qthlocator": "JN47wc",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:41Z",
-    "id": 68,
-    "location": ""
-  },
-  {
-    "altitude": 8,
-    "created": "2018-04-05T13:35:42Z",
-    "min_horizon": 10,
-    "name": "Rokantiskes",
-    "status": "Testing",
-    "observations": 42,
-    "lng": 25.379382,
-    "lat": 54.705693,
-    "qthlocator": "KO24qq",
-    "antenna": [
-      "HF Dipole"
-    ],
-    "description": "Third attempt.",
-    "last_seen": "2018-06-19T17:21:03Z",
-    "id": 72,
-    "location": ""
-  },
-  {
-    "altitude": 5,
-    "created": "2018-04-11T09:40:19Z",
-    "min_horizon": 10,
-    "name": "YO3GCF-VHF-1",
-    "status": "Testing",
-    "observations": 41,
-    "lng": 26.1241,
-    "lat": 44.6257,
-    "qthlocator": "KN34bp",
-    "antenna": [
-      "VHF Lindenblad"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:35Z",
-    "id": 83,
-    "location": ""
-  },
-  {
-    "altitude": 120,
-    "created": "2018-04-14T14:10:06Z",
-    "min_horizon": 10,
-    "name": "Victoria and Albert Museum",
-    "status": "Testing",
-    "observations": 23,
-    "lng": -0.17218,
-    "lat": 51.4966392,
-    "qthlocator": "IO91vl",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:13Z",
-    "id": 86,
-    "location": ""
-  },
-  {
-    "altitude": 30,
-    "created": "2018-04-15T13:55:20Z",
-    "min_horizon": 20,
-    "name": "M0IEB",
-    "status": "Testing",
-    "observations": 546,
-    "lng": -0.558,
-    "lat": 51.245,
-    "qthlocator": "IO91rf",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "15.04.2018, Testing software with temporary home rig location, 23.04.2018, Home rig set, added LNA and filter for 145M band. Enjoy! 26.04.2018, Rig won't get 137M, 07.05.2018, Updated to 0.6.1.",
-    "last_seen": "2018-06-19T17:21:16Z",
-    "id": 87,
-    "location": ""
-  },
-  {
-    "altitude": 180,
-    "created": "2018-04-25T18:22:34Z",
-    "min_horizon": 10,
-    "name": "APN01",
-    "status": "Testing",
-    "observations": 60,
-    "lng": -83.45755,
-    "lat": 45.05265,
-    "qthlocator": "EN85gb",
-    "antenna": [
-      "HF Dipole"
-    ],
-    "description": "2018/04/25 - Testing initial configuration.",
-    "last_seen": "2018-06-19T17:21:09Z",
-    "id": 92,
-    "location": ""
-  },
-  {
-    "altitude": 710,
-    "created": "2018-04-27T08:51:53Z",
-    "min_horizon": 5,
-    "name": "GS UVA",
-    "status": "Testing",
-    "observations": 120,
-    "lng": -4.7055,
-    "lat": 41.6621,
-    "qthlocator": "IN71pp",
-    "antenna": [
-      "UHF Yagi"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:18Z",
-    "id": 93,
-    "location": ""
-  },
-  {
-    "altitude": 16,
-    "created": "2018-05-16T15:32:16Z",
-    "min_horizon": 20,
-    "name": "KU2Y",
-    "status": "Testing",
-    "observations": 261,
-    "lng": -75.0497,
-    "lat": 39.9105,
-    "qthlocator": "FM29lv",
-    "antenna": [
-      "VHF Eggbeater"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:16Z",
-    "id": 105,
-    "location": ""
-  },
-  {
-    "altitude": 12,
-    "created": "2018-05-26T12:22:22Z",
-    "min_horizon": 30,
-    "name": "Lacuna1",
-    "status": "Testing",
-    "observations": 148,
-    "lng": 5.1797,
-    "lat": 52.102,
-    "qthlocator": "JO22oc",
-    "antenna": [
-      "UHF Eggbeater"
-    ],
-    "description": "Antenna is is not at final position yet.",
-    "last_seen": "2018-06-19T17:21:19Z",
-    "id": 111,
-    "location": ""
-  },
-  {
-    "altitude": 100,
-    "created": "2018-05-27T11:04:54Z",
-    "min_horizon": 25,
-    "name": "WA4OSH",
-    "status": "Testing",
-    "observations": 3,
-    "lng": -121.7843942,
-    "lat": 47.4913509,
-    "qthlocator": "CN97cl",
-    "antenna": [
-      "VHF Turnstile"
-    ],
-    "description": "Under construction:\r\n2 Meter Turnstile antenna - LNA - Bias Tee - RTL-SDR - Raspberry Pi",
-    "last_seen": "2018-06-19T17:21:25Z",
-    "id": 113,
-    "location": ""
-  },
-  {
-    "altitude": 10,
-    "created": "2018-05-28T17:19:25Z",
-    "min_horizon": 10,
-    "name": "Tester1",
-    "status": "Testing",
-    "observations": 12,
-    "lng": -71.123,
-    "lat": 42.4140158,
-    "qthlocator": "FN42kj",
-    "antenna": [
-      "HF Dipole"
-    ],
-    "description": "A test station",
-    "last_seen": "2018-06-19T17:21:57Z",
-    "id": 115,
-    "location": ""
-  },
-  {
-    "altitude": 255,
-    "created": "2018-05-29T15:27:04Z",
-    "min_horizon": 10,
-    "name": "Hummingbird",
-    "status": "Testing",
-    "observations": 40,
-    "lng": -83.999431,
-    "lat": 39.7909343,
-    "qthlocator": "EM89as",
-    "antenna": [
-      "UHF Yagi",
-      "VHF Yagi",
       "VHF Yagi"
     ],
-    "description": "Testing Process.",
-    "last_seen": "2018-06-19T17:21:11Z",
-    "id": 121,
+    "description": "G5500 rotator with SatNOGS g5500 rotator controller, USRP B200mini, Wimo X-Quad VHF and SatNOGS Helical 438-2 UHF",
+    "last_seen": "2018-06-19T17:21:48Z",
+    "id": 6,
     "location": ""
   },
   {
-    "altitude": 220,
-    "created": "2018-06-04T18:18:52Z",
-    "min_horizon": 5,
-    "name": "Hvezdarna barona Artura Krause",
-    "status": "Testing",
-    "observations": 70,
-    "lng": 15.767,
-    "lat": 50.0255,
-    "qthlocator": "JO70va",
-    "antenna": [
-      "VHF Quadrafilar"
-    ],
-    "description": "",
-    "last_seen": "2018-06-19T17:21:33Z",
-    "id": 126,
-    "location": ""
-  },
-  {
-    "altitude": 0,
-    "created": "2018-06-12T17:01:48Z",
-    "min_horizon": 15,
-    "name": "The Best Station",
-    "status": "Testing",
-    "observations": 22,
-    "lng": -71.09478,
-    "lat": 42.366062,
-    "qthlocator": "FN42ki",
-    "antenna": [
-      "HF Dipole"
-    ],
-    "description": "Tufts Station",
-    "last_seen": "2018-06-19T16:47:07Z",
-    "id": 135,
-    "location": ""
-  },
-  {
-    "altitude": 40,
-    "created": "2018-06-19T10:13:07Z",
-    "min_horizon": 10,
-    "name": "DF0HSA",
-    "status": "Testing",
-    "observations": 5,
-    "lng": 10.904797,
-    "lat": 48.354816,
-    "qthlocator": "JN58ki",
+    "altitude": 65,
+    "created": "2017-05-04T20:21:09Z",
+    "min_horizon": 25,
+    "name": "Stony",
+    "status": "Online",
+    "observations": 6939,
+    "lng": 23.71394,
+    "lat": 37.97034,
+    "qthlocator": "KM17ux",
     "antenna": [
       "VHF Turnstile"
     ],
     "description": "",
-    "last_seen": "2018-06-19T17:21:58Z",
-    "id": 140,
+    "last_seen": "2018-06-19T17:21:19Z",
+    "id": 7,
     "location": ""
   },
   {
@@ -1149,6 +185,42 @@
     "location": ""
   },
   {
+    "altitude": 67,
+    "created": "2017-06-02T14:29:33Z",
+    "min_horizon": 0,
+    "name": "W2BFJ",
+    "status": "Online",
+    "observations": 5507,
+    "lng": -71.538,
+    "lat": 42.744,
+    "qthlocator": "FN42fr",
+    "antenna": [
+      "VHF Lindenblad"
+    ],
+    "description": "NOTE: During AO-92 commissioning, the UHF station is down, and the VHF is a crossed Yagi tracking AO-85, AO-91, and AO-92",
+    "last_seen": "2018-06-19T17:21:25Z",
+    "id": 12,
+    "location": ""
+  },
+  {
+    "altitude": 48,
+    "created": "2017-06-10T22:12:33Z",
+    "min_horizon": 15,
+    "name": "OZ9AEC-VHF1",
+    "status": "Online",
+    "observations": 7992,
+    "lng": 11.74,
+    "lat": 55.51,
+    "qthlocator": "JO55um",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "Airspy One connected to Up-board running Ubuntu server 16.04.",
+    "last_seen": "2018-06-19T17:21:34Z",
+    "id": 13,
+    "location": ""
+  },
+  {
     "altitude": 80,
     "created": "2017-06-17T16:46:08Z",
     "min_horizon": 10,
@@ -1164,6 +236,42 @@
     "description": "",
     "last_seen": "2017-10-03T14:11:50Z",
     "id": 14,
+    "location": ""
+  },
+  {
+    "altitude": 8,
+    "created": "2017-07-13T12:38:23Z",
+    "min_horizon": 20,
+    "name": "VK5QI-2M",
+    "status": "Online",
+    "observations": 7427,
+    "lng": 138.6949,
+    "lat": -34.8463,
+    "qthlocator": "PF95id",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:53Z",
+    "id": 15,
+    "location": ""
+  },
+  {
+    "altitude": 5,
+    "created": "2017-07-15T12:59:11Z",
+    "min_horizon": 30,
+    "name": "VK5QI-70CM",
+    "status": "Online",
+    "observations": 8919,
+    "lng": 138.6928,
+    "lat": -34.721,
+    "qthlocator": "PF95ig",
+    "antenna": [
+      "UHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:16Z",
+    "id": 16,
     "location": ""
   },
   {
@@ -1203,6 +311,97 @@
     "location": ""
   },
   {
+    "altitude": 45,
+    "created": "2017-09-30T14:16:08Z",
+    "min_horizon": 20,
+    "name": "Avia",
+    "status": "Online",
+    "observations": 7295,
+    "lng": 22.14489,
+    "lat": 36.96089,
+    "qthlocator": "KM16bx",
+    "antenna": [
+      "UHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:31Z",
+    "id": 21,
+    "location": ""
+  },
+  {
+    "altitude": 229,
+    "created": "2017-10-08T21:10:41Z",
+    "min_horizon": 45,
+    "name": "Ferns-1",
+    "status": "Online",
+    "observations": 5259,
+    "lng": -87.97,
+    "lat": 43.28,
+    "qthlocator": "EN63ag",
+    "antenna": [
+      "VHF Quadrafilar"
+    ],
+    "description": "Home made QFH antenna, FM band block. Not in a good location, trees on north and houses on south side blocking lot of signals",
+    "last_seen": "2018-06-19T17:21:33Z",
+    "id": 22,
+    "location": ""
+  },
+  {
+    "altitude": 6,
+    "created": "2017-10-09T01:56:32Z",
+    "min_horizon": 4,
+    "name": "Zath-VHF",
+    "status": "Online",
+    "observations": 5533,
+    "lng": 115.988,
+    "lat": -32.066,
+    "qthlocator": "OF77xw",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "RPi 3, RTL-SDR v3, Mini-Kits 144-148MHz preamp,  Stanislav Palo VHF turnstile",
+    "last_seen": "2018-06-19T17:21:38Z",
+    "id": 23,
+    "location": ""
+  },
+  {
+    "altitude": 6,
+    "created": "2017-10-09T01:59:47Z",
+    "min_horizon": 4,
+    "name": "Zath-UHF",
+    "status": "Online",
+    "observations": 6199,
+    "lng": 115.988,
+    "lat": -32.066,
+    "qthlocator": "OF77xw",
+    "antenna": [
+      "UHF Turnstile"
+    ],
+    "description": "RPi 3, RTL-SDR v3, Mini-Kits 430MHz preamp,  Stanislav Palo UHF turnstile",
+    "last_seen": "2018-06-19T17:21:18Z",
+    "id": 24,
+    "location": ""
+  },
+  {
+    "altitude": 50,
+    "created": "2017-10-10T01:49:27Z",
+    "min_horizon": 15,
+    "name": "N7IPY",
+    "status": "Testing",
+    "observations": 1767,
+    "lng": -121.29,
+    "lat": 38.7708,
+    "qthlocator": "CM98is",
+    "antenna": [
+      "UHF Yagi",
+      "VHF Yagi"
+    ],
+    "description": "This Ground Station Operated from a Raspberry Pi-3B  and an RTLSDR dongle.  The Antennas are both from M2 Antennas.  The Rotor System is provided by Portable Rotation.  The property is on a decline and the antenna location is south of the main house, so signals are blocked to 30 degrees to the North.  Currently there is a pre-Amp on the feed line at the antenna location.  The feedline is 50 Feet of LMR400. - MECHANICAL FAILURE in the Elevation Unit.  Off line for Testing Right now 06/13/18",
+    "last_seen": "2018-06-19T17:21:12Z",
+    "id": 25,
+    "location": ""
+  },
+  {
     "altitude": 145,
     "created": "2017-10-11T21:19:49Z",
     "min_horizon": 10,
@@ -1219,6 +418,96 @@
     "description": "",
     "last_seen": null,
     "id": 26,
+    "location": ""
+  },
+  {
+    "altitude": 634,
+    "created": "2017-10-11T22:13:35Z",
+    "min_horizon": 15,
+    "name": "NB3T - VHF",
+    "status": "Online",
+    "observations": 2677,
+    "lng": -80.489,
+    "lat": 37.194,
+    "qthlocator": "EM97se",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "Turnstile Antenna, LNA4ALL, NooElec NESDR SMArt",
+    "last_seen": "2018-06-19T17:21:04Z",
+    "id": 27,
+    "location": ""
+  },
+  {
+    "altitude": 634,
+    "created": "2017-10-11T22:17:21Z",
+    "min_horizon": 15,
+    "name": "NB3T - UHF",
+    "status": "Online",
+    "observations": 2778,
+    "lng": -80.489,
+    "lat": 37.194,
+    "qthlocator": "EM97se",
+    "antenna": [
+      "UHF Turnstile"
+    ],
+    "description": "Turnstile Antenna, LNA4ALL, NooElec NESDR SMArt",
+    "last_seen": "2018-06-19T17:21:11Z",
+    "id": 28,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2017-10-31T22:42:22Z",
+    "min_horizon": 30,
+    "name": "GI7UGV - UHF",
+    "status": "Online",
+    "observations": 6769,
+    "lng": -5.713397,
+    "lat": 54.594049,
+    "qthlocator": "IO74do",
+    "antenna": [
+      "UHF Helical"
+    ],
+    "description": "QFH, Preamp/Filter, RTLSDR. Noisy environment.",
+    "last_seen": "2018-06-19T17:21:33Z",
+    "id": 31,
+    "location": ""
+  },
+  {
+    "altitude": 208,
+    "created": "2017-11-20T05:59:48Z",
+    "min_horizon": 10,
+    "name": "SV1QZZ - UHF #2",
+    "status": "Testing",
+    "observations": 6747,
+    "lng": 23.828,
+    "lat": 38.022,
+    "qthlocator": "KM18va",
+    "antenna": [
+      "UHF Lindenblad"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:25Z",
+    "id": 32,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2017-11-26T17:50:54Z",
+    "min_horizon": 30,
+    "name": "G7KSE",
+    "status": "Online",
+    "observations": 4430,
+    "lng": -3.588,
+    "lat": 54.488,
+    "qthlocator": "IO84el",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "No rotator RPi with NooElec SMArt dongle and a Wimo TA-1 turnstile antenna loft mounted",
+    "last_seen": "2018-06-19T17:21:21Z",
+    "id": 33,
     "location": ""
   },
   {
@@ -1241,6 +530,26 @@
     "location": ""
   },
   {
+    "altitude": 50,
+    "created": "2017-12-16T17:30:41Z",
+    "min_horizon": 5,
+    "name": "LA1NGS",
+    "status": "Online",
+    "observations": 6338,
+    "lng": 10.39957,
+    "lat": 63.41817,
+    "qthlocator": "JP53ek",
+    "antenna": [
+      "VHF Turnstile",
+      "UHF Turnstile",
+      "VHF Helical"
+    ],
+    "description": "Orbit NTNU Ground Station (prev. NTNU Test Satellite) --- Specs: Fedora Linux (headless), x86_64 desktop computer, USRP2 SDR, 2m & 70cm crossed Yagi-Uda beams (RHCP/LHCP) on Az+El rotator. --- Contact: nutsgroup-gs [[funky-a]] nutsgroup [[dot]] org [[dot]] ntnu [[dot]] no",
+    "last_seen": "2018-06-19T17:21:32Z",
+    "id": 35,
+    "location": ""
+  },
+  {
     "altitude": 1641,
     "created": "2017-12-27T19:36:08Z",
     "min_horizon": 5,
@@ -1257,6 +566,43 @@
     "description": "offsite location in the alps with low noise, operating with pstrotator hamlib interface",
     "last_seen": "2018-06-17T10:22:36Z",
     "id": 36,
+    "location": ""
+  },
+  {
+    "altitude": 275,
+    "created": "2018-01-06T10:04:16Z",
+    "min_horizon": 1,
+    "name": "DL4PD",
+    "status": "Online",
+    "observations": 5058,
+    "lng": 6.216089,
+    "lat": 50.749782,
+    "qthlocator": "JO30cr",
+    "antenna": [
+      "UHF Yagi",
+      "VHF Yagi"
+    ],
+    "description": "Please use the DUV transmitter for AMSAT-FOX satellites!",
+    "last_seen": "2018-06-19T17:21:51Z",
+    "id": 37,
+    "location": ""
+  },
+  {
+    "altitude": 5,
+    "created": "2018-03-04T10:32:23Z",
+    "min_horizon": 10,
+    "name": "Technikraum Lanzenhäusern",
+    "status": "Online",
+    "observations": 1871,
+    "lng": 7.35009,
+    "lat": 46.83592,
+    "qthlocator": "JN36qu",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:35Z",
+    "id": 38,
     "location": ""
   },
   {
@@ -1296,6 +642,24 @@
     "location": ""
   },
   {
+    "altitude": 189,
+    "created": "2018-03-10T23:43:21Z",
+    "min_horizon": 10,
+    "name": "Chicago1",
+    "status": "Online",
+    "observations": 1388,
+    "lng": -87.64,
+    "lat": 41.84,
+    "qthlocator": "EN61eu",
+    "antenna": [
+      "HF Dipole"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:04Z",
+    "id": 41,
+    "location": ""
+  },
+  {
     "altitude": 100,
     "created": "2018-03-11T07:32:10Z",
     "min_horizon": 10,
@@ -1312,6 +676,24 @@
     "description": "",
     "last_seen": "2018-05-08T11:43:13Z",
     "id": 42,
+    "location": ""
+  },
+  {
+    "altitude": 350,
+    "created": "2018-03-11T18:25:37Z",
+    "min_horizon": 20,
+    "name": "Grenoble - F4HVX",
+    "status": "Online",
+    "observations": 1279,
+    "lng": 5.6080818,
+    "lat": 45.2676834,
+    "qthlocator": "JN25tg",
+    "antenna": [
+      "UHF Yagi"
+    ],
+    "description": "RTLSDR V3 + DIY UHF Yagi OR  DIY VHF Yagi + DIY rotator ( https://wiki.satnogs.org/Metal_antenna_rotator ) + \r\n[Big mountain on west]",
+    "last_seen": "2018-06-19T17:21:40Z",
+    "id": 43,
     "location": ""
   },
   {
@@ -1369,6 +751,25 @@
     "location": ""
   },
   {
+    "altitude": 470,
+    "created": "2018-03-22T12:04:12Z",
+    "min_horizon": 4,
+    "name": "DB0RV",
+    "status": "Online",
+    "observations": 2158,
+    "lng": 9.633,
+    "lat": 47.8067,
+    "qthlocator": "JN47tt",
+    "antenna": [
+      "VHF Turnstile",
+      "UHF Turnstile"
+    ],
+    "description": "DB0RV SatNOGS client",
+    "last_seen": "2018-06-19T17:21:22Z",
+    "id": 47,
+    "location": ""
+  },
+  {
     "altitude": 655,
     "created": "2018-03-22T15:19:32Z",
     "min_horizon": 5,
@@ -1387,6 +788,25 @@
     "description": "",
     "last_seen": "2018-04-25T14:22:00Z",
     "id": 48,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2018-03-24T01:06:46Z",
+    "min_horizon": 10,
+    "name": "OZ7SAT",
+    "status": "Online",
+    "observations": 1959,
+    "lng": 12.601,
+    "lat": 55.634,
+    "qthlocator": "JO65hp",
+    "antenna": [
+      "UHF Yagi",
+      "VHF Yagi"
+    ],
+    "description": "AMSAT OZ ground station. Wimo VHF/UHF X-Quads with preamp and bandpass filters. Yaesu G-5500 rotator with G6LVB computer interface. Airspy One connected to PC (AMD Athlon II X4 620) running Ubuntu server 16.04.",
+    "last_seen": "2018-06-19T17:21:29Z",
+    "id": 49,
     "location": ""
   },
   {
@@ -1462,6 +882,114 @@
     "location": ""
   },
   {
+    "altitude": 43,
+    "created": "2018-03-26T21:56:09Z",
+    "min_horizon": 20,
+    "name": "IntimelyEights-vhf",
+    "status": "Testing",
+    "observations": 333,
+    "lng": -71.297,
+    "lat": 42.291,
+    "qthlocator": "FN42ig",
+    "antenna": [
+      "VHF Lindenblad"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:42Z",
+    "id": 54,
+    "location": ""
+  },
+  {
+    "altitude": 46,
+    "created": "2018-03-26T22:05:17Z",
+    "min_horizon": 20,
+    "name": "IntimelyEights-uhf",
+    "status": "Testing",
+    "observations": 33,
+    "lng": -71.297,
+    "lat": 42.291,
+    "qthlocator": "FN42ig",
+    "antenna": [
+      "UHF Lindenblad"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:44Z",
+    "id": 55,
+    "location": ""
+  },
+  {
+    "altitude": 45,
+    "created": "2018-03-28T09:38:34Z",
+    "min_horizon": 10,
+    "name": "ZL4VBJ",
+    "status": "Online",
+    "observations": 1245,
+    "lng": 168.333,
+    "lat": -46.2128,
+    "qthlocator": "RE43ds",
+    "antenna": [
+      "VHF Quadrafilar"
+    ],
+    "description": "QFH Antenna",
+    "last_seen": "2018-06-19T17:21:45Z",
+    "id": 56,
+    "location": ""
+  },
+  {
+    "altitude": 80,
+    "created": "2018-03-28T16:05:40Z",
+    "min_horizon": 10,
+    "name": "Selinia",
+    "status": "Testing",
+    "observations": 56,
+    "lng": 23.528,
+    "lat": 37.931,
+    "qthlocator": "KM17sw",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:45Z",
+    "id": 57,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2018-03-28T19:10:41Z",
+    "min_horizon": 10,
+    "name": "SR1GEO_RACK01",
+    "status": "Online",
+    "observations": 1585,
+    "lng": 15.05798,
+    "lat": 53.340457,
+    "qthlocator": "JO73mi",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "Some problems with DNR, should work as expected.\r\n \r\nThis prod stations belongs to SR1GEO groundstation. It is a 1U rack SatNOGS receiver.",
+    "last_seen": "2018-06-19T17:21:56Z",
+    "id": 58,
+    "location": ""
+  },
+  {
+    "altitude": 49,
+    "created": "2018-03-28T19:11:06Z",
+    "min_horizon": 10,
+    "name": "Aardvark Station #1",
+    "status": "Testing",
+    "observations": 75,
+    "lng": -122.91,
+    "lat": 49.217,
+    "qthlocator": "CN89nf",
+    "antenna": [
+      "HF Dipole"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:17Z",
+    "id": 59,
+    "location": ""
+  },
+  {
     "altitude": 3,
     "created": "2018-03-29T08:47:28Z",
     "min_horizon": 10,
@@ -1500,6 +1028,24 @@
     "location": ""
   },
   {
+    "altitude": 1499,
+    "created": "2018-03-30T18:05:48Z",
+    "min_horizon": 10,
+    "name": "ZR6TG Sat Ground Station (VHF)",
+    "status": "Online",
+    "observations": 1144,
+    "lng": 27.834,
+    "lat": -26.709,
+    "qthlocator": "KG33wg",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:24Z",
+    "id": 62,
+    "location": ""
+  },
+  {
     "altitude": 117,
     "created": "2018-03-30T18:34:41Z",
     "min_horizon": 15,
@@ -1533,6 +1079,79 @@
     "description": "",
     "last_seen": null,
     "id": 64,
+    "location": ""
+  },
+  {
+    "altitude": 7,
+    "created": "2018-04-01T09:54:14Z",
+    "min_horizon": 10,
+    "name": "QG62",
+    "status": "Testing",
+    "observations": 90,
+    "lng": 153.3152,
+    "lat": -27.8635,
+    "qthlocator": "QG62pd",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:50Z",
+    "id": 65,
+    "location": ""
+  },
+  {
+    "altitude": 275,
+    "created": "2018-04-01T12:36:31Z",
+    "min_horizon": 5,
+    "name": "KE8FZT - UHF",
+    "status": "Online",
+    "observations": 1192,
+    "lng": -85.6075,
+    "lat": 42.209,
+    "qthlocator": "EN72ef",
+    "antenna": [
+      "UHF Yagi"
+    ],
+    "description": "Arrow UHF Corner Reflector, Fixed 20 Deg Elevation & Pointed 180 Deg South,  AMSAT LNA,, MFJ Duplexer, \r\n Raspberry Pi3b",
+    "last_seen": "2018-06-19T17:21:57Z",
+    "id": 66,
+    "location": ""
+  },
+  {
+    "altitude": 119,
+    "created": "2018-04-01T15:34:52Z",
+    "min_horizon": 15,
+    "name": "Massena",
+    "status": "Testing",
+    "observations": 377,
+    "lng": 3.929062,
+    "lat": 43.641937,
+    "qthlocator": "JN13xp",
+    "antenna": [
+      "UHF Helical",
+      "UHF Eggbeater"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:05Z",
+    "id": 67,
+    "location": ""
+  },
+  {
+    "altitude": 1034,
+    "created": "2018-04-01T20:09:30Z",
+    "min_horizon": 10,
+    "name": "stoffl",
+    "status": "Testing",
+    "observations": 24,
+    "lng": 9.900062,
+    "lat": 47.094166,
+    "qthlocator": "JN47wc",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:41Z",
+    "id": 68,
     "location": ""
   },
   {
@@ -1587,6 +1206,24 @@
     "description": "UHF Helical and Cir Pol VHF",
     "last_seen": null,
     "id": 71,
+    "location": ""
+  },
+  {
+    "altitude": 8,
+    "created": "2018-04-05T13:35:42Z",
+    "min_horizon": 10,
+    "name": "Rokantiskes",
+    "status": "Testing",
+    "observations": 42,
+    "lng": 25.379382,
+    "lat": 54.705693,
+    "qthlocator": "KO24qq",
+    "antenna": [
+      "HF Dipole"
+    ],
+    "description": "Third attempt.",
+    "last_seen": "2018-06-19T17:21:03Z",
+    "id": 72,
     "location": ""
   },
   {
@@ -1774,6 +1411,24 @@
     "location": ""
   },
   {
+    "altitude": 5,
+    "created": "2018-04-11T09:40:19Z",
+    "min_horizon": 10,
+    "name": "YO3GCF-VHF-1",
+    "status": "Testing",
+    "observations": 41,
+    "lng": 26.1241,
+    "lat": 44.6257,
+    "qthlocator": "KN34bp",
+    "antenna": [
+      "VHF Lindenblad"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:35Z",
+    "id": 83,
+    "location": ""
+  },
+  {
     "altitude": 661,
     "created": "2018-04-12T21:16:50Z",
     "min_horizon": 10,
@@ -1807,6 +1462,42 @@
     "description": "",
     "last_seen": "2018-06-09T10:21:30Z",
     "id": 85,
+    "location": ""
+  },
+  {
+    "altitude": 120,
+    "created": "2018-04-14T14:10:06Z",
+    "min_horizon": 10,
+    "name": "Victoria and Albert Museum",
+    "status": "Testing",
+    "observations": 23,
+    "lng": -0.17218,
+    "lat": 51.4966392,
+    "qthlocator": "IO91vl",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:13Z",
+    "id": 86,
+    "location": ""
+  },
+  {
+    "altitude": 30,
+    "created": "2018-04-15T13:55:20Z",
+    "min_horizon": 20,
+    "name": "M0IEB",
+    "status": "Testing",
+    "observations": 546,
+    "lng": -0.558,
+    "lat": 51.245,
+    "qthlocator": "IO91rf",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "15.04.2018, Testing software with temporary home rig location, 23.04.2018, Home rig set, added LNA and filter for 145M band. Enjoy! 26.04.2018, Rig won't get 137M, 07.05.2018, Updated to 0.6.1.",
+    "last_seen": "2018-06-19T17:21:16Z",
+    "id": 87,
     "location": ""
   },
   {
@@ -1864,6 +1555,60 @@
     "location": ""
   },
   {
+    "altitude": 60,
+    "created": "2018-04-24T07:39:25Z",
+    "min_horizon": 20,
+    "name": "VHF QFH Minikits LNA RTL-SDR",
+    "status": "Online",
+    "observations": 1521,
+    "lng": -2.02,
+    "lat": 50.77,
+    "qthlocator": "IO80xs",
+    "antenna": [
+      "VHF Quadrafilar"
+    ],
+    "description": "Timestep Stainless Steel QFH + LNA",
+    "last_seen": "2018-06-19T17:21:19Z",
+    "id": 91,
+    "location": ""
+  },
+  {
+    "altitude": 180,
+    "created": "2018-04-25T18:22:34Z",
+    "min_horizon": 10,
+    "name": "APN01",
+    "status": "Testing",
+    "observations": 60,
+    "lng": -83.45755,
+    "lat": 45.05265,
+    "qthlocator": "EN85gb",
+    "antenna": [
+      "HF Dipole"
+    ],
+    "description": "2018/04/25 - Testing initial configuration.",
+    "last_seen": "2018-06-19T17:21:09Z",
+    "id": 92,
+    "location": ""
+  },
+  {
+    "altitude": 710,
+    "created": "2018-04-27T08:51:53Z",
+    "min_horizon": 5,
+    "name": "GS UVA",
+    "status": "Testing",
+    "observations": 120,
+    "lng": -4.7055,
+    "lat": 41.6621,
+    "qthlocator": "IN71pp",
+    "antenna": [
+      "UHF Yagi"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:18Z",
+    "id": 93,
+    "location": ""
+  },
+  {
     "altitude": 6,
     "created": "2018-04-28T01:11:24Z",
     "min_horizon": 10,
@@ -1897,6 +1642,60 @@
     "description": "Pi3/RTL-SDR based ground station",
     "last_seen": "2018-05-07T11:04:19Z",
     "id": 95,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2018-04-28T11:51:34Z",
+    "min_horizon": 10,
+    "name": "sam210723 VHF",
+    "status": "Online",
+    "observations": 355,
+    "lng": 151.33,
+    "lat": -33.62,
+    "qthlocator": "QF56pj",
+    "antenna": [
+      "VHF Quadrafilar"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:52Z",
+    "id": 96,
+    "location": ""
+  },
+  {
+    "altitude": 612,
+    "created": "2018-05-01T18:32:58Z",
+    "min_horizon": 10,
+    "name": "RIYADH1",
+    "status": "Online",
+    "observations": 984,
+    "lng": 46.7083,
+    "lat": 24.7708,
+    "qthlocator": "LL34is",
+    "antenna": [
+      "UHF Turnstile"
+    ],
+    "description": "Actually a UHF QFH without balun, UHF LNA, 20m of PCTEL PFP400 RF cable with RTL-SDR with TCXO on Rpi2. Some big palms trees to the South",
+    "last_seen": "2018-06-19T17:21:42Z",
+    "id": 97,
+    "location": ""
+  },
+  {
+    "altitude": 62,
+    "created": "2018-05-03T19:28:09Z",
+    "min_horizon": 20,
+    "name": "Grove-UHF-01",
+    "status": "Online",
+    "observations": 546,
+    "lng": -71.44789,
+    "lat": 42.31404,
+    "qthlocator": "FN42gh",
+    "antenna": [
+      "UHF Lindenblad"
+    ],
+    "description": "Running on a Raspberry Pi 3 B+. with Airspy.   Sample rate was reduced to 2.5E6 and automatic decoding began on June 8, 2018.   Raspberry Pi was not able to ingest all data from Airspy at default sample rate of 10E6.  investigating USB isolation techniques to limit EMI from R Pi into Airspy",
+    "last_seen": "2018-06-19T17:21:25Z",
+    "id": 98,
     "location": ""
   },
   {
@@ -1936,6 +1735,42 @@
     "location": ""
   },
   {
+    "altitude": 110,
+    "created": "2018-05-07T19:36:42Z",
+    "min_horizon": 10,
+    "name": "Marcs",
+    "status": "Online",
+    "observations": 611,
+    "lng": 2.231068,
+    "lat": 48.64358,
+    "qthlocator": "JN18cp",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "DIY VHF Turnstile + FM BC block filter + preamp.\r\nHave a high horizon (min 45deg) on the north-east, do not select\r\ntoo low satellites in this direction.",
+    "last_seen": "2018-06-19T17:21:50Z",
+    "id": 101,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2018-05-09T19:58:52Z",
+    "min_horizon": 10,
+    "name": "PA3RVG VHF Moxon",
+    "status": "Online",
+    "observations": 519,
+    "lng": 5.5584172,
+    "lat": 51.4719052,
+    "qthlocator": "JO21sl",
+    "antenna": [
+      "VHF Yagi"
+    ],
+    "description": "Double VHF Moxon antenna mounted at fixed elevation of 20 degrees. Currently also at fixed azimuth pointing north, since the rotator is not computer controlled yet. Only one of the two moxons is currently connected, so fading is expected. I will add a phasing/delay harness for circular polarization later. During day time there is interference from my solar panels. Using Odroid U3 and Airspy Mini.",
+    "last_seen": "2018-06-19T17:21:43Z",
+    "id": 102,
+    "location": ""
+  },
+  {
     "altitude": 65,
     "created": "2018-05-12T11:22:14Z",
     "min_horizon": 10,
@@ -1967,6 +1802,24 @@
     "description": "",
     "last_seen": "2018-06-07T06:17:50Z",
     "id": 104,
+    "location": ""
+  },
+  {
+    "altitude": 16,
+    "created": "2018-05-16T15:32:16Z",
+    "min_horizon": 20,
+    "name": "KU2Y",
+    "status": "Testing",
+    "observations": 261,
+    "lng": -75.0497,
+    "lat": 39.9105,
+    "qthlocator": "FM29lv",
+    "antenna": [
+      "VHF Eggbeater"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:16Z",
+    "id": 105,
     "location": ""
   },
   {
@@ -2063,6 +1916,24 @@
   },
   {
     "altitude": 12,
+    "created": "2018-05-26T12:22:22Z",
+    "min_horizon": 30,
+    "name": "Lacuna1",
+    "status": "Testing",
+    "observations": 148,
+    "lng": 5.1797,
+    "lat": 52.102,
+    "qthlocator": "JO22oc",
+    "antenna": [
+      "UHF Eggbeater"
+    ],
+    "description": "Antenna is is not at final position yet.",
+    "last_seen": "2018-06-19T17:21:19Z",
+    "id": 111,
+    "location": ""
+  },
+  {
+    "altitude": 12,
     "created": "2018-05-27T02:40:42Z",
     "min_horizon": 10,
     "name": "9w2gee",
@@ -2081,6 +1952,24 @@
     "location": ""
   },
   {
+    "altitude": 100,
+    "created": "2018-05-27T11:04:54Z",
+    "min_horizon": 25,
+    "name": "WA4OSH",
+    "status": "Testing",
+    "observations": 3,
+    "lng": -121.7843942,
+    "lat": 47.4913509,
+    "qthlocator": "CN97cl",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "Under construction:\r\n2 Meter Turnstile antenna - LNA - Bias Tee - RTL-SDR - Raspberry Pi",
+    "last_seen": "2018-06-19T17:21:25Z",
+    "id": 113,
+    "location": ""
+  },
+  {
     "altitude": 12,
     "created": "2018-05-27T20:21:40Z",
     "min_horizon": 10,
@@ -2096,6 +1985,24 @@
     "description": "",
     "last_seen": "2018-05-27T20:50:45Z",
     "id": 114,
+    "location": ""
+  },
+  {
+    "altitude": 10,
+    "created": "2018-05-28T17:19:25Z",
+    "min_horizon": 10,
+    "name": "Tester1",
+    "status": "Testing",
+    "observations": 12,
+    "lng": -71.123,
+    "lat": 42.4140158,
+    "qthlocator": "FN42kj",
+    "antenna": [
+      "HF Dipole"
+    ],
+    "description": "A test station",
+    "last_seen": "2018-06-19T17:21:57Z",
+    "id": 115,
     "location": ""
   },
   {
@@ -2150,6 +2057,26 @@
     "description": "",
     "last_seen": null,
     "id": 120,
+    "location": ""
+  },
+  {
+    "altitude": 255,
+    "created": "2018-05-29T15:27:04Z",
+    "min_horizon": 10,
+    "name": "Hummingbird",
+    "status": "Testing",
+    "observations": 40,
+    "lng": -83.999431,
+    "lat": 39.7909343,
+    "qthlocator": "EM89as",
+    "antenna": [
+      "UHF Yagi",
+      "VHF Yagi",
+      "VHF Yagi"
+    ],
+    "description": "Testing Process.",
+    "last_seen": "2018-06-19T17:21:11Z",
+    "id": 121,
     "location": ""
   },
   {
@@ -2226,6 +2153,24 @@
     "location": ""
   },
   {
+    "altitude": 220,
+    "created": "2018-06-04T18:18:52Z",
+    "min_horizon": 5,
+    "name": "Hvezdarna barona Artura Krause",
+    "status": "Testing",
+    "observations": 70,
+    "lng": 15.767,
+    "lat": 50.0255,
+    "qthlocator": "JO70va",
+    "antenna": [
+      "VHF Quadrafilar"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:33Z",
+    "id": 126,
+    "location": ""
+  },
+  {
     "altitude": 2,
     "created": "2018-06-05T11:29:29Z",
     "min_horizon": 10,
@@ -2277,6 +2222,25 @@
     "description": "",
     "last_seen": "2018-06-07T12:49:54Z",
     "id": 129,
+    "location": ""
+  },
+  {
+    "altitude": 50,
+    "created": "2018-06-06T21:29:12Z",
+    "min_horizon": 10,
+    "name": "XTOPHE",
+    "status": "Online",
+    "observations": 100,
+    "lng": 2.17693,
+    "lat": 48.882767,
+    "qthlocator": "JN18cv",
+    "antenna": [
+      "VHF Turnstile",
+      "UHF Turnstile"
+    ],
+    "description": "Station without rotor, for testing purpose.",
+    "last_seen": "2018-06-19T17:21:24Z",
+    "id": 130,
     "location": ""
   },
   {
@@ -2353,6 +2317,24 @@
     "location": ""
   },
   {
+    "altitude": 0,
+    "created": "2018-06-12T17:01:48Z",
+    "min_horizon": 15,
+    "name": "The Best Station",
+    "status": "Testing",
+    "observations": 22,
+    "lng": -71.09478,
+    "lat": 42.366062,
+    "qthlocator": "FN42ki",
+    "antenna": [
+      "HF Dipole"
+    ],
+    "description": "Tufts Station",
+    "last_seen": "2018-06-19T16:47:07Z",
+    "id": 135,
+    "location": ""
+  },
+  {
     "altitude": 645,
     "created": "2018-06-13T10:43:16Z",
     "min_horizon": 280,
@@ -2406,6 +2388,24 @@
     "description": "Under Construction - will be a V3 Rotator and Satnogs controller. Software to be run on Raspberry pi 3.\r\nLive date in around 2 weeks (1/7/2018).\r\n Will be established in back garden of QTH with twin Yagi antennas. Will utilised HF+ SDR receiver.",
     "last_seen": null,
     "id": 139,
+    "location": ""
+  },
+  {
+    "altitude": 40,
+    "created": "2018-06-19T10:13:07Z",
+    "min_horizon": 10,
+    "name": "DF0HSA",
+    "status": "Testing",
+    "observations": 5,
+    "lng": 10.904797,
+    "lat": 48.354816,
+    "qthlocator": "JN58ki",
+    "antenna": [
+      "VHF Turnstile"
+    ],
+    "description": "",
+    "last_seen": "2018-06-19T17:21:58Z",
+    "id": 140,
     "location": ""
   }
 ]
