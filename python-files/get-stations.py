@@ -25,6 +25,7 @@ while nextpage:
     stations.extend(r.json())
     nextpage = r.links.get('next')
 
+stations = sorted(stations, key=lambda s: s['id'])
 
 with open(STATIONS_JSON, 'w') as fp:
     json.dump(stations, fp)
