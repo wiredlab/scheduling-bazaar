@@ -7,7 +7,7 @@ import time
 
 import cProfile
 
-from db import compute_all_passes, load_all_passes
+from db import compute_all_passes, load_all_passes, load_satellites
 from schedulingbazaar import load_tles, load_gs
 
 
@@ -16,25 +16,46 @@ print(sys.argv)
 # stationsfile = 'groundstations.txt'
 stationsfile = 'network-stations.json'
 # satsfile = 'amateur.txt'
-satsfile = 'amateur-prune.txt'
-# dbfile = 'allpasses.db'
+satsfile = 'satellites.json'
+
+
+dbfile = 'allpasses.db'
+compute_function = 'ephem'
 # dbfile = 'ephem-passes.db'
-dbfile = 'orbital-passes.db'
+# compute_function = 'orbital'
+# dbfile = 'orbital-passes.db'
 
 if len(sys.argv) == 4:
     stationsfile = sys.argv[1]
     satsfile = sys.argv[2]
     dbfile = sys.argv[3]
 
+#
 # ground stations
+#
 stations = load_gs(stationsfile)
 print(len(stations))
-stations = [s for s in stations if s['status'] in ('Online',)]
+
+# only include online stations
+stations[:] = [s for s in stations if s['status'] in ('Online',)]
 print(len(stations))
 
-sats = load_tles(satsfile)
 
-start_time = '2017/6/8 00:00:00'
+#
+# satellites
+#
+sats = load_satellites(satsfile)
+
+# pyorbital chokes on INMARSAT 4-F1 because it is classified as deep-space
+sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
+# sats = load_tles(satsfile)
+#
+#
+#
+#
+#
+
+start_time = '2018/6/20 00:00:00'
 # duration = 8760 #a year worth of hours
 duration = 12
 
@@ -48,7 +69,8 @@ tree = compute_all_passes(stations,
                           start_time,
                           duration=duration,
                           dbfile=dbfile,
-                          nprocesses=0)
+                          nprocesses=0,
+                          function=compute_function)
 pr.disable()
 pr.print_stats(sort='time')
 # give the filesystem some time to finish closing the database file
