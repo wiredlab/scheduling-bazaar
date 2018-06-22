@@ -1748,5 +1748,12 @@
     "names": "",
     "norad_cat_id": 99939,
     "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/irvine.png",
+    "name": "IRVINE-01",
+    "names": "",
+    "norad_cat_id": 99999,
+    "status": "alive"
   }
 ]
