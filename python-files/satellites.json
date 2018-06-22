@@ -1,0 +1,1752 @@
+[
+  {
+    "image": "https://db.satnogs.org/media/satellites/transit-o__1.jpg",
+    "name": "TRANSIT 5B-5",
+    "names": "OPS 6582",
+    "norad_cat_id": 965,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AO-7-Model-300x180.gif",
+    "name": "OSCAR 7",
+    "names": "AO-7",
+    "norad_cat_id": 7530,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/UoSat-2.jpg",
+    "name": "UOSAT 2",
+    "names": "UO-11",
+    "norad_cat_id": 14781,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "NOAA 9",
+    "names": "",
+    "norad_cat_id": 15427,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LUSAT-1.gif",
+    "name": "LUSAT",
+    "names": "LO-19",
+    "norad_cat_id": 20442,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/itamsat_1.jpg",
+    "name": "ITAMSAT",
+    "names": "IO-26",
+    "norad_cat_id": 22826,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/radio-rosto__1.jpg",
+    "name": "RADIO ROSTO",
+    "names": "RS-15",
+    "norad_cat_id": 23439,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/fo29.gif",
+    "name": "JAS-2",
+    "names": "FO-29",
+    "norad_cat_id": 24278,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/satellite_NOAA-15.jpg",
+    "name": "NOAA 15",
+    "names": "",
+    "norad_cat_id": 25338,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/gurwinIIb.gif",
+    "name": "TECHSAT 1B",
+    "names": "GO-32",
+    "norad_cat_id": 25397,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ISS.jpg",
+    "name": "ISS",
+    "names": "ZARYA",
+    "norad_cat_id": 25544,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/4355e5156bc2ef829b9c7e128608e6ddce046507.jpg",
+    "name": "ORSTED",
+    "names": "\u00d8rsted",
+    "norad_cat_id": 25635,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/no44.gif",
+    "name": "PCSAT",
+    "names": "NO-44",
+    "norad_cat_id": 26931,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/saudisat-so-50.jpg",
+    "name": "SAUDISAT 1C",
+    "names": "SO-50",
+    "norad_cat_id": 27607,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cute-1__1.jpg",
+    "name": "CUTE-1",
+    "names": "CO-55",
+    "norad_cat_id": 27844,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/xi-4__1.jpg",
+    "name": "CUBESAT XI-IV",
+    "names": "CO-57",
+    "norad_cat_id": 27848,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/zeya__1.jpg",
+    "name": "MOZHAYETS 4",
+    "names": "RS-22",
+    "norad_cat_id": 27939,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/inmarsat-4__1.jpg",
+    "name": "INMARSAT 4-F1",
+    "names": "Alphasat1",
+    "norad_cat_id": 28628,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/hamsat.jpg",
+    "name": "HAMSAT",
+    "names": "VO-52",
+    "norad_cat_id": 28650,
+    "status": "dead"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NOAA-18_or_19_rendering.jpg",
+    "name": "NOAA 18",
+    "names": "",
+    "norad_cat_id": 28654,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/XI-V-Sai-Five-300x225.jpg",
+    "name": "CUBESAT XI 5",
+    "names": "CO-58, OSCAR 58",
+    "norad_cat_id": 28895,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/metopa.jpg",
+    "name": "METOP-A",
+    "names": "",
+    "norad_cat_id": 29499,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CartoSat2_AutoB.jpeg",
+    "name": "CARTOSAT-2",
+    "names": "IRS-P7",
+    "norad_cat_id": 29710,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/FALCONSAT-3.jpg",
+    "name": "FALCONSAT 3",
+    "names": "",
+    "norad_cat_id": 30776,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CAPE1.jpg",
+    "name": "CAPE1",
+    "names": "",
+    "norad_cat_id": 31130,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/image_gallery.jpg",
+    "name": "CARTOSAT-2A",
+    "names": "",
+    "norad_cat_id": 32783,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CO-65-300x197.jpg",
+    "name": "CUTE-1.7+APD II",
+    "names": "CO-65",
+    "norad_cat_id": 32785,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/COMPASS-1.jpg",
+    "name": "COMPASS-1",
+    "names": "",
+    "norad_cat_id": 32787,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AAUSAT-2.jpg",
+    "name": "AAUSAT-II",
+    "names": "CUBESAT-2\r\nAAUSAT-2",
+    "norad_cat_id": 32788,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/DelfiC3_AutoE.jpeg",
+    "name": "DELFI-C3",
+    "names": "DO-64",
+    "norad_cat_id": 32789,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SEEDS.gif",
+    "name": "SEEDS II",
+    "names": "CO-66",
+    "norad_cat_id": 32791,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/rs30_1.jpg",
+    "name": "YUBILEINY",
+    "names": "RS-30",
+    "norad_cat_id": 32953,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/FENGYUN-3A_AVnpzkb.jpg",
+    "name": "FENGYUN 3A",
+    "names": "Feng-Yun-3A, FY3A",
+    "norad_cat_id": 32958,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/PRISM_AutoF.jpg",
+    "name": "PRISM",
+    "names": "HITOMI",
+    "norad_cat_id": 33493,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/STARS-1.2.jpg",
+    "name": "STARS",
+    "names": "KUKAI-GENNAI mother and daughter",
+    "norad_cat_id": 33498,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/KKS-FM-4-2.JPG",
+    "name": "KKS-1",
+    "names": "KISEKI",
+    "norad_cat_id": 33499,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NOAA-19_5rtz25e.jpg",
+    "name": "NOAA 19",
+    "names": "",
+    "norad_cat_id": 33591,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/swisscube.jpeg",
+    "name": "SWISSCUBE",
+    "names": "",
+    "norad_cat_id": 35932,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BEESAT.JPG",
+    "name": "BEESAT",
+    "names": "",
+    "norad_cat_id": 35933,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/itupsat1b.jpg",
+    "name": "ITUPSAT 1",
+    "names": "",
+    "norad_cat_id": 35935,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/HO-68-Preassembly.jpg",
+    "name": "XIWANG-1",
+    "names": "HO-68\r\nXW-1\r\nHOPE-1",
+    "norad_cat_id": 36122,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cartosat-2b.jpg",
+    "name": "CARTOSAT-2B",
+    "names": "",
+    "norad_cat_id": 36795,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/TISAT-1.jpg",
+    "name": "TISAT 1",
+    "names": "",
+    "norad_cat_id": 36799,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/FENGYUN-3B.jpg",
+    "name": "FENGYUN 3B",
+    "names": "Feng-Yun-3B",
+    "norad_cat_id": 37214,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/o_oreos.jpg",
+    "name": "O/OREOS",
+    "names": "USA 219",
+    "norad_cat_id": 37224,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/jugnu.jpeg",
+    "name": "JUGNU",
+    "names": "",
+    "norad_cat_id": 37839,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/srmsat.jpg",
+    "name": "SRMSAT",
+    "names": "",
+    "norad_cat_id": 37841,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/mcubed.jpg",
+    "name": "M-CUBED & EXP-1 PRIME",
+    "names": "E1P-U2, Michigan Multipurpose Minisat",
+    "norad_cat_id": 37855,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ALMASAT-1.jpeg",
+    "name": "ALMASAT-1",
+    "names": "",
+    "norad_cat_id": 38078,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/horyu-2.jpg",
+    "name": "HORYU 2",
+    "names": "",
+    "norad_cat_id": 38340,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AENEAS-1.jpg",
+    "name": "AENEAS",
+    "names": "",
+    "norad_cat_id": 38760,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/METOP-B_26NGbXF.jpg",
+    "name": "METOP-B",
+    "names": "",
+    "norad_cat_id": 38771,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/08aae20b.jpg",
+    "name": "AAUSAT3",
+    "names": "",
+    "norad_cat_id": 39087,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/strand1.jpg",
+    "name": "STRAND-1",
+    "names": "",
+    "norad_cat_id": 39090,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BRITE-AUSTRIA.jpeg",
+    "name": "BRITE-AUSTRIA",
+    "names": "BRITE-Austria\r\nCANX-3B",
+    "norad_cat_id": 39091,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/UNIBRITE.jpg",
+    "name": "UNIBRITE",
+    "names": "CANX-3A",
+    "norad_cat_id": 39092,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/image_gallery.jpeg",
+    "name": "SOMP",
+    "names": "",
+    "norad_cat_id": 39134,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "BEESAT-3",
+    "names": "",
+    "norad_cat_id": 39135,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/beesat2.jpeg",
+    "name": "BEESAT-2",
+    "names": "",
+    "norad_cat_id": 39136,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NEE-01_PEGASUS.jpg",
+    "name": "NEE-01 PEGASUS",
+    "names": "NEE-01",
+    "norad_cat_id": 39151,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CUBEBUG-1.jpg",
+    "name": "CUBEBUG-1",
+    "names": "CAPITAN BETO",
+    "norad_cat_id": 39153,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ESTCUBE-1.jpg",
+    "name": "ESTCUBE 1",
+    "names": "",
+    "norad_cat_id": 39161,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "FENGYUN 3C",
+    "names": "Feng-Yun-3C",
+    "norad_cat_id": 39260,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CASSIOPE_satellite.jpeg",
+    "name": "CASSIOPE",
+    "names": "",
+    "norad_cat_id": 39265,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/PHONESAT_2.4_vB6xg6c.png",
+    "name": "PHONESAT 2.4",
+    "names": "",
+    "norad_cat_id": 39381,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CAPE-2.jpg",
+    "name": "CAPE-2",
+    "names": "",
+    "norad_cat_id": 39382,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/DRAGONSAT-1.jpg",
+    "name": "DRAGONSAT-1",
+    "names": "",
+    "norad_cat_id": 39383,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/KYSAT-2.jpg",
+    "name": "KYSAT-2",
+    "names": "",
+    "norad_cat_id": 39384,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/TJ3SAT.jpg",
+    "name": "TJ3SAT",
+    "names": "",
+    "norad_cat_id": 39385,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/COPPER.jpg",
+    "name": "COPPER",
+    "names": "",
+    "norad_cat_id": 39395,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BLACK_NIGHT-1.jpg",
+    "name": "BLACK KNIGHT-1",
+    "names": "",
+    "norad_cat_id": 39398,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/TRAILBLAZER.jpg",
+    "name": "TRAILBLAZER",
+    "names": "SPA-1",
+    "norad_cat_id": 39400,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SWAMPSAT.jpg",
+    "name": "SWAMPSAT",
+    "names": "",
+    "norad_cat_id": 39402,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CHARGERSAT-1.jpg",
+    "name": "CHARGERSAT-1",
+    "names": "",
+    "norad_cat_id": 39405,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/VERMONT_LUNAR.jpg",
+    "name": "VERMONT LUNAR",
+    "names": "",
+    "norad_cat_id": 39407,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/index.jpeg",
+    "name": "ZACUBE-1",
+    "names": "South Africa CubeSat-1, TshepisoSat, ZA003",
+    "norad_cat_id": 39417,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CINEMA-3_8CJmlaD.jpg",
+    "name": "CINEMA-3",
+    "names": "KHUSAT-2",
+    "norad_cat_id": 39426,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/delfi-next__1.jpg",
+    "name": "TRITON-1",
+    "names": "",
+    "norad_cat_id": 39427,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/DELFI-N3XT.jpg",
+    "name": "DELFI-N3XT",
+    "names": "",
+    "norad_cat_id": 39428,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/GOMX1_AutoE.jpeg",
+    "name": "GOMX 1",
+    "names": "GATOSS",
+    "norad_cat_id": 39430,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BRITE-PL.jpg",
+    "name": "BRITE-PL",
+    "names": "LEM",
+    "norad_cat_id": 39431,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ICUBE-1.jpg",
+    "name": "ICUBE-1",
+    "names": "",
+    "norad_cat_id": 39432,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/humsat-d__1.jpg",
+    "name": "HUMSAT-D",
+    "names": "",
+    "norad_cat_id": 39433,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/50sat-eagle2.jpg",
+    "name": "EAGLE 2",
+    "names": "",
+    "norad_cat_id": 39436,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/VeloxPII_Auto1.jpeg",
+    "name": "VELOX-PII",
+    "names": "",
+    "norad_cat_id": 39438,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/First-MOVE.png",
+    "name": "FIRST-MOVE",
+    "names": "",
+    "norad_cat_id": 39439,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cubebug-1__1.jpg",
+    "name": "CUBEBUG-2",
+    "names": "LO-74",
+    "norad_cat_id": 39440,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NEE-02_KRYOSAOR.jpg",
+    "name": "NEE-02 KRYSAOR",
+    "names": "NEE-02",
+    "norad_cat_id": 39441,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/FUNCUBE-1.jpg",
+    "name": "FUNCUBE-1",
+    "names": "AO-73",
+    "norad_cat_id": 39444,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/HINCUBE.jpg",
+    "name": "HINCUBE",
+    "names": "",
+    "norad_cat_id": 39445,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/uwe-1__1.jpg",
+    "name": "UWE-3",
+    "names": "",
+    "norad_cat_id": 39446,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/MCUBED-2.jpg",
+    "name": "MCUBED-2",
+    "names": "",
+    "norad_cat_id": 39469,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SPROUT.png",
+    "name": "SPROUT",
+    "names": "",
+    "norad_cat_id": 39770,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/unisat-6__1.jpg",
+    "name": "UNISAT-6",
+    "names": "",
+    "norad_cat_id": 40012,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/bugsat-1__1.jpg",
+    "name": "BUGSAT-1",
+    "names": "TITA",
+    "norad_cat_id": 40014,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/duchifat-1__1.jpg",
+    "name": "DUCHIFAT-1",
+    "names": "",
+    "norad_cat_id": 40021,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/nanosat.jpg",
+    "name": "NANOSATC-BR1",
+    "names": "NCBR-1\r\nNCBR1",
+    "norad_cat_id": 40024,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/qb50p1__1.jpg",
+    "name": "QB50P1",
+    "names": "EO 79, European-OSCAR 79, FUNcube 3, EO-79",
+    "norad_cat_id": 40025,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/DTUSAT-2.jpg",
+    "name": "DTUSAT-2",
+    "names": "",
+    "norad_cat_id": 40030,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/qb50p2__1.jpg",
+    "name": "QB50P2",
+    "names": "EO 80, European-OSCAR 80, EO-80",
+    "norad_cat_id": 40032,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/polyitan.jpg",
+    "name": "POLYITAN-1",
+    "names": "",
+    "norad_cat_id": 40042,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/tigrisat__1.jpg",
+    "name": "TIGRISAT",
+    "names": "",
+    "norad_cat_id": 40043,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/aisat__1.jpg",
+    "name": "AISAT",
+    "names": "",
+    "norad_cat_id": 40054,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CANX-4.jpg",
+    "name": "CANX-4",
+    "names": "NLS 7.1",
+    "norad_cat_id": 40055,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CANX-4.5.jpg",
+    "name": "CANX-5",
+    "names": "NLS 7.2",
+    "norad_cat_id": 40056,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/v1.jpg",
+    "name": "VELOX 1",
+    "names": "",
+    "norad_cat_id": 40057,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/METEOR-M_2.jpg",
+    "name": "METEOR-M 2",
+    "names": "",
+    "norad_cat_id": 40069,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/DX-1.png",
+    "name": "DX1",
+    "names": "DX-1",
+    "norad_cat_id": 40071,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/592-original.gif",
+    "name": "UKUBE-1",
+    "names": "",
+    "norad_cat_id": 40074,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/Firebird_Auto3.jpeg",
+    "name": "FIREBIRD 3",
+    "names": "",
+    "norad_cat_id": 40377,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/firebird4.jpeg",
+    "name": "FIREBIRD 4",
+    "names": "",
+    "norad_cat_id": 40378,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/IMG_6740-300x200.jpg",
+    "name": "GRIFEX",
+    "names": "",
+    "norad_cat_id": 40379,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/exocube__1.jpg",
+    "name": "EXOCUBE",
+    "names": "",
+    "norad_cat_id": 40380,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/psat__2.jpg",
+    "name": "NO-84",
+    "names": "PSAT\r\nParkinsonSAT",
+    "norad_cat_id": 40654,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/bricsat-p__2.jpg",
+    "name": "NO-83",
+    "names": "BRICSat-P",
+    "norad_cat_id": 40655,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/lightsail1.jpeg",
+    "name": "LIGHTSAIL-1",
+    "names": "",
+    "norad_cat_id": 40661,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/DeorbitSail.jpg",
+    "name": "DEORBITSAIL",
+    "names": "",
+    "norad_cat_id": 40719,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SERPENS.jpg",
+    "name": "SERPENS",
+    "names": "PY0ESA",
+    "norad_cat_id": 40897,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NUDT-PHONESAT.jpg",
+    "name": "NUDT-PHONESAT",
+    "names": "CAS-3I\r\nXW-2I",
+    "norad_cat_id": 40900,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CAS_3A_XW-2A.jpg",
+    "name": "XW-2A",
+    "names": "CAS-3A",
+    "norad_cat_id": 40903,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/XW-2C.jpg",
+    "name": "XW-2C",
+    "names": "CAS-3C",
+    "norad_cat_id": 40906,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/XW-2D_r2lRYTE.jpg",
+    "name": "XW-2D",
+    "names": "CAS-3D",
+    "norad_cat_id": 40907,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LILACSAT-2.jpg",
+    "name": "LILACSAT 2",
+    "names": "CAS-3H\r\nXW-2H",
+    "norad_cat_id": 40908,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/XW-2E.jpg",
+    "name": "XW-2E",
+    "names": "CAS-3E",
+    "norad_cat_id": 40909,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/XW-2F.jpg",
+    "name": "XW-2F",
+    "names": "CAS-3F",
+    "norad_cat_id": 40910,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/xw2b_small.jpg",
+    "name": "XW-2B",
+    "names": "CAS-3B",
+    "norad_cat_id": 40911,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "KAITUO 1B",
+    "names": "CAS-3G\r\nDCBB\r\nXW-2G",
+    "norad_cat_id": 40912,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/TIANWANG-1C.jpg",
+    "name": "TIANWANG 1C",
+    "names": "TW-1C\r\nNJFA-1",
+    "norad_cat_id": 40926,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/TIANWANG-1B.jpg",
+    "name": "TIANWANG 1B",
+    "names": "TW-1B\r\nNJUST-2",
+    "norad_cat_id": 40927,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/TIANWANG-1A.jpg",
+    "name": "TIANWANG 1A",
+    "names": "TW-1A\r\nShangkeda-2\r\nSECM",
+    "norad_cat_id": 40928,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LAPAN-A2_12tCGA2.jpg",
+    "name": "LAPAN-A2",
+    "names": "ORARI\r\nIO-86",
+    "norad_cat_id": 40931,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AAUSAT-5_Pk2F5ul.png",
+    "name": "AAUSAT 5",
+    "names": "",
+    "norad_cat_id": 40948,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/GOMX-3.jpg",
+    "name": "GOMX-3",
+    "names": "",
+    "norad_cat_id": 40949,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LQSAT.jpg",
+    "name": "LQSAT",
+    "names": "",
+    "norad_cat_id": 40958,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/Fox-1A.png",
+    "name": "FOX-1A",
+    "names": "AO-85",
+    "norad_cat_id": 40967,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BISONSAT.jpg",
+    "name": "BISONSAT",
+    "names": "N7SKC",
+    "norad_cat_id": 40968,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/athenoxat-1__1.jpg",
+    "name": "ATHENOXAT 1",
+    "names": "ATX1",
+    "norad_cat_id": 41168,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/galassia__2.jpg",
+    "name": "GALASSIA",
+    "names": "",
+    "norad_cat_id": 41170,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/VELOX-2.jpg",
+    "name": "VELOX 2",
+    "names": "VELOX2",
+    "norad_cat_id": 41171,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AGGIESAT-4.jpg",
+    "name": "AGGIESAT 4",
+    "names": "",
+    "norad_cat_id": 41313,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/chubusat-2__1.jpg",
+    "name": "CHUBUSAT-2",
+    "names": "JJ2YPN",
+    "norad_cat_id": 41338,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CHUBUSAT-3.jpg",
+    "name": "CHUBUSAT-3",
+    "names": "JJ2YPO",
+    "norad_cat_id": 41339,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/horyu-4__1.jpg",
+    "name": "HORYU-IV",
+    "names": "JG6YBW",
+    "norad_cat_id": 41340,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/OUFTI-1_p7CDjND.jpg",
+    "name": "OUFTI-1",
+    "names": "",
+    "norad_cat_id": 41458,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/E-STR-II_ENXTFuD.jpg",
+    "name": "E-ST@R-II",
+    "names": "",
+    "norad_cat_id": 41459,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AAUSAT-4.jpg",
+    "name": "AAUSAT 4",
+    "names": "",
+    "norad_cat_id": 41460,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AIST-2D.jpg",
+    "name": "AIST-2D",
+    "names": "",
+    "norad_cat_id": 41465,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/samsat_HBdzG9t.jpg",
+    "name": "SAMSAT-218D",
+    "names": "",
+    "norad_cat_id": 41466,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/wMaOsV6D.jpg",
+    "name": "MINXSS",
+    "names": "",
+    "norad_cat_id": 41474,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CADRE.jpg",
+    "name": "CADRE",
+    "names": "",
+    "norad_cat_id": 41475,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/STMSAT-1.jpg",
+    "name": "STMSAT-1",
+    "names": "",
+    "norad_cat_id": 41476,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NODES-2_wnUSzDI.jpg",
+    "name": "NODES 2",
+    "names": "",
+    "norad_cat_id": 41477,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NODES-1.jpg",
+    "name": "NODES 1",
+    "names": "",
+    "norad_cat_id": 41478,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NUSAT-1_iNMftIO.jpg",
+    "name": "NUSAT 1",
+    "names": "FRESCO",
+    "norad_cat_id": 41557,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NUSAT-2.jpeg",
+    "name": "NUSAT 2",
+    "names": "BATATA",
+    "norad_cat_id": 41558,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cartosat-2c-2.jpg",
+    "name": "CARTOSAT-2C",
+    "names": "",
+    "norad_cat_id": 41599,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SATHYABAMASAT.jpg",
+    "name": "SATHYABAMASAT",
+    "names": "",
+    "norad_cat_id": 41600,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/lapan-a3__1.jpg",
+    "name": "LAPAN-A3",
+    "names": "",
+    "norad_cat_id": 41603,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BIROS.jpg",
+    "name": "BIROS",
+    "names": "",
+    "norad_cat_id": 41604,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SWAYAM.jpg",
+    "name": "SWAYAM",
+    "names": "",
+    "norad_cat_id": 41607,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BEESAT-4.jpg",
+    "name": "BEESAT-4",
+    "names": "",
+    "norad_cat_id": 41619,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/3cat-2__2.jpg",
+    "name": "3CAT-2",
+    "names": "",
+    "norad_cat_id": 41732,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/PRATHAM.jpg",
+    "name": "PRATHAM",
+    "names": "",
+    "norad_cat_id": 41783,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ALSAT-1N.png",
+    "name": "ALSAT 1N",
+    "names": "AlSat-Nano",
+    "norad_cat_id": 41789,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cas-2t-145-435-mhz-fm-transponder-cubesat.jpg",
+    "name": "LISHUI 1-01",
+    "names": "KS-1Q\r\nOBJECT E",
+    "norad_cat_id": 41845,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/stars-c.jpg",
+    "name": "STARS-C",
+    "names": "",
+    "norad_cat_id": 41895,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/by70-1__1.jpg",
+    "name": "BY70-1",
+    "names": "",
+    "norad_cat_id": 41909,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/freedom_2SfeDZn.jpg",
+    "name": "FREEDOM",
+    "names": "",
+    "norad_cat_id": 41930,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/waseda.jpg",
+    "name": "TANCREDO-1",
+    "names": "",
+    "norad_cat_id": 41931,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/itf-2_rtUjYD0.jpg",
+    "name": "ITF-2",
+    "names": "",
+    "norad_cat_id": 41932,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/egg.jpg",
+    "name": "WASEDA-SAT3",
+    "names": "",
+    "norad_cat_id": 41933,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/tupod.jpg",
+    "name": "EGG",
+    "names": "",
+    "norad_cat_id": 41934,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/aoba.jpg",
+    "name": "AOBA-VELOX 3",
+    "names": "AOBA-VeloxIII",
+    "norad_cat_id": 41935,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cartosat-2d.jpg",
+    "name": "CARTOSAT-2D",
+    "names": "",
+    "norad_cat_id": 41948,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NAYIF-1.jpg",
+    "name": "NAYIF-1",
+    "names": "EO-88\r\nFUNCUBE-5",
+    "norad_cat_id": 42017,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SOMP-2.jpg",
+    "name": "SOMP2",
+    "names": "DE02\r\nON02DE",
+    "norad_cat_id": 42700,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/Havelsat1.jpg",
+    "name": "HAVELSAT",
+    "names": "TR02\r\nON02TR",
+    "norad_cat_id": 42701,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "COLUMBIA",
+    "names": "US04\r\nON04US",
+    "norad_cat_id": 42702,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/PHOENIX_UCqlyUJ.JPG",
+    "name": "PHOENIX",
+    "names": "TW01\r\nON01TW",
+    "norad_cat_id": 42706,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/X-CUBESAT.jpg",
+    "name": "X-CUBESAT",
+    "names": "FR01\r\nON01FR",
+    "norad_cat_id": 42707,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/qbee__1.jpg",
+    "name": "QBEE",
+    "names": "SE01\r\nON01SE",
+    "norad_cat_id": 42708,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ZA-AEROSAT.jpg",
+    "name": "ZA-AEROSAT",
+    "names": "AEROSAT\r\nAZ01\r\nON01AZ",
+    "norad_cat_id": 42713,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LINK.jpg",
+    "name": "LINK",
+    "names": "KR01\r\nON01KR",
+    "norad_cat_id": 42714,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/upsat.jpg",
+    "name": "UPSAT",
+    "names": "GR02\r\nON02GR",
+    "norad_cat_id": 42716,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SPACECUBE.jpg",
+    "name": "SPACECUBE",
+    "names": "FR05\r\nON05FR",
+    "norad_cat_id": 42717,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/HOOPOE.jpg",
+    "name": "HOOPOE",
+    "names": "IL01\r\nON01IL",
+    "norad_cat_id": 42718,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CHALLENGER.jpg",
+    "name": "CHALLENGER",
+    "names": "US01 ON01US QB50 US01, QBUS 1",
+    "norad_cat_id": 42721,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NJUST-1.jpg",
+    "name": "NJUST-1",
+    "names": "CN03 ON03CN",
+    "norad_cat_id": 42722,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/UNSW-EC0.jpg",
+    "name": "UNSW-ECO",
+    "names": "AU02 ON02AU",
+    "norad_cat_id": 42723,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/09_Inside-TVAC-chamber.jpg",
+    "name": "DUTHSat",
+    "names": "GR01 ON01GR",
+    "norad_cat_id": 42724,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LILACSAT-1.jpg",
+    "name": "LILACSAT-1",
+    "names": "CN02 ON02CN",
+    "norad_cat_id": 42725,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/nsight-1__1.jpg",
+    "name": "NSIGHT-1",
+    "names": "AZ02 ON02AZ",
+    "norad_cat_id": 42726,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "SNUSAT-1",
+    "names": "KR02 ON02KR",
+    "norad_cat_id": 42727,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/QBITO.jpg",
+    "name": "QBITO",
+    "names": "ES01 ON01ES",
+    "norad_cat_id": 42728,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AALTO-2.jpg",
+    "name": "AALTO-2",
+    "names": "FI01 ON01FI",
+    "norad_cat_id": 42729,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SUSAT.jpg",
+    "name": "SUSAT",
+    "names": "AU01 ON01AU",
+    "norad_cat_id": 42730,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/I-INSPIRE-2.jpg",
+    "name": "I-INSPIRE II",
+    "names": "AU03 ON03AU",
+    "norad_cat_id": 42731,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "POLYITAN-2-SAU",
+    "names": "",
+    "norad_cat_id": 42732,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/SNUSAT-1.jpg",
+    "name": "SNUSAT-1B",
+    "names": "KR03 ON03KR",
+    "norad_cat_id": 42733,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/EXALTA-1.jpg",
+    "name": "EXALTA-1",
+    "names": "CA03 ON03CA",
+    "norad_cat_id": 42734,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/AOXIANG-1.jpg",
+    "name": "AOXIANG-1",
+    "names": "CN04 ON04CN",
+    "norad_cat_id": 42735,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/BEEAGLESAT.jpg",
+    "name": "BEEAGLESAT",
+    "names": "TR01 ON01TR",
+    "norad_cat_id": 42736,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ATLANTIS.jpg",
+    "name": "ATLANTIS",
+    "names": "US02 ON02US",
+    "norad_cat_id": 42737,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cas-4-satellite_27im88Z.jpg",
+    "name": "CAS-4B",
+    "names": "",
+    "norad_cat_id": 42759,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/cas-4-satellite.jpg",
+    "name": "CAS-4A",
+    "names": "",
+    "norad_cat_id": 42761,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/UCLSAT.jpg",
+    "name": "UCLSAT",
+    "names": "",
+    "norad_cat_id": 42765,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NIUSAT.jpg",
+    "name": "NIUSAT",
+    "names": "",
+    "norad_cat_id": 42766,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/CartoSat-2E_Auto4.jpeg",
+    "name": "CARTOSAT-2E",
+    "names": "",
+    "norad_cat_id": 42767,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/LITUANICASAT-2.jpg",
+    "name": "LITUANICASAT-2",
+    "names": "",
+    "norad_cat_id": 42768,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/INFLATESAIL.jpg",
+    "name": "INFLATESAIL",
+    "names": "",
+    "norad_cat_id": 42770,
+    "status": "re-entered"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/Aalto1avattuna_oikea.jpg",
+    "name": "AALTO-1",
+    "names": "",
+    "norad_cat_id": 42775,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/URSA-MAIOR.jpg",
+    "name": "URSA MAIOR",
+    "names": "IT02",
+    "norad_cat_id": 42776,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/COMPASS-2.jpg",
+    "name": "COMPASS 2",
+    "names": "DRAGSAIL",
+    "norad_cat_id": 42777,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/MAX_VALIER_SAT.jpg",
+    "name": "MAX VALIER SAT",
+    "names": "",
+    "norad_cat_id": 42778,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/PEGASUS.jpg",
+    "name": "PEGASUS",
+    "names": "AT03",
+    "norad_cat_id": 42784,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "NUDTSAT",
+    "names": "CN06",
+    "norad_cat_id": 42787,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/suchai_satellite_2.jpg",
+    "name": "SUCHAI",
+    "names": "SUCHAI (Satellite of the University of Chile for Aerospace Investigation) is the first Chilean 1U CubeSat developed by undergraduate students, engineers and professors of the Electrical Engineering, Physics and Mechanical Engineering Departments of the Faculty of Physical and Mathematical Sciences (FCFM) at Universidad de Chile. The main goal is to learn the whole process of designing, building/integrating, launching and operating a picosatellite.",
+    "norad_cat_id": 42788,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/skcube-2-390x260.png",
+    "name": "SKCUBE",
+    "names": "",
+    "norad_cat_id": 42789,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/VZLUSAT-1.jpg",
+    "name": "VZLUSAT-1",
+    "names": "CZ02",
+    "norad_cat_id": 42790,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/robusta.jpg",
+    "name": "ROBUSTA-1B",
+    "names": "",
+    "norad_cat_id": 42792,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/d-sat_do__1.jpg",
+    "name": "D-SAT",
+    "names": "",
+    "norad_cat_id": 42794,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/bird-m.jpg",
+    "name": "BIRD-M",
+    "names": "Mazaalai NUMSAT-1",
+    "norad_cat_id": 42822,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/bird-b__2.jpg",
+    "name": "BIRD-B",
+    "names": "BRAC Onnesha",
+    "norad_cat_id": 42823,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/NORSAT-2-Deployed.png",
+    "name": "NORSAT 2",
+    "names": "",
+    "norad_cat_id": 42828,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/csm_TechnoSat_small_2c8798aef3.png",
+    "name": "TECHNOSAT",
+    "names": "",
+    "norad_cat_id": 42829,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/mayak-satellite.jpg",
+    "name": "MAYAK",
+    "names": "",
+    "norad_cat_id": 42830,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/flp_inside.jpg",
+    "name": "FLYING LAPTOP",
+    "names": "",
+    "norad_cat_id": 42831,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/corvus-bc__1_ZNzYIdw.jpg",
+    "name": "CORVUS BC2",
+    "names": "Landmapper-BC 2",
+    "norad_cat_id": 42846,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/corvus-bc__1.jpg",
+    "name": "CORVUS BC1",
+    "names": "Landmapper-BC 1",
+    "norad_cat_id": 42847,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/simpl__1.jpg",
+    "name": "SIMPL",
+    "names": "",
+    "norad_cat_id": 42983,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/RadFxSat_Flight-300x300.jpg",
+    "name": "FOX-1B",
+    "names": "AO-91\r\nRADFXSAT",
+    "norad_cat_id": 43017,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/eaglesat__1.jpg",
+    "name": "EAGLESAT-1",
+    "names": "",
+    "norad_cat_id": 43018,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ecamsat.jpg",
+    "name": "ECAMSAT",
+    "names": "",
+    "norad_cat_id": 43019,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "INS-1C",
+    "names": "",
+    "norad_cat_id": 43116,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/picsat_h4gc1Oy.jpg",
+    "name": "PICSAT",
+    "names": "",
+    "norad_cat_id": 43131,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/picsat.jpg",
+    "name": "PICSAT",
+    "names": "",
+    "norad_cat_id": 43132,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/FM_KHUSAT-03.png",
+    "name": "SIGMA",
+    "names": "KHUSAT-03",
+    "norad_cat_id": 43134,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/Fox-1Ds-819x1024.jpg",
+    "name": "FOX-1D",
+    "names": "AO-92",
+    "norad_cat_id": 43137,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/26231665_1540331506080989_4567652502551812800_n.jpg",
+    "name": "STEP-1",
+    "names": "",
+    "norad_cat_id": 43138,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "Xiaoxiang-2",
+    "names": "TY-2\r\nTianYi 2",
+    "norad_cat_id": 43155,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "ZHOU ENLAI",
+    "names": "HA-1",
+    "norad_cat_id": 43156,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "QUANTUTONG 1",
+    "names": "QTT 1\r\nTY-6\r\nTianYi 6",
+    "norad_cat_id": 43158,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "D-Star ONE",
+    "names": "D-Star ONE Phoenix",
+    "norad_cat_id": 43188,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "FengMaNiu 1",
+    "names": "FMN-1",
+    "norad_cat_id": 43192,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "SHAONIAN XING",
+    "names": "",
+    "norad_cat_id": 43199,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/1KUNS.png",
+    "name": "1KUNS-PF",
+    "names": "1KUNS",
+    "norad_cat_id": 43466,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/ubakusat-cubesat.jpg",
+    "name": "UBAKUSAT",
+    "names": "",
+    "norad_cat_id": 43467,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/satelite-irazu-tec.png",
+    "name": "IRAZU",
+    "names": "Iraz\u00fa",
+    "norad_cat_id": 43468,
+    "status": "alive"
+  },
+  {
+    "image": null,
+    "name": "CNUSAIL-1",
+    "names": "",
+    "norad_cat_id": 99937,
+    "status": "alive"
+  },
+  {
+    "image": "https://db.satnogs.org/media/satellites/KAUSAT-5.png",
+    "name": "KAUSAT-5",
+    "names": "",
+    "norad_cat_id": 99939,
+    "status": "alive"
+  }
+]

@@ -26,8 +26,9 @@ TLE_DB = 'tle.db'
 r = requests.get(URL)
 satellites = r.json()
 
+satellites[:] = sorted(satellites, key=lambda s: s['norad_cat_id'])
 with open(SATELLITES_JSON, 'w') as fp:
-    json.dump(satellites, fp)
+    json.dump(satellites, fp, sort_keys=True, indent=2)
 
 
 conn = sqlite3.connect('file:' + TLE_DB, uri=True,
