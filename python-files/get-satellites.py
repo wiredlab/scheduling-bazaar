@@ -19,7 +19,7 @@ orbit.tle.requests_cache.configure(expire_after=60*60*6)
 
 URL = 'https://db.satnogs.org/api/satellites'
 SATELLITES_JSON = 'satellites.json'
-TLE_DB = 'tle.db'
+TLE_DB = 'tle.sqlite'
 
 
 # fetch known satellites

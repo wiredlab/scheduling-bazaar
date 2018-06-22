@@ -19,11 +19,11 @@ stationsfile = 'network-stations.json'
 satsfile = 'satellites.json'
 
 
-dbfile = 'allpasses.db'
+dbfile = 'allpasses.sqlite'
 compute_function = 'ephem'
-# dbfile = 'ephem-passes.db'
+# dbfile = 'ephem-passes.sqlite'
 # compute_function = 'orbital'
-# dbfile = 'orbital-passes.db'
+# dbfile = 'orbital-passes.sqlite'
 
 if len(sys.argv) == 4:
     stationsfile = sys.argv[1]
