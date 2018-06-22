@@ -28,7 +28,7 @@ def tlerow2tuple(t):
     return TleTuple(**t)
 
 
-def load_satellites(satsfile, tledb='tle.db'):
+def load_satellites(satsfile, tledb='tle.sqlite'):
     """Load satellites from satsfile (json) and pickup the latest TLE from
     tledb.
 
