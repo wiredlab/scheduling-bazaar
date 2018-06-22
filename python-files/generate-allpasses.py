@@ -57,7 +57,7 @@ sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
 
 start_time = '2018/6/20 00:00:00'
 # duration = 8760 #a year worth of hours
-duration = 12
+duration = 24*90
 
 line = '-- %-30s -------------'
 print(line % 'Computing passes')
@@ -69,7 +69,7 @@ tree = compute_all_passes(stations,
                           start_time,
                           duration=duration,
                           dbfile=dbfile,
-                          nprocesses=0,
+                          nprocesses=1,
                           function=compute_function)
 pr.disable()
 pr.print_stats(sort='time')
