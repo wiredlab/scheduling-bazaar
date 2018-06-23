@@ -9,6 +9,7 @@ The contacts will be used to answer scheduling questions for a network of ground
 
 * numpy
 * ephem
+* orbit
 * intervaltree
 * iso8601
 
