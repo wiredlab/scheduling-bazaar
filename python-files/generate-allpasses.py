@@ -18,11 +18,11 @@ import db
 stationsfile = 'network-stations.json'
 satsfile = 'satellites.json'
 
-# dbfile = 'allpasses.sqlite'
-dbfile = 'testpasses.sqlite'
+dbfile = 'allpasses.sqlite'
+# dbfile = 'testpasses.sqlite'
 
-# compute_function = db.compute_passes_ephem
-compute_function = db.compute_passes_orbital
+compute_function = db.compute_passes_ephem
+# compute_function = db.compute_passes_orbital
 
 start_time = '2018/6/20 00:00:00'
 # duration = 8760 #a year worth of hours
@@ -41,11 +41,11 @@ if len(sys.argv) == 4:
 # ground stations
 #
 stations = db.load_stations(stationsfile)
-print('N stations:', len(stations))
+print(len(stations), 'stations')
 
-# only include online stations
-stations[:] = [s for s in stations if s['status'] in ('Online',)]
-print('N filtered stations:', len(stations))
+# exclude inactive stations
+stations[:] = [s for s in stations if s['status'] not in ('Offline',)]
+print(len(stations), 'filtered stations')
 
 
 #
@@ -64,7 +64,7 @@ sats = db.load_satellites(satsfile)
 if compute_function == db.compute_passes_orbital:
     sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
 
-print('N satellites:', len(sats))
+print(len(sats), 'satellites')
 
 
 
