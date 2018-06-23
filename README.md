@@ -14,3 +14,6 @@ The contacts will be used to answer scheduling questions for a network of ground
 * iso8601
 
 `conda env update -f environment.yml`
+
+
+Uses `direnv` tool to manage shell setup.

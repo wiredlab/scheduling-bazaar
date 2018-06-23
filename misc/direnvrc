@@ -1,0 +1,28 @@
+# Usage: layout conda
+# Allow direnv to activate the conda environment when moving into a directory
+#
+# this file must be added to the direnv configuration via:
+#    cat direnvrc >> ~/.config/direnv/direnvrc
+#
+# NOTE: add $CONDA_PROMPT_MODIFIER to $PS1 manually in ~/.bashrc
+layout_conda() {
+  # modify this for local setup
+  local CONDA_HOME="${HOME}/miniconda3/"
+
+  source ${CONDA_HOME}/etc/profile.d/conda.sh
+  if [ -n "$1" ]; then
+    # Explicit environment name from layout command.
+    local env_name="$1"
+    echo "conda activate ${env_name}"
+    conda activate ${env_name}
+  elif (grep -q name: environment.yml); then
+    # Detect environment name from `environment.yml` file in `.envrc` directory
+    local env_name="`grep name: environment.yml | sed -e 's/name: //'`"
+    echo "conda activate ${env_name} (from environment.yml)"
+    conda activate ${env_name}
+  else
+    (>&2 echo No environment specified);
+    exit 1;
+  fi;
+}
+
