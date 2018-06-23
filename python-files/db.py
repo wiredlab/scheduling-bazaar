@@ -140,7 +140,7 @@ def compute_passes_ephem(args):
     ground_station.lat = str(observer['lat'])          # in degrees (+N)
     ground_station.elevation = observer['altitude']       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
-    ground_station.horizon = observer['min_horizon'] # in degrees
+    ground_station.horizon = str(observer['min_horizon']) # in degrees
     ground_station.pressure = 0  # ignore atmospheric refraction at the horizon
 
     # Read in most recent satellite TLE data
