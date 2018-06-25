@@ -28,7 +28,7 @@ def tlerow2tuple(t):
     return TleTuple(**t)
 
 
-def load_stations(filename):
+def load_stations(filename='network-stations.json'):
     """Returns a list of gs dicts from a file.
 
     Arguments:

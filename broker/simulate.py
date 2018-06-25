@@ -13,7 +13,6 @@ def simulate():
     # from ../python-files/
     import db
     import schedulers
-    from schedulingbazaar import load_gs, load_tles
 
     # from ./
     import client
@@ -30,7 +29,7 @@ def simulate():
     #
     #################################################################
     # load a dict of GSs
-    stations = load_gs('../python-files/groundstations.txt')
+    stations = db.load_stations()
 
     # create a set of clients
     clients = {}
