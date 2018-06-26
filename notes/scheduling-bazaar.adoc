@@ -1,0 +1,118 @@
+:sectnums:
+:sectnumlevels: 3
+:toc: left
+:toclevels: 2
+
+= Scheduling Bazaar
+Dan White <dan.white@valpo.edu>
+
+Federated Networks of Independent Satellite Ground Stations
+
+== Introduction
+The Libre Space Foundation's SatNOGS project seeks to open access to space-related information by creating an ecosystem of open source software and hardware components.
+It is accomplishing this goal by reducing the cost of owning a satellite ground station and providing software tools to automatically manage the creation and execution of satellite pass observations.
+
+The *libre* philosophy prioritizes the liberty of a ground station owner to operate their station as they see fit.
+Generally, these owners are interested in making their station available for scheduling observations during times when the station is not being actively controlled.
+This leaves the problem of who is authorized to schedule jobs on a particular station and how to manage the priorities of observers and owners when two requests overlap.
+
+Currently, the SatNOGS Network interface gives Owners the right to cancel jobs and to schedule jobs on their own station via the web interface.
+It also provides utilities for scheduling jobs on ground stations visible to a certain satellite during a time interval.
+
+However, the current job scheduling system does not easily allow a particular Client to schedule jobs in cooperation with other networks, as allowed by the Owner's freedom of autonomy.
+In addition, there is not a clear way for separating the priorities of a Network from those of a ground station owner.
+
+An addition to the scheduling system is needed to require action from both the Network and Client in order to arrive at an agreed-upon set of parameters for an observation job.
+This allows a Client to interact with one or more Networks for collaboratively scheduling jobs.
+
+
+== Definitions
+=== Network
+A central Internet-based service which requests ``job``s, stores data, and coordinates the observations of a number of ground station Clients.
+
+The Network makes `request`s to registered Clients for collecting satellite downlink signals and data.
+Each Network manages its own set of priorities and scheduling preferences to determine which passes to request from connected Clients.
+
+
+=== Broker
+The entity which handles communication between a Network and a Client for the purposes of arriving at an agreed-upon set of `job` parameters.
+
+Typically, the Broker function is integrated into the Network software.
+For future versions of the protocol, the Broker may be a separate service from the Network.
+
+
+=== Client
+The software end point which processes requests from a Network's Broker and generates replies.
+It contains the authoritative schedule of all ``job``s associated with a specific ground station from all associated Networks and from local (manual) sources.
+
+The hardware of a single ground station may be associated with several Client instances, typically set by the number of independent receivers available.
+
+* Example 1: A ground station may have two directional antennas attached to a common rotator with each antenna attached to a separate receiver.
+The first Client instance is able to control the rotator for tracking and can select the antenna for any observation.
+A second Client instance has the ability to use the unused antenna+receiver for scheduling passes for other satellite passes.
+These two Client instances may or may not be associated with the same satellite.
+
+* Example 2: A ground station has a single omni-directional antenna and thus no rotator.
+The antenna feed is split and sent to several receivers where each is controlled by a unique Client instance.
+In this manner, a single antenna may be used to track several overlapping passes in the same frequency range.
+
+
+=== Owner
+An owner retains exclusive control of a number of Client instances.
+Typically, an Owner is also the person or entity which owns the physical hardware at a ground station.
+The Owner sets the local policy and preferences for their set of Clients for the acceptance and generation of ``request``s.
+
+
+=== `request`
+A software object (typicaly JSON) which contains all information required for a Client or Network to determine whether to accept or reject the proposed `job`.
+
+Either the Network or Client may originate a `request`.
+
+
+=== `job`
+A software object which contains all information associated with a specific Satellite pass over a Client.
+It also contains information for the Client to report the results of the observation back to the specific Network.
+
+A `request` object becomes a `job` object only after the requestee responds to the `request` with a `status: accept` response containing an unambiguous reference to a previously-sent `request`.
+
+
+
+== Design Principles
+For the purposes of this document, the following attributes are assumed unless otherwise stated:
+
+=== Owner autonomy
+The Owner of a set of Clients retains autonomy in determining which `job`s are accepted.
+The Owner also retains the ability to cancel a `job` at any time before or during a pass for any reason.
+
+An Agreement (Contract) directly between a Network and an Owner are the sole means of modifying the behavior of an Owner and associated Clients with respect to scheduling.
+
+=== Network-Client agreement
+A `job` is not considered as scheduled until an `status: accept` response is returned with an associated `request: id` unique to each Network.
+
+=== Network incentives
+Each Network sets a "`bounty`" for a particular `request` according to its own scheme or agreements with individual Owners.
+
+=== Ownership of data
+Data generated from ``job``s is owned by the Client's Owner.
+Only agreements between a Network and Owner may modify the ownership and licensing of received information.
+
+* Example: Bar Network makes a `request` to a certain Client.
+The ALLSAT Network also makes a `request` to the Client for the same satellite pass with perhaps slightly different times.
+The Client accepts the Bar Network `request` according to its certain policy and rejects the ALLSAT Network `request`.
+However, since the pass data was generated from information obtained from https://db.satnogs.org, the license allows the Client to make a `request` to the ALLSAT Network using the scheduled job parameters.
+In this way, the Bar Network set the specific parameters of the `job`, but the ALLSAT Network may also accept archive the results of the `job`.
+
+* Example: The OURSAT Network has entered into agreements with several Owners/Clients for making observations of OURSAT's satelite(s).
+Part of the agreement involves payments to an Owner for `jobs` observing an OURSAT satellite.
+The agreement does not restrict the observation data.
+In this case, the Client might accept ``request``s from OURSAT Network and then make a ``request`` to the SatNOGS Network for the same `job`.
+The net result is OURSAT gets priority scheduling with a certain Client and the observation data is also made available to all via the SatNOGS Network.
+
+* Example: The information contained in the `request` object from Foo Network is proprietary.
+An agreement between the Owner and Foo Network prohibits the disclosure of the `request` data to other parties.
+The agreement also prohibits a Client from uploading data received using parameters of the `request` to other Networks.
+
+* Example: An Owner is particularly interested in a certain satellite.
+They will configure their Client(s) to accept ``request``s for observations of this satellite and reject any requests which overlap with those passes.
+Upon receiving a `request` from a Network for a non-priority satellite, the Client may make a modified `request` back to the Network with modified times which no longer overlap with the priority `job`.
+The requesting Network may then choose to accept or reject the modified `request`.
