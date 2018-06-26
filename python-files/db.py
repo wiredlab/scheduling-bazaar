@@ -24,10 +24,6 @@ TleTuple = namedtuple('TleTuple',
                       'norad epoch line0 line1 line2')
 
 
-def tlerow2tuple(t):
-    return TleTuple(**t)
-
-
 def load_stations(filename='network-stations.json'):
     """Returns a list of gs dicts from a file.
 
@@ -79,9 +75,8 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
         if not row:
             continue
 
-        data = tlerow2tuple(row)
-        sat['tle'] = [data.line0, data.line1, data.line2]
-        sat['epoch'] = data.epoch
+        sat['epoch'] = row['epoch']
+        sat['tle'] = (row['line0'], row['line1'], row['line2'])
 
     sats[:] = (s for s in sats if 'tle' in s)
     return sats
