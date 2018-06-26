@@ -97,12 +97,24 @@ def getpasses(dbfile='allpasses.sqlite', gs='%', sat='%'):
     conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
 
     query = 'SELECT * FROM passes WHERE gs LIKE ? AND sat LIKE ?;'
+    # query = 'SELECT * FROM passes WHERE gs = ? AND sat = ?;'
     args = [gs, sat]
+    if gs is None and sat is None:
+        query = 'SELECT * FROM passes;'
+        args = []
+    elif gs is not None and sat is None:
+        query = 'SELECT * FROM passes WHERE gs = ?;'
+        args = [gs]
+    elif gs is None and sat is not None:
+        query = 'SELECT * FROM passes WHERE sat = ?;'
+        arsat = [sat]
+    elif '%' not in gs and '%' not in sat:
+        query = 'SELECT * FROM passes WHERE gs = ? AND sat = ?;'
+        args = [gs, sat]
 
-    for p in cur.execute(query, args):
+    for p in conn.execute(query, args):
         tree.add(passrow2interval(p))
     conn.close()
     return tree
@@ -385,9 +397,8 @@ def load_all_passes(dbfile='passes.db'):
     conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
 
-    for p in cur.execute('''SELECT * FROM passes;'''):
+    for p in conn.execute('''SELECT * FROM passes;'''):
         tree.add(passrow2interval(p))
     conn.close()
     return tree
