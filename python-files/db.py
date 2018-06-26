@@ -52,7 +52,7 @@ def load_stations(filename='network-stations.json'):
     return stations
 
 
-def load_satellites(satsfile, tledb='tle.sqlite'):
+def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
     """Load satellites from satsfile (json) and pickup the latest TLE from
     tledb.
 
