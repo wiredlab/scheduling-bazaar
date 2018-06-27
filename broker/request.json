@@ -22,11 +22,11 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
       "$ref": "#/definitions/bounty"
     },
     "type": {
+      "description": "New request for job, negotiate terms of a previous request, or modify a scheduled job.",
       "type": "string",
-      "enum": ["new", "update", "modify"]
+      "enum": ["new", "negotiate", "modify"]
     }
   },
-
   "definitions": {
     "job": {
       "description": "Information about a (potentially) scheduled Job.",
@@ -98,11 +98,6 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
           "minimum": 0
         }
       }
-    },
-    "status": {
-      "description": "Type of communication.",
-      "type": "string",
-      "enum": ["initial", "accept", "reject", "update", "modify"]
     }
   }
 }
