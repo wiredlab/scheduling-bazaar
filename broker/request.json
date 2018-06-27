@@ -12,35 +12,18 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
   "description": "A Network request to schedule a Job with a Client.",
   "$id": "http://satnogs.org/schemas/v0.1#",
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "required": ["status"],
+  "required": ["type"],
   "properties": {
-    "if": {
-      "status": {
-        "type": "string",
-        "enum": ["initial"]
-      }
+    "job": {
+      "$ref": "#/definitions/job",
+      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"]
     },
-    "then": {
-        "status": {
-          "type": "string",
-          "enum": ["initial"]
-        },
-        "job": {
-          "$ref": "#/definitions/job",
-          "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"]
-        },
-        "bounty": { "$ref": "#/definitions/bounty" }
+    "bounty": {
+      "$ref": "#/definitions/bounty"
     },
-    "else": {
-        "status": {
-          "type": "string",
-          "enum": ["accept", "reject", "update", "modify"]
-        },
-        "job": {
-          "$ref": "#/definitions/job",
-          "required": ["id"]
-        },
-        "bounty": { "$ref": "#/definitions/bounty" }
+    "type": {
+      "type": "string",
+      "enum": ["new", "update", "modify"]
     }
   },
 
