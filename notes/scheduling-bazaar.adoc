@@ -1,7 +1,8 @@
-:sectnums:
-:sectnumlevels: 3
+:doctype: article
 :toc: left
 :toclevels: 2
+:sectnums:
+:sectnumlevels: 3
 
 = Scheduling Bazaar
 Dan White <dan.white@valpo.edu>
@@ -77,7 +78,7 @@ A `request` object becomes a `job` object only after the requestee responds to t
 
 
 
-== Design Principles
+== Design principles
 For the purposes of this document, the following attributes are assumed unless otherwise stated:
 
 === Owner autonomy
@@ -116,3 +117,14 @@ The agreement also prohibits a Client from uploading data received using paramet
 They will configure their Client(s) to accept ``request``s for observations of this satellite and reject any requests which overlap with those passes.
 Upon receiving a `request` from a Network for a non-priority satellite, the Client may make a modified `request` back to the Network with modified times which no longer overlap with the priority `job`.
 The requesting Network may then choose to accept or reject the modified `request`.
+
+== Minimum requirements
+=== Overview
+Networks and Clients send `request` objects to each other until one replies
+with `status: accept` and a reference to a previous `request` object sent by
+the other party.
+There may be just one `request` sent then a `status:accept` or a chain of
+`request` objects referencing each other as the two parties negotiate the
+details of the proposed `job`.
+
+The Client is responsible for only ``accept``ing a `request` which
