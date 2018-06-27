@@ -3,13 +3,12 @@
 This is addressed to a certain Client and is a preliminary Job to become scheduled.  The Network first makes a request to a client with all information needed to execute the job.  To the Job data, it adds a **bounty** (or other name) that indicates the priority of this job or the "payment" to the client if the job's observation is successfully uploaded to the Network.
 
  http://json-schema.org/
-      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"],
 */
 
 
 {
   "title": "SatNOGS Broker - Request",
-  "description": "A Network request to schedule a Job with a Client.",
+  "description": "An object to send between a Network and Client when negotiating terms of a Job to be scheduled.",
   "$id": "http://satnogs.org/schemas/v0.1#",
   "$schema": "http://json-schema.org/draft-06/schema#",
   "required": ["type"],
