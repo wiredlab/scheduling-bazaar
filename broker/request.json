@@ -37,13 +37,13 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
           "type": ["number", "string"]
         },
         "start": {
-          "description": "Time to start the job.",
+          "description": "Time in UTC to start the job.",
           "$comment": "RFC 3339 section 5.6 date-time format.  https://tools.ietf.org/html/rfc3339#section-5.6",
           "type": "string",
           "format": "date-time"
         },
         "end": {
-          "description": "Time to end the job.",
+          "description": "Time in UTC to end the job.",
           "$comment": "RFC 3339 section 5.6 date-time format.  https://tools.ietf.org/html/rfc3339#section-5.6",
           "type": "string",
           "format": "date-time"
