@@ -13,19 +13,54 @@ Federated Networks of Independent Satellite Ground Stations
 The Libre Space Foundation's SatNOGS project seeks to open access to space-related information by creating an ecosystem of open source software and hardware components.
 It is accomplishing this goal by reducing the cost of owning a satellite ground station and providing software tools to automatically manage the creation and execution of satellite pass observations.
 
-The *libre* philosophy prioritizes the liberty of a ground station owner to operate their station as they see fit.
+The _libre_ philosophy prioritizes the liberty of a ground station owner to operate their station as they see fit.
 Generally, these owners are interested in making their station available for scheduling observations during times when the station is not being actively controlled.
-This leaves the problem of who is authorized to schedule jobs on a particular station and how to manage the priorities of observers and owners when two requests overlap.
 
+SatNOGS is the first operational network for coordinating ground stations using an open model and especially one focused on the freedom of the participants.
+To remain the leaders in this area, SatNOGS should create, specify, and provide the reference implementation for the interactions between a Network and Client.
+
+// GENSO
+// Leaf Line
+// DGSN
+// KSAT
+// SSC
+// UNISEC GSN
+// RBC Signals
+// etc...
+Since its conception, however, there have been several alternatives in various stages of development, capability, and goals -- both commercial and non-commercial.
+By publishing *both* the minimum requirements for communications *and* providing a body of reference code, the SatNOGS community can help materially reduce or reverse the fracturing happening with ground station networks.
+
+=== Problem
 Currently, the SatNOGS Network interface gives Owners the right to cancel jobs and to schedule jobs on their own station via the web interface.
-It also provides utilities for scheduling jobs on ground stations visible to a certain satellite during a time interval.
+It also allows Observers to schedule jobs on other ground stations visible to a certain satellite during a time interval.
 
 However, the current job scheduling system does not easily allow a particular Client to schedule jobs in cooperation with other networks, as allowed by the Owner's freedom of autonomy.
-In addition, there is not a clear way for separating the priorities of a Network from those of a ground station owner.
+In addition, there is not a clear way for separating the priorities of a Network from those of a ground station owner or of a third entity (Observer) when dealing with overlaps in passes.
+This prevents a more automated system of job scheduling, since the automation would need to know all participants' priorities and authority in order to find the optimal schedule.
 
-An addition to the scheduling system is needed to require action from both the Network and Client in order to arrive at an agreed-upon set of parameters for an observation job.
+
+
+=== Proposal
+Situating the authority for accepting jobs with the Client (alone) is a needed step for addressing the scheduling priority issue.
+An addition to the scheduling system is needed which requires action from both the Network and Client in order to arrive at an agreed-upon set of parameters for an observation job.
+
+A job request process between a Network and Client should happen before a Job is considered schdeduled.
+Both the Client and Network must agree on the set of details for a requested job.
 This allows a Client to interact with one or more Networks for collaboratively scheduling jobs.
+The change allows the interactions between a Network and Client to be integrated into an existing body of ground staton control software.
 
+
+[NOTE]
+====
+The problem of _how_ to capture and manage the priorities and preferences of the Network, Owner, and Observer is *not* a part of this proposal.
+Indeed, a general solution is not possible -- what now is possible is to allow each Network and individual Client's Owner to set local policies for when to accept each job request.
+The software implementing the Client may then allow the user to specify an ordered list of satellites to receive, or write a custom function which implements a more complex local policy.
+
+Work building a simulator to model this multi-agent system is ongoing and lives at https://github.com/wiredlab/scheduling-bazaar[^].
+====
+
+
+https://en.wikipedia.org/wiki/Federation_(information_technology)[^]
 
 == Definitions
 === Network
@@ -93,6 +128,10 @@ A `job` is not considered as scheduled until an `status: accept` response is ret
 === Network incentives
 Each Network sets a "`bounty`" for a particular `request` according to its own scheme or agreements with individual Owners.
 
+These bounties may represent real currency or be credits associated with each Network.
+For example, OURSAT Network may offer bounties in `ONC` credits set to the duration in minutes of the particular job.
+An Owner may then use their earned `ONC` credits for increasing the bounty when making requests to other Clients.
+
 === Ownership of data
 Data generated from ``job``s is owned by the Client's Owner.
 Only agreements between a Network and Owner may modify the ownership and licensing of received information.
@@ -128,3 +167,6 @@ There may be just one `request` sent then a `status:accept` or a chain of
 details of the proposed `job`.
 
 The Client is responsible for only ``accept``ing a `request` which
+
+
+// vim: textwidth=0

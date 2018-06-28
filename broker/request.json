@@ -3,47 +3,29 @@
 This is addressed to a certain Client and is a preliminary Job to become scheduled.  The Network first makes a request to a client with all information needed to execute the job.  To the Job data, it adds a **bounty** (or other name) that indicates the priority of this job or the "payment" to the client if the job's observation is successfully uploaded to the Network.
 
  http://json-schema.org/
-      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"],
 */
 
 
 {
   "title": "SatNOGS Broker - Request",
-  "description": "A Network request to schedule a Job with a Client.",
+  "description": "An object to send between a Network and Client when negotiating terms of a Job to be scheduled.",
   "$id": "http://satnogs.org/schemas/v0.1#",
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "required": ["status"],
+  "required": ["type"],
   "properties": {
-    "if": {
-      "status": {
-        "type": "string",
-        "enum": ["initial"]
-      }
+    "job": {
+      "$ref": "#/definitions/job",
+      "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"]
     },
-    "then": {
-        "status": {
-          "type": "string",
-          "enum": ["initial"]
-        },
-        "job": {
-          "$ref": "#/definitions/job",
-          "required": ["id", "start", "end", "tle1", "tle2", "frequency", "mode"]
-        },
-        "bounty": { "$ref": "#/definitions/bounty" }
+    "bounty": {
+      "$ref": "#/definitions/bounty"
     },
-    "else": {
-        "status": {
-          "type": "string",
-          "enum": ["accept", "reject", "update", "modify"]
-        },
-        "job": {
-          "$ref": "#/definitions/job",
-          "required": ["id"]
-        },
-        "bounty": { "$ref": "#/definitions/bounty" }
+    "type": {
+      "description": "New request for job, negotiate terms of a previous request, or modify a scheduled job.",
+      "type": "string",
+      "enum": ["new", "negotiate", "modify"]
     }
   },
-
   "definitions": {
     "job": {
       "description": "Information about a (potentially) scheduled Job.",
@@ -54,13 +36,13 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
           "type": ["number", "string"]
         },
         "start": {
-          "description": "Time to start the job.",
+          "description": "Time in UTC to start the job.",
           "$comment": "RFC 3339 section 5.6 date-time format.  https://tools.ietf.org/html/rfc3339#section-5.6",
           "type": "string",
           "format": "date-time"
         },
         "end": {
-          "description": "Time to end the job.",
+          "description": "Time in UTC to end the job.",
           "$comment": "RFC 3339 section 5.6 date-time format.  https://tools.ietf.org/html/rfc3339#section-5.6",
           "type": "string",
           "format": "date-time"
@@ -115,11 +97,6 @@ This is addressed to a certain Client and is a preliminary Job to become schedul
           "minimum": 0
         }
       }
-    },
-    "status": {
-      "description": "Type of communication.",
-      "type": "string",
-      "enum": ["initial", "accept", "reject", "update", "modify"]
     }
   }
 }
