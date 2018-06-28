@@ -9,15 +9,27 @@ Dan White <dan.white@valpo.edu>
 
 Federated Networks of Independent Satellite Ground Stations
 
+
+[NOTE]
+====
+The most recent source for this document may be found at:
+https://github.com/wiredlab/scheduling-bazaar/blob/master/notes/scheduling-bazaar.adoc
+
+A rendered version is published at:
+https://agnd.net/tmp/bazaar/scheduling-bazaar.html
+====
+
+
 == Introduction
 The Libre Space Foundation's SatNOGS project seeks to open access to space-related information by creating an ecosystem of open source software and hardware components.
-It is accomplishing this goal by reducing the cost of owning a satellite ground station and providing software tools to automatically manage the creation and execution of satellite pass observations.
+It is accomplishing this goal by reducing the cost of owning a satellite ground station and providing software tools to automatically manage the creation and execution of satellite observations.
 
-The _libre_ philosophy prioritizes the liberty of a ground station owner to operate their station as they see fit.
-Generally, these owners are interested in making their station available for scheduling observations during times when the station is not being actively controlled.
+The _libre_ philosophy of the project acknowledges the liberty of a ground station owner to operate their station as they see fit.
+Generally, these owners are interested in making their station available for others to schedule observations during times when the station is not being actively controlled.
 
 SatNOGS is the first operational network for coordinating ground stations using an open model and especially one focused on the freedom of the participants.
-To remain the leaders in this area, SatNOGS should create, specify, and provide the reference implementation for the interactions between a Network and Client.
+To remain the leaders in this area, SatNOGS should create, specify, and provide the reference implementation for the _interactions_ between a Network and Client.
+Having a stable Network<-->Client interface is a key step to promoting interoperation or https://en.wikipedia.org/wiki/Federation_(information_technology)[federating^] between more stakeholders.
 
 // GENSO
 // Leaf Line
@@ -27,40 +39,55 @@ To remain the leaders in this area, SatNOGS should create, specify, and provide 
 // UNISEC GSN
 // RBC Signals
 // etc...
-Since its conception, however, there have been several alternatives in various stages of development, capability, and goals -- both commercial and non-commercial.
-By publishing *both* the minimum requirements for communications *and* providing a body of reference code, the SatNOGS community can help materially reduce or reverse the fracturing happening with ground station networks.
+
+Since its conception, however, there have been several ground station network alternatives with various stages of development, capability, and goals -- both commercial and non-commercial.
+By publishing *both* the minimum requirements for interoperation *and* providing a body of reference code, the SatNOGS community can materially reduce or reverse the fracturing happening in this arena.
 
 === Problem
-Currently, the SatNOGS Network interface gives Owners the right to cancel jobs and to schedule jobs on their own station via the web interface.
-It also allows Observers to schedule jobs on other ground stations visible to a certain satellite during a time interval.
+Currently, the SatNOGS Client component has no decision-making capability, it accepts all jobs assigned to it from the SatNOGS Network.
+Some policies about are implemented within the Network code which partially address the authority issue.
 
-However, the current job scheduling system does not easily allow a particular Client to schedule jobs in cooperation with other networks, as allowed by the Owner's freedom of autonomy.
-In addition, there is not a clear way for separating the priorities of a Network from those of a ground station owner or of a third entity (Observer) when dealing with overlaps in passes.
-This prevents a more automated system of job scheduling, since the automation would need to know all participants' priorities and authority in order to find the optimal schedule.
+The current job scheduling system does not easily allow a particular Client to schedule jobs in cooperation with other networks, as allowed by the Owner's freedom of autonomy.
+In addition, there is not a clear way for separating the priorities of a Network from those of a ground station Owner or of a third entity (Observer) when dealing with overlaps in passes.
+This prevents automation of job scheduling, since such a system would need to know all participants' priorities and authorities in order to find an optimal schedule.
+
+[NOTE]
+====
+The AGPL3 licensing of the SatNOGS code base does permit operation of separate Network instances.
+However, since a Client can communicate with only one Network, this just creates another ground station network *island*, discouraging interoperation and not forwarding the goal of opening space technologies to everyone.
+====
 
 
 
 === Proposal
-Situating the authority for accepting jobs with the Client (alone) is a needed step for addressing the scheduling priority issue.
-An addition to the scheduling system is needed which requires action from both the Network and Client in order to arrive at an agreed-upon set of parameters for an observation job.
+Situating the authority for accepting jobs with the Client (alone) is a necessary step for addressing the scheduling priority issue.
+A `request` process should happen between a Network and Client where both parties agree on the set of details for a requested job.
+Either side of the negotiation may respond with modified details.
+The other side then indicates agreement by an `accept` response that references a specific received `request`.
 
-A job request process between a Network and Client should happen before a Job is considered schdeduled.
-Both the Client and Network must agree on the set of details for a requested job.
-This allows a Client to interact with one or more Networks for collaboratively scheduling jobs.
-The change allows the interactions between a Network and Client to be integrated into an existing body of ground staton control software.
+The Network and Client indicate their preferences to each other by two means:
+
+* Originating a `request` to the other (both directions are possible).
+* Using the `bounty` field of the `request` object to indicate the "`reward`" for accepting and completing a job.
+
+The `bounty` may be a list of several currencies, real or Network-specific.
+For example, the SatNOGS Network could offer `SNC`'s set to the duration in minutes for a particular job.
+Earning and spending these bounties depend on a specific Network's policies and any direct agreements between a Network and Owner.
+
+
 
 
 [NOTE]
 ====
 The problem of _how_ to capture and manage the priorities and preferences of the Network, Owner, and Observer is *not* a part of this proposal.
-Indeed, a general solution is not possible -- what now is possible is to allow each Network and individual Client's Owner to set local policies for when to accept each job request.
+Indeed, a general solution is not possible
+What is now made possible is to allow each Network and individual Client's Owner to set local policies for when to accept each job request.
 The software implementing the Client may then allow the user to specify an ordered list of satellites to receive, or write a custom function which implements a more complex local policy.
 
 Work building a simulator to model this multi-agent system is ongoing and lives at https://github.com/wiredlab/scheduling-bazaar[^].
 ====
 
 
-https://en.wikipedia.org/wiki/Federation_(information_technology)[^]
 
 == Definitions
 === Network
@@ -166,7 +193,10 @@ There may be just one `request` sent then a `status:accept` or a chain of
 `request` objects referencing each other as the two parties negotiate the
 details of the proposed `job`.
 
-The Client is responsible for only ``accept``ing a `request` which
+The Client is responsible for only ``accept``ing a `request` where there is a reasonable expectation that the Client will be successful, i.e. no overlaps, appropriate receiving scripts and hardware, available antenna, etc.
+
+A future extension to this protocol can include a `capabilities` object which a Client sends to a Network.
+It would include information such as frequency ranges and receive system performance.
 
 
 // vim: textwidth=0
