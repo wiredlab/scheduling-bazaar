@@ -6,9 +6,9 @@ INCLUDE_DIRS=css fig
 FIGURES=$(wildcard fig/*)
 
 ASCIIDOCTOR_OPTS=
-#ASCIIDOCTOR_OPTS+=-a linkcss
+ASCIIDOCTOR_OPTS+=-a linkcss
 ASCIIDOCTOR_OPTS+=-a icons=font
-#ASCIIDOCTOR_OPTS+=-a stylesdir=css
+ASCIIDOCTOR_OPTS+=-a stylesdir=css
 #ASCIIDOCTOR_OPTS+=-a imagesdir=fig
 #ASCIIDOCTOR_OPTS+=-a scriptsdir=js
 ASCIIDOCTOR_OPTS+=-a stem=latexmath
@@ -17,7 +17,7 @@ ASCIIDOCTOR_OPTS+=-a docinfo=shared
 ASCIIDOCTOR_OPTS+=-a sectnums
 ASCIIDOCTOR_OPTS+=-a sectanchors
 ASCIIDOCTOR_OPTS+=-a xrefstyle=full
-#ASCIIDOCTOR_OPTS+=-a stylesheet=asciidoctor.css
+ASCIIDOCTOR_OPTS+=-a stylesheet=asciidoctor.css
 
 
 #GUIDEBOOK_INCLUDES=$(shell grep -o -e '[^:<]\+\.adoc'  guidebook.adoc)
