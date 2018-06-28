@@ -1522,7 +1522,10 @@
 }
  @media print{
     @page{
-        margin:1.25cm .75cm
+      margin:1.5cm 2.5cm;
+    }
+    body {
+        font-size:11pt;
     }
      *{
         -webkit-box-shadow:none!important;
@@ -1548,7 +1551,12 @@
      pre,blockquote,tr,img,object,svg{
         page-break-inside:avoid
     }
+     table{
+        /* breaking tables is bad for printing as reference sheets */
+        page-break-inside:avoid
+    }
      thead{
+        /* at least keep the header if breaking a table! */
         display:table-header-group
     }
      svg{
@@ -1561,6 +1569,12 @@
     }
      h2,h3,#toctitle,.sidebarblock>.content>.title{
         page-break-after:avoid
+    }
+     h2+h3{
+         page-break-before:avoid
+     }
+     .sect4 {
+         page-break-inside:avoid
     }
      #toc,.sidebarblock,.exampleblock>.content{
         background:none!important
@@ -1607,6 +1621,9 @@
     }
      body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{
         page-break-before:always
+    }
+     body.book .sect2>h3{
+         page-break-before:always
     }
      .listingblock code[data-lang]:before{
         display:block
