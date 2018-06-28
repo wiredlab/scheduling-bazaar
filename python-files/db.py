@@ -21,7 +21,7 @@ PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs sat')
 
 TleTuple = namedtuple('TleTuple',
-                      'norad epoch line0 line1 line2')
+                      'norad epoch line0 line1 line2 downloaded')
 
 
 def load_stations(filename='network-stations.json'):
@@ -65,7 +65,7 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
     cur = conn.cursor()
 
     def get_info(norad):
-        query = 'SELECT * FROM tle WHERE norad = ? ORDER BY epoch DESC LIMIT 1'
+        query = 'SELECT * FROM tle WHERE norad = ? ORDER BY downloaded DESC LIMIT 1'
         cur.execute(query, (norad,))
         return cur.fetchone()
 

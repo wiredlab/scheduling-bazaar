@@ -4,12 +4,16 @@
 Utility to get the station information from a SatNOGS Network server.
 
 Collects the paginated objects into a single JSON list and stores in a file.
+
+Script exits with 0 if there were new TLEs to update.
 """
 
+import sys
+from datetime import datetime
 import json
 import sqlite3
-import requests
 
+import requests
 import orbit
 
 
@@ -42,12 +46,13 @@ cur.execute('''CREATE TABLE IF NOT EXISTS tle
              line0 text,
              line1 text,
              line2 text,
+             downloaded timestamp,
              unique(norad, epoch)
             );''')
 
+UPDATED = 0
 for sat in satellites:
     norad = sat['norad_cat_id']
-    print(norad, end='')
     try:
         # fetch information from CelesTrak
         body = orbit.satellite(norad)
@@ -56,26 +61,33 @@ for sat in satellites:
         # https://www.amsat.org/tle/current/nasabare.txt
     except IndexError:
         # bad parse of data, typically response was "No TLE found"
-        print(' ** not at CelesTrak')
         continue
     else:
         epoch = body.tle_parsed._epoch.datetime()
 
     try:
         cur.execute(
-          'INSERT INTO tle VALUES (?,?,?,?,?);',
+          'INSERT INTO tle VALUES (?,?,?,?,?,?);',
           (norad,
            epoch,
            body.tle_raw[0],
            body.tle_raw[1],
-           body.tle_raw[2]))
+           body.tle_raw[2],
+           datetime.utcnow().isoformat()))
         # 'INSERT OR IGNORE INTO ...' will suppress the exception
     except sqlite3.IntegrityError:
         pass
     else:
-        print(' TLE updated', end='')
+        UPDATED += 1
     finally:
-        print()
+        pass
 
 conn.commit()
 conn.close()
+
+if UPDATED:
+    print(UPDATED, 'updates')
+    sys.exit(0)
+else:
+    print('no updates')
+    sys.exit(1)
