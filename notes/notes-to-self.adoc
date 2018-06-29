@@ -1,0 +1,12 @@
+# Notes to self
+:source-highlighter: highlightjs
+
+## Merge TLE database information
+
+Current database will receive the updates if `(norad, epoch)` is unique.
+[source,sql]
+----
+ATTACH 'other.sqlite' AS other;
+INSERT OR IGNORE INTO tle SELECT * FROM other.tle;
+----
+
