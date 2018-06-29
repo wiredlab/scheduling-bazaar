@@ -5,7 +5,7 @@ import random
 from schedulingbazaar import load_tles
 
 
-def random_scheduler(passes, clients, debug=False):
+def random_scheduler(passes, clients, satellites, debug=False):
     """Randomly schedules passes on the given clients (which are already
     instantiated with the desired client type).
 
@@ -18,9 +18,7 @@ def random_scheduler(passes, clients, debug=False):
     passes = random.sample(passes, len(passes))
     for pd in passes:
         # create a request
-        r = pass2request(pd)
-        import json
-        print(json.dumps(r))
+        r = pass2request(pd, satellites)
         offer = clients[pd.data.gs].request(r)
         if debug is True:
             if offer['status'] == 'accept':
@@ -36,7 +34,7 @@ def random_scheduler(passes, clients, debug=False):
 # def max_sat_el(passes, clients, debug=False):
 
 
-def pass2request(pd):
+def pass2request(pd, satellites):
     """Take a pass (as returned from db.getpasses() and construct a request
     dict for the Network to send to a Client.
 
@@ -45,15 +43,15 @@ def pass2request(pd):
 
     When transmitted over a network, this is then converted to JSON.
     """
-    satellites = load_sat_dict()
+
     d = pd.data
     job = {'id': random.randrange(2**16),  # fake an ID number
            'start': d.start.isoformat(),
            'end': d.end.isoformat(),
            'ground_station': d.gs,
-           'tle0': satellites[d.sat]['tle0'],
-           'tle1': satellites[d.sat]['tle1'],
-           'tle2': satellites[d.sat]['tle2'],
+           'tle0': satellites[d.sat]['tle'][0],
+           'tle1': satellites[d.sat]['tle'][1],
+           'tle2': satellites[d.sat]['tle'][2],
            'frequency': -1,
            'mode': 'null',
            'transmitter': 'asdfasdasdfadsf',
