@@ -1,7 +1,12 @@
 """db` -- Interaction with the database of passes and storage of data
 ========================================================================
 
-Pass predictions are stored in the database
+Pass predictions are stored in a database.
+
+Satellite information is stored in a JSON file, TLE information loaded
+from a database.
+
+Ground Station information is stored in a JSON file.
 """
 from collections import namedtuple
 from datetime import timedelta
@@ -87,32 +92,54 @@ def passrow2interval(p):
     return Interval(data.start, data.end, data)
 
 
-def getpasses(dbfile='allpasses.sqlite', gs='%', sat='%'):
-    """Return an IntervalTree of PassTuples, filtered by the named GS or Sat.
-    Use SQLite wildcards for matching.  Unspecified terms default to matching
-    all.
+def getpasses(dbfile='allpasses.sqlite', gs=None, sat=None, start=None, end=None):
+    """Retrieve all matching Satellite--Ground passes from the database.
+
+    Unspecified arguments match all values.  Set `start` == `end` to select
+    passes which overlap a time instant.
+
+    Parameters
+    ----------
+    dbfile : str
+        Filename of SQLite3 database of pre-computed passes.
+    gs : str
+        Glob string selecting a Ground Station name.
+    sat : str
+        Glob selecting satellite(s).
+    start : datetime or SQlite3 datetime string
+        Select passes which end on or after `start` time.
+    end : datetime or SQlite3 datetime string
+        Select passes which start on or before `end` time.
+
+    Returns
+    -------
+    IntervalTree
+        All matching passes from the database with `.data` set to a `PassTuple`.
     """
     tree = IntervalTree()
 
-    conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True,
+    conn = sqlite3.connect('file:' + dbfile + '?mode=ro',
+                           uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT * FROM passes WHERE gs LIKE ? AND sat LIKE ?;'
-    # query = 'SELECT * FROM passes WHERE gs = ? AND sat = ?;'
-    args = [gs, sat]
-    if gs is None and sat is None:
-        query = 'SELECT * FROM passes;'
-        args = []
-    elif gs is not None and sat is None:
-        query = 'SELECT * FROM passes WHERE gs = ?;'
-        args = [gs]
-    elif gs is None and sat is not None:
-        query = 'SELECT * FROM passes WHERE sat = ?;'
-        arsat = [sat]
-    elif '%' not in gs and '%' not in sat:
-        query = 'SELECT * FROM passes WHERE gs = ? AND sat = ?;'
-        args = [gs, sat]
+    query = 'SELECT * FROM passes'
+    args = []
+    conditions = []
+    for (name, var) in (('gs', gs), ('sat', sat),):
+        if var is not None:
+            conditions.append('{} GLOB ?'.format(name))
+            args.append(var)
+
+    # return passes which overlap the end points
+    if start is not None:
+        conditions.append("end >= datetime('{}')".format(start))
+
+    if end is not None:
+        conditions.append("start <= datetime('{}')".format(end))
+
+    if conditions:
+        query += ' WHERE ' + ' AND '.join(conditions)
 
     for p in conn.execute(query, args):
         tree.add(passrow2interval(p))
