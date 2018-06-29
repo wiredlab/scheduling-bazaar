@@ -50,7 +50,8 @@ def load_stations(filename='network-stations.json'):
     for gs in stations:
         gs['lon'] = gs['lng']
         gs['alt'] = gs['altitude']
-    return stations
+    d = {s['name']: s for s in stations}
+    return d
 
 
 def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
@@ -83,8 +84,8 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
         sat['epoch'] = row['epoch']
         sat['tle'] = (row['line0'], row['line1'], row['line2'])
 
-    sats[:] = (s for s in sats if 'tle' in s)
-    return sats
+    d = {s['name']: s for s in sats if 'tle' in s}
+    return d
 
 
 def passrow2interval(p):
