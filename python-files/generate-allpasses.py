@@ -44,7 +44,8 @@ stations = db.load_stations(stationsfile)
 print(len(stations), 'stations')
 
 # exclude inactive stations
-stations[:] = [s for s in stations if s['status'] not in ('Offline',)]
+stations = {name:gs for name,gs in stations.items()
+            if gs['status'] not in ('Offline',)}
 print(len(stations), 'filtered stations')
 
 
@@ -62,7 +63,7 @@ sats = db.load_satellites(satsfile)
 
 # pyorbital chokes on INMARSAT 4-F1 because it is classified as deep-space
 if compute_function == db.compute_passes_orbital:
-    sats[:] = [s for s in sats if s['norad_cat_id'] not in (28628,)]
+    sats = {s for s in sats if s['norad_cat_id'] not in (28628,)}
 
 print(len(sats), 'satellites')
 
@@ -73,8 +74,9 @@ print(line % 'Computing passes')
 
 pr = cProfile.Profile()
 pr.enable()
-tree = db.compute_all_passes(stations,
-                          sats,
+tree = db.compute_all_passes(
+                          iter(stations.values()),
+                          iter(sats.values()),
                           start_time,
                           duration=duration,
                           dbfile=dbfile,
