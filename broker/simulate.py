@@ -31,14 +31,17 @@ def simulate():
     # load a dict of GSs
     stations = db.load_stations()
 
+    # dict of satellites
+    satellites = db.load_satellites()
+
     # create a set of clients
     clients = {}
-    for gs in stations:
+    for gs in stations.values():
         # c = client.AllClient(gsname, lat, lon, alt)
         c = client.YesClient(gs)
         clients[c.name] = c
 
-    schedulers.random_scheduler(passes=passes, clients=clients, debug=False)
+    schedulers.random_scheduler(passes=passes, clients=clients, satellites=satellites, debug=False)
 
     return clients
 
@@ -53,7 +56,7 @@ for currency, amount in c.calendar_value().items():
     print('%11s: %f' % (currency, amount))
 print('busy_time():', c.busy_time())
 
-import analysis
-results = analysis.standard_analysis(clients)
+# import analysis
+# results = analysis.standard_analysis(clients)
 
 print()
