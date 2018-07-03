@@ -3,7 +3,6 @@
 :toclevels: 2
 :sectnums:
 :sectnumlevels: 3
-:eqnums: all
 
 = Tracking Jobs across TLE updates
 Dan White <dan.white@valpo.edu>
@@ -20,17 +19,11 @@ A LEO satellite travels much farther than this over the duration of a pass.
 
 Use subscript~0~ to represent the original data and subscript~1~ for new information derived from the next issued TLE.
 
-[latexmath]
-++++
-\Delta t_0 = \mathrm{LOS}_0 - \mathrm{AOS}_0\\
-++++
+&Delta;t~0~ = LOS~0~ - AOS~0~
 
 If the error between the predictions from the two TLEs is small enough, we can find the congruent pass by finding a new pass which overlaps with the old TCA.
 
-[latexmath]
-++++
-\mathrm{AOS}_1 < \mathrm{TCA}_0 < \mathrm{LOS}_1
-++++
+AOS~1~ < TCA~0~ < LOS~1~
 
 Failing this, the next step would be to find the closest pass to the old TCA within (half of) the orbital period of the satellite.
 
