@@ -1,0 +1,125 @@
+:doctype: article
+:toc: left
+:toclevels: 2
+:sectnums:
+:sectnumlevels: 3
+:source-highlighter: highlightjs
+
+= Fast prediction of satellite passes
+Dan White <dan.white@valpo.edu>
+
+Finding predicted passes of satellites over ground stations is slow.
+Survey existing methods and speed them up.
+
+
+
+== Survey of pass predictors
+Focus on the methods of orbit propagation and strategies of finding passes.
+
+
+=== PyEphem / libastro
+http://rhodesmill.org/pyephem/
+
+.PyEphem API to return a single future pass
+[source, python]
+----
+sat = ephem.readtle(name, line1, line2)
+gs = ephem.Observer()
+# set gs.foo =    attributes (lat, lon, alt, ...)
+gs.date = START_TIME_FOR_SEARCH
+
+# get ECEF vector gs-to-sat
+sat.compute(gs)
+
+info = gs.next_pass(sat)
+
+(rise_time,
+ rise_az,
+ max_alt_time,
+ max_alt,
+ set_time,
+ set_az) = info
+----
+
+Observer method `.next_pass()` is a thin wrapper around the `libastro` function `riset_cir()`.
+For an Earth satellite, this immediately calls `e_riset_cir()`:
+
+.`e_riset_cir()`
+****
+. Use the satellite's _mean motion_ to compute a time step representing 2 degrees of a complete orbit, or 180 steps per orbit.
+. Use `obj_cir()` to compute the current sat position.
+. At each time step, compute position and check the altitude (elevation) for a sign change between steps.
+. For each rising or setting event, call `find_0alt()` to refine the event's time estimate.
+****
+
+
+.`find_0alt()`
+****
+. Check inputs to put current time step within &pm;12 hours of noon of current day.
+. Use the secant method to search for the time where _alt == 0_.
+  Convergence is declared when |&Delta;t| &le; 0.01 seconds or abort after 20 steps.
+
+[IMPORTANT]
+====
+The secant method implementation _may_ be incorrectly handling the horizon parameter.
+Calculation of the next time step is found via
+
+[source,c]
+----
+#define foo
+a1 = op->s_alt;
+dt = (dis+a1)*dt/(a0-a1)
+----
+
+
+This introduces an offset to the pseudo-derivative.
+The calculation should be
+
+[source,c]
+----
+a1 = op->s_alt + dis;
+dt = a1*dt/(a0-a1)
+----
+
+The secant method is for finding roots of a function, _f(x) == 0_.
+Including an offset for the horizon to represent local obstructions should be *before* the method is invoked by shifting the elevation (altitude) value down by the same amount.
+Now, when the rising/setting of a satellite will correspond to the moment the modified function crosses zero.
+====
+
+****
+
+
+
+
+
+
+=== pyorbital
+https://github.com/pytroll/pyorbital
+
+
+=== Orbit Predictor
+https://github.com/satellogic/orbit-predictor
+
+Uses `python-sgp4`
+
+
+=== Predict
+http://www.qsl.net/kd2bd/predict.html
+
+http://gpredict.oz9aec.net/
+
+
+
+=== Better solution
+See <<Rhodes>> for a discussion of using the elevation angle to search for intervals of > 0 angle using `python-skyfield`.
+
+
+
+
+[bibliography]
+== References
+
+- [[[Rhodes]]] Brandon Rhodes.  https://github.com/skyfielders/astronomy-notebooks/blob/master/Solvers/Earth-Satellite-Passes.ipynb
+
+
+// vim: textwidth=0
