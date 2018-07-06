@@ -1,5 +1,6 @@
 [
   {
+    "alt": 104,
     "altitude": 104,
     "antenna": [
       "UHF Helical"
@@ -11,6 +12,7 @@
     "lat": 38.01697,
     "lng": 23.7314,
     "location": "",
+    "lon": 23.7314,
     "min_horizon": 10,
     "name": "Hackerspace.gr 1",
     "observations": 1907,
@@ -18,6 +20,7 @@
     "status": "Testing"
   },
   {
+    "alt": 280,
     "altitude": 280,
     "antenna": [
       "UHF Yagi",
@@ -30,6 +33,7 @@
     "lat": 39.236,
     "lng": -86.305,
     "location": "",
+    "lon": -86.305,
     "min_horizon": 10,
     "name": "KB9JHU",
     "observations": 11665,
@@ -37,6 +41,7 @@
     "status": "Online"
   },
   {
+    "alt": 120,
     "altitude": 120,
     "antenna": [
       "VHF Turnstile",
@@ -49,6 +54,7 @@
     "lat": 38.024,
     "lng": 23.733,
     "location": "",
+    "lon": 23.733,
     "min_horizon": 10,
     "name": "SV1IYO",
     "observations": 309,
@@ -56,6 +62,7 @@
     "status": "Testing"
   },
   {
+    "alt": 370,
     "altitude": 370,
     "antenna": [
       "UHF Yagi",
@@ -68,6 +75,7 @@
     "lat": 47.058979,
     "lng": 15.460038,
     "location": "",
+    "lon": 15.460038,
     "min_horizon": 10,
     "name": "oe6xug",
     "observations": 10,
@@ -75,6 +83,7 @@
     "status": "Testing"
   },
   {
+    "alt": 150,
     "altitude": 150,
     "antenna": [
       "UHF Helical",
@@ -87,6 +96,7 @@
     "lat": 38.048444,
     "lng": 23.739312,
     "location": "",
+    "lon": 23.739312,
     "min_horizon": 25,
     "name": "Apomahon",
     "observations": 12621,
@@ -94,6 +104,7 @@
     "status": "Online"
   },
   {
+    "alt": 65,
     "altitude": 65,
     "antenna": [
       "VHF Turnstile"
@@ -105,6 +116,7 @@
     "lat": 37.97034,
     "lng": 23.71394,
     "location": "",
+    "lon": 23.71394,
     "min_horizon": 25,
     "name": "Stony",
     "observations": 7016,
@@ -112,6 +124,7 @@
     "status": "Online"
   },
   {
+    "alt": 208,
     "altitude": 208,
     "antenna": [
       "UHF Helical"
@@ -123,6 +136,7 @@
     "lat": 38.022,
     "lng": 23.828,
     "location": "",
+    "lon": 23.828,
     "min_horizon": 30,
     "name": "SV1QZZ - UHF #1",
     "observations": 5,
@@ -130,6 +144,7 @@
     "status": "Offline"
   },
   {
+    "alt": 100,
     "altitude": 100,
     "antenna": [
       "VHF Yagi"
@@ -141,6 +156,7 @@
     "lat": 35.313986,
     "lng": 25.146878,
     "location": "",
+    "lon": 25.146878,
     "min_horizon": 10,
     "name": "Talos",
     "observations": 73,
@@ -148,6 +164,7 @@
     "status": "Offline"
   },
   {
+    "alt": 183,
     "altitude": 183,
     "antenna": [
       "VHF Turnstile"
@@ -159,6 +176,7 @@
     "lat": 37.956,
     "lng": 23.765,
     "location": "",
+    "lon": 23.765,
     "min_horizon": 20,
     "name": "YFK",
     "observations": 1069,
@@ -166,6 +184,7 @@
     "status": "Offline"
   },
   {
+    "alt": 60,
     "altitude": 60,
     "antenna": [
       "UHF Yagi",
@@ -178,6 +197,7 @@
     "lat": 38.0047,
     "lng": 23.70054,
     "location": "",
+    "lon": 23.70054,
     "min_horizon": 10,
     "name": "SZ1SV",
     "observations": 0,
@@ -185,6 +205,7 @@
     "status": "Offline"
   },
   {
+    "alt": 67,
     "altitude": 67,
     "antenna": [
       "VHF Lindenblad"
@@ -196,6 +217,7 @@
     "lat": 42.744,
     "lng": -71.538,
     "location": "",
+    "lon": -71.538,
     "min_horizon": 0,
     "name": "W2BFJ",
     "observations": 5618,
@@ -203,6 +225,7 @@
     "status": "Online"
   },
   {
+    "alt": 48,
     "altitude": 48,
     "antenna": [
       "VHF Turnstile"
@@ -214,6 +237,7 @@
     "lat": 55.51,
     "lng": 11.74,
     "location": "",
+    "lon": 11.74,
     "min_horizon": 15,
     "name": "OZ9AEC-VHF1",
     "observations": 8061,
@@ -221,6 +245,7 @@
     "status": "Online"
   },
   {
+    "alt": 80,
     "altitude": 80,
     "antenna": [
       "VHF Turnstile"
@@ -232,6 +257,7 @@
     "lat": 53.402,
     "lng": -2.978,
     "location": "",
+    "lon": -2.978,
     "min_horizon": 10,
     "name": "FACT",
     "observations": 87,
@@ -239,6 +265,7 @@
     "status": "Offline"
   },
   {
+    "alt": 8,
     "altitude": 8,
     "antenna": [
       "VHF Turnstile"
@@ -250,6 +277,7 @@
     "lat": -34.8463,
     "lng": 138.6949,
     "location": "",
+    "lon": 138.6949,
     "min_horizon": 20,
     "name": "VK5QI-2M",
     "observations": 7503,
@@ -257,6 +285,7 @@
     "status": "Online"
   },
   {
+    "alt": 5,
     "altitude": 5,
     "antenna": [
       "UHF Turnstile"
@@ -268,6 +297,7 @@
     "lat": -34.721,
     "lng": 138.6928,
     "location": "",
+    "lon": 138.6928,
     "min_horizon": 30,
     "name": "VK5QI-70CM",
     "observations": 8994,
@@ -275,6 +305,7 @@
     "status": "Online"
   },
   {
+    "alt": 17,
     "altitude": 17,
     "antenna": [
       "UHF Helical"
@@ -286,6 +317,7 @@
     "lat": 45.509141,
     "lng": -122.681037,
     "location": "",
+    "lon": -122.681037,
     "min_horizon": 15,
     "name": "PSAS_GS",
     "observations": 0,
@@ -293,6 +325,7 @@
     "status": "Offline"
   },
   {
+    "alt": 155,
     "altitude": 155,
     "antenna": [
       "VHF Turnstile"
@@ -304,6 +337,7 @@
     "lat": -42.992,
     "lng": 147.31,
     "location": "",
+    "lon": 147.31,
     "min_horizon": 10,
     "name": "VK7HSE",
     "observations": 0,
@@ -311,6 +345,7 @@
     "status": "Offline"
   },
   {
+    "alt": 45,
     "altitude": 45,
     "antenna": [
       "UHF Turnstile"
@@ -322,6 +357,7 @@
     "lat": 36.96089,
     "lng": 22.14489,
     "location": "",
+    "lon": 22.14489,
     "min_horizon": 20,
     "name": "Avia",
     "observations": 7369,
@@ -329,6 +365,7 @@
     "status": "Online"
   },
   {
+    "alt": 229,
     "altitude": 229,
     "antenna": [
       "VHF Quadrafilar"
@@ -340,6 +377,7 @@
     "lat": 43.28,
     "lng": -87.97,
     "location": "",
+    "lon": -87.97,
     "min_horizon": 45,
     "name": "Ferns-1",
     "observations": 5314,
@@ -347,6 +385,7 @@
     "status": "Online"
   },
   {
+    "alt": 6,
     "altitude": 6,
     "antenna": [
       "VHF Turnstile"
@@ -358,6 +397,7 @@
     "lat": -32.066,
     "lng": 115.988,
     "location": "",
+    "lon": 115.988,
     "min_horizon": 4,
     "name": "Zath-VHF",
     "observations": 5574,
@@ -365,6 +405,7 @@
     "status": "Online"
   },
   {
+    "alt": 6,
     "altitude": 6,
     "antenna": [
       "UHF Turnstile"
@@ -376,6 +417,7 @@
     "lat": -32.066,
     "lng": 115.988,
     "location": "",
+    "lon": 115.988,
     "min_horizon": 4,
     "name": "Zath-UHF",
     "observations": 6242,
@@ -383,6 +425,7 @@
     "status": "Online"
   },
   {
+    "alt": 50,
     "altitude": 50,
     "antenna": [
       "UHF Yagi",
@@ -395,6 +438,7 @@
     "lat": 38.7708,
     "lng": -121.29,
     "location": "",
+    "lon": -121.29,
     "min_horizon": 15,
     "name": "N7IPY",
     "observations": 1767,
@@ -402,6 +446,7 @@
     "status": "Testing"
   },
   {
+    "alt": 145,
     "altitude": 145,
     "antenna": [
       "VHF Turnstile",
@@ -414,6 +459,7 @@
     "lat": 38.395,
     "lng": 21.828,
     "location": "",
+    "lon": 21.828,
     "min_horizon": 10,
     "name": "SV1IYO/A",
     "observations": 0,
@@ -421,6 +467,7 @@
     "status": "Offline"
   },
   {
+    "alt": 634,
     "altitude": 634,
     "antenna": [
       "VHF Turnstile"
@@ -432,6 +479,7 @@
     "lat": 37.194,
     "lng": -80.489,
     "location": "",
+    "lon": -80.489,
     "min_horizon": 15,
     "name": "NB3T - VHF",
     "observations": 2726,
@@ -439,6 +487,7 @@
     "status": "Online"
   },
   {
+    "alt": 634,
     "altitude": 634,
     "antenna": [
       "UHF Turnstile"
@@ -450,6 +499,7 @@
     "lat": 37.194,
     "lng": -80.489,
     "location": "",
+    "lon": -80.489,
     "min_horizon": 15,
     "name": "NB3T - UHF",
     "observations": 2829,
@@ -457,6 +507,7 @@
     "status": "Online"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "UHF Helical"
@@ -468,6 +519,7 @@
     "lat": 54.594049,
     "lng": -5.713397,
     "location": "",
+    "lon": -5.713397,
     "min_horizon": 30,
     "name": "GI7UGV - UHF",
     "observations": 6850,
@@ -475,6 +527,7 @@
     "status": "Online"
   },
   {
+    "alt": 208,
     "altitude": 208,
     "antenna": [
       "UHF Lindenblad"
@@ -486,6 +539,7 @@
     "lat": 38.022,
     "lng": 23.828,
     "location": "",
+    "lon": 23.828,
     "min_horizon": 10,
     "name": "SV1QZZ - UHF #2",
     "observations": 6749,
@@ -493,6 +547,7 @@
     "status": "Offline"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "VHF Turnstile"
@@ -504,6 +559,7 @@
     "lat": 54.488,
     "lng": -3.588,
     "location": "",
+    "lon": -3.588,
     "min_horizon": 30,
     "name": "G7KSE",
     "observations": 4482,
@@ -511,6 +567,7 @@
     "status": "Online"
   },
   {
+    "alt": null,
     "altitude": 0,
     "antenna": [
       "UHF Yagi",
@@ -523,6 +580,7 @@
     "lat": 52.996593,
     "lng": -2.195347,
     "location": "",
+    "lon": -2.195347,
     "min_horizon": 18,
     "name": "M6LZT ground station",
     "observations": 1865,
@@ -530,6 +588,7 @@
     "status": "Offline"
   },
   {
+    "alt": 50,
     "altitude": 50,
     "antenna": [
       "VHF Turnstile",
@@ -543,6 +602,7 @@
     "lat": 63.41817,
     "lng": 10.39957,
     "location": "",
+    "lon": 10.39957,
     "min_horizon": 5,
     "name": "LA1NGS",
     "observations": 6356,
@@ -550,6 +610,7 @@
     "status": "Online"
   },
   {
+    "alt": 1641,
     "altitude": 1641,
     "antenna": [
       "UHF Yagi",
@@ -562,6 +623,7 @@
     "lat": 46.839383,
     "lng": 15.011715,
     "location": "",
+    "lon": 15.011715,
     "min_horizon": 5,
     "name": "oe8rke",
     "observations": 900,
@@ -569,6 +631,7 @@
     "status": "Online"
   },
   {
+    "alt": 275,
     "altitude": 275,
     "antenna": [
       "UHF Yagi",
@@ -581,6 +644,7 @@
     "lat": 50.749782,
     "lng": 6.216089,
     "location": "",
+    "lon": 6.216089,
     "min_horizon": 1,
     "name": "DL4PD",
     "observations": 5126,
@@ -588,6 +652,7 @@
     "status": "Online"
   },
   {
+    "alt": 5,
     "altitude": 5,
     "antenna": [
       "VHF Turnstile"
@@ -599,6 +664,7 @@
     "lat": 46.83592,
     "lng": 7.35009,
     "location": "",
+    "lon": 7.35009,
     "min_horizon": 10,
     "name": "Technikraum Lanzenh\u00e4usern",
     "observations": 1919,
@@ -606,6 +672,7 @@
     "status": "Online"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "VHF Turnstile"
@@ -617,6 +684,7 @@
     "lat": 52.8344,
     "lng": 6.3785,
     "location": "",
+    "lon": 6.3785,
     "min_horizon": 10,
     "name": "CGBSAT-VHF",
     "observations": 1834,
@@ -624,6 +692,7 @@
     "status": "Offline"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "UHF Turnstile"
@@ -635,6 +704,7 @@
     "lat": 52.8344,
     "lng": 6.3785,
     "location": "",
+    "lon": 6.3785,
     "min_horizon": 10,
     "name": "CGBSAT-UHF",
     "observations": 1433,
@@ -642,6 +712,7 @@
     "status": "Offline"
   },
   {
+    "alt": 189,
     "altitude": 189,
     "antenna": [
       "HF Dipole"
@@ -653,6 +724,7 @@
     "lat": 41.84,
     "lng": -87.64,
     "location": "",
+    "lon": -87.64,
     "min_horizon": 10,
     "name": "Chicago1",
     "observations": 1396,
@@ -660,6 +732,7 @@
     "status": "Online"
   },
   {
+    "alt": 100,
     "altitude": 100,
     "antenna": [
       "VHF Turnstile",
@@ -672,6 +745,7 @@
     "lat": 49.29,
     "lng": 4.31,
     "location": "",
+    "lon": 4.31,
     "min_horizon": 10,
     "name": "F4GMU",
     "observations": 217,
@@ -679,6 +753,7 @@
     "status": "Offline"
   },
   {
+    "alt": 350,
     "altitude": 350,
     "antenna": [
       "UHF Yagi"
@@ -690,6 +765,7 @@
     "lat": 45.2676834,
     "lng": 5.6080818,
     "location": "",
+    "lon": 5.6080818,
     "min_horizon": 20,
     "name": "Grenoble - F4HVX",
     "observations": 1341,
@@ -697,6 +773,7 @@
     "status": "Online"
   },
   {
+    "alt": 543,
     "altitude": 543,
     "antenna": [
       "HF Dipole"
@@ -708,6 +785,7 @@
     "lat": 28.463938,
     "lng": -16.262598,
     "location": "",
+    "lon": -16.262598,
     "min_horizon": 10,
     "name": "IAC Testing",
     "observations": 0,
@@ -715,6 +793,7 @@
     "status": "Offline"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "UHF Lindenblad"
@@ -726,6 +805,7 @@
     "lat": 27.6162,
     "lng": 85.5399,
     "location": "",
+    "lon": 85.5399,
     "min_horizon": 10,
     "name": "Saurav Paudel",
     "observations": 0,
@@ -733,6 +813,7 @@
     "status": "Offline"
   },
   {
+    "alt": 7,
     "altitude": 7,
     "antenna": [
       "VHF Turnstile"
@@ -744,6 +825,7 @@
     "lat": 53.05561,
     "lng": 8.89172,
     "location": "",
+    "lon": 8.89172,
     "min_horizon": 5,
     "name": "DE8MSH",
     "observations": 1046,
@@ -751,6 +833,7 @@
     "status": "Offline"
   },
   {
+    "alt": 470,
     "altitude": 470,
     "antenna": [
       "VHF Turnstile",
@@ -763,6 +846,7 @@
     "lat": 47.8067,
     "lng": 9.633,
     "location": "",
+    "lon": 9.633,
     "min_horizon": 4,
     "name": "DB0RV",
     "observations": 2191,
@@ -770,6 +854,7 @@
     "status": "Online"
   },
   {
+    "alt": 655,
     "altitude": 655,
     "antenna": [
       "HF Dipole",
@@ -784,6 +869,7 @@
     "lat": 40.4442,
     "lng": -3.9527,
     "location": "",
+    "lon": -3.9527,
     "min_horizon": 5,
     "name": "ESAC Ground Station",
     "observations": 52,
@@ -791,6 +877,7 @@
     "status": "Offline"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "UHF Yagi",
@@ -803,6 +890,7 @@
     "lat": 55.634,
     "lng": 12.601,
     "location": "",
+    "lon": 12.601,
     "min_horizon": 10,
     "name": "OZ7SAT",
     "observations": 2032,
@@ -810,6 +898,7 @@
     "status": "Online"
   },
   {
+    "alt": 8,
     "altitude": 8,
     "antenna": [
       "UHF Eggbeater"
@@ -821,6 +910,7 @@
     "lat": 29.854689,
     "lng": -96.53481,
     "location": "",
+    "lon": -96.53481,
     "min_horizon": 3,
     "name": "N5CNB-UHF",
     "observations": 622,
@@ -828,6 +918,7 @@
     "status": "Offline"
   },
   {
+    "alt": 200,
     "altitude": 200,
     "antenna": [
       "VHF Turnstile"
@@ -839,6 +930,7 @@
     "lat": 52.467,
     "lng": -2.022,
     "location": "",
+    "lon": -2.022,
     "min_horizon": 0,
     "name": "G4DPZ VHF Turnstile",
     "observations": 3,
@@ -846,6 +938,7 @@
     "status": "Offline"
   },
   {
+    "alt": 64,
     "altitude": 64,
     "antenna": [
       "HF Dipole"
@@ -857,6 +950,7 @@
     "lat": 30.5862,
     "lng": -90.498159,
     "location": "",
+    "lon": -90.498159,
     "min_horizon": 45,
     "name": "KA5TTZ",
     "observations": 1,
@@ -864,6 +958,7 @@
     "status": "Offline"
   },
   {
+    "alt": 138,
     "altitude": 138,
     "antenna": [
       "UHF Turnstile"
@@ -875,6 +970,7 @@
     "lat": 51.932131,
     "lng": 12.710188,
     "location": "",
+    "lon": 12.710188,
     "min_horizon": 10,
     "name": "Schinderberge 70cm",
     "observations": 0,
@@ -882,6 +978,7 @@
     "status": "Offline"
   },
   {
+    "alt": 43,
     "altitude": 43,
     "antenna": [
       "VHF Lindenblad"
@@ -893,6 +990,7 @@
     "lat": 42.291,
     "lng": -71.297,
     "location": "",
+    "lon": -71.297,
     "min_horizon": 20,
     "name": "IntimelyEights-vhf",
     "observations": 333,
@@ -900,6 +998,7 @@
     "status": "Testing"
   },
   {
+    "alt": 46,
     "altitude": 46,
     "antenna": [
       "UHF Lindenblad"
@@ -911,6 +1010,7 @@
     "lat": 42.291,
     "lng": -71.297,
     "location": "",
+    "lon": -71.297,
     "min_horizon": 20,
     "name": "IntimelyEights-uhf",
     "observations": 33,
@@ -918,6 +1018,7 @@
     "status": "Testing"
   },
   {
+    "alt": 45,
     "altitude": 45,
     "antenna": [
       "VHF Quadrafilar"
@@ -929,6 +1030,7 @@
     "lat": -46.2128,
     "lng": 168.333,
     "location": "",
+    "lon": 168.333,
     "min_horizon": 10,
     "name": "ZL4VBJ",
     "observations": 1277,
@@ -936,6 +1038,7 @@
     "status": "Online"
   },
   {
+    "alt": 80,
     "altitude": 80,
     "antenna": [
       "VHF Turnstile"
@@ -947,6 +1050,7 @@
     "lat": 37.931,
     "lng": 23.528,
     "location": "",
+    "lon": 23.528,
     "min_horizon": 10,
     "name": "Selinia",
     "observations": 58,
@@ -954,6 +1058,7 @@
     "status": "Testing"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "VHF Turnstile"
@@ -965,6 +1070,7 @@
     "lat": 53.340457,
     "lng": 15.05798,
     "location": "",
+    "lon": 15.05798,
     "min_horizon": 10,
     "name": "SR1GEO_RACK01",
     "observations": 1695,
@@ -972,6 +1078,7 @@
     "status": "Online"
   },
   {
+    "alt": 49,
     "altitude": 49,
     "antenna": [
       "HF Dipole"
@@ -983,6 +1090,7 @@
     "lat": 49.217,
     "lng": -122.91,
     "location": "",
+    "lon": -122.91,
     "min_horizon": 10,
     "name": "Aardvark Station #1",
     "observations": 75,
@@ -990,6 +1098,7 @@
     "status": "Testing"
   },
   {
+    "alt": 3,
     "altitude": 3,
     "antenna": [
       "VHF Quadrafilar"
@@ -1001,6 +1110,7 @@
     "lat": 49.038474,
     "lng": 1.94413,
     "location": "",
+    "lon": 1.94413,
     "min_horizon": 10,
     "name": "Bart Mercier",
     "observations": 0,
@@ -1008,6 +1118,7 @@
     "status": "Offline"
   },
   {
+    "alt": 5,
     "altitude": 5,
     "antenna": [
       "UHF Helical",
@@ -1021,6 +1132,7 @@
     "lat": 53.378957,
     "lng": 14.469831,
     "location": "",
+    "lon": 14.469831,
     "min_horizon": 10,
     "name": "TEONITE-001",
     "observations": 14,
@@ -1028,6 +1140,7 @@
     "status": "Offline"
   },
   {
+    "alt": 1499,
     "altitude": 1499,
     "antenna": [
       "VHF Turnstile"
@@ -1039,6 +1152,7 @@
     "lat": -26.709,
     "lng": 27.834,
     "location": "",
+    "lon": 27.834,
     "min_horizon": 10,
     "name": "ZR6TG Sat Ground Station (VHF)",
     "observations": 1207,
@@ -1046,6 +1160,7 @@
     "status": "Online"
   },
   {
+    "alt": 117,
     "altitude": 117,
     "antenna": [
       "UHF Helical",
@@ -1059,6 +1174,7 @@
     "lat": 44.751862,
     "lng": 4.822396,
     "location": "",
+    "lon": 4.822396,
     "min_horizon": 15,
     "name": "SWL Electroalex26",
     "observations": 7,
@@ -1066,6 +1182,7 @@
     "status": "Offline"
   },
   {
+    "alt": 320,
     "altitude": 320,
     "antenna": [],
     "created": "2018-03-31T19:44:31Z",
@@ -1075,6 +1192,7 @@
     "lat": 40.330361,
     "lng": -84.216254,
     "location": "",
+    "lon": -84.216254,
     "min_horizon": 10,
     "name": "Dale Kubichek",
     "observations": 0,
@@ -1082,6 +1200,7 @@
     "status": "Offline"
   },
   {
+    "alt": 7,
     "altitude": 7,
     "antenna": [
       "VHF Turnstile"
@@ -1093,6 +1212,7 @@
     "lat": -27.8635,
     "lng": 153.3152,
     "location": "",
+    "lon": 153.3152,
     "min_horizon": 10,
     "name": "QG62",
     "observations": 96,
@@ -1100,6 +1220,7 @@
     "status": "Testing"
   },
   {
+    "alt": 275,
     "altitude": 275,
     "antenna": [
       "UHF Yagi"
@@ -1111,6 +1232,7 @@
     "lat": 42.209,
     "lng": -85.6075,
     "location": "",
+    "lon": -85.6075,
     "min_horizon": 5,
     "name": "KE8FZT - UHF",
     "observations": 1243,
@@ -1118,6 +1240,7 @@
     "status": "Online"
   },
   {
+    "alt": 119,
     "altitude": 119,
     "antenna": [
       "UHF Helical",
@@ -1130,6 +1253,7 @@
     "lat": 43.641937,
     "lng": 3.929062,
     "location": "",
+    "lon": 3.929062,
     "min_horizon": 15,
     "name": "Massena",
     "observations": 383,
@@ -1137,6 +1261,7 @@
     "status": "Testing"
   },
   {
+    "alt": 1034,
     "altitude": 1034,
     "antenna": [
       "VHF Turnstile"
@@ -1148,6 +1273,7 @@
     "lat": 47.094166,
     "lng": 9.900062,
     "location": "",
+    "lon": 9.900062,
     "min_horizon": 10,
     "name": "stoffl",
     "observations": 30,
@@ -1155,6 +1281,7 @@
     "status": "Testing"
   },
   {
+    "alt": 17,
     "altitude": 17,
     "antenna": [
       "VHF Yagi"
@@ -1166,6 +1293,7 @@
     "lat": 19.022,
     "lng": 72.857,
     "location": "",
+    "lon": 72.857,
     "min_horizon": 10,
     "name": "VJTI Satellite Club",
     "observations": 1,
@@ -1173,6 +1301,7 @@
     "status": "Offline"
   },
   {
+    "alt": 37,
     "altitude": 37,
     "antenna": [
       "VHF Turnstile"
@@ -1184,6 +1313,7 @@
     "lat": 55.83904,
     "lng": 12.39592,
     "location": "",
+    "lon": 12.39592,
     "min_horizon": 10,
     "name": "OZ6BL-VHF",
     "observations": 78,
@@ -1191,6 +1321,7 @@
     "status": "Offline"
   },
   {
+    "alt": 90,
     "altitude": 90,
     "antenna": [
       "UHF Yagi"
@@ -1202,6 +1333,7 @@
     "lat": 2.8125,
     "lng": -60.732422,
     "location": "",
+    "lon": -60.732422,
     "min_horizon": 1,
     "name": "PV8DX",
     "observations": 0,
@@ -1209,6 +1341,7 @@
     "status": "Offline"
   },
   {
+    "alt": 8,
     "altitude": 8,
     "antenna": [
       "HF Dipole"
@@ -1220,6 +1353,7 @@
     "lat": 54.705693,
     "lng": 25.379382,
     "location": "",
+    "lon": 25.379382,
     "min_horizon": 10,
     "name": "Rokantiskes",
     "observations": 48,
@@ -1227,6 +1361,7 @@
     "status": "Testing"
   },
   {
+    "alt": 130,
     "altitude": 130,
     "antenna": [
       "VHF Yagi",
@@ -1239,6 +1374,7 @@
     "lat": 51.03004792,
     "lng": 13.77913526,
     "location": "",
+    "lon": 13.77913526,
     "min_horizon": 60,
     "name": "Gruna Test Station",
     "observations": 39,
@@ -1246,6 +1382,7 @@
     "status": "Offline"
   },
   {
+    "alt": 100,
     "altitude": 100,
     "antenna": [
       "UHF Yagi",
@@ -1259,6 +1396,7 @@
     "lat": 41.706047,
     "lng": -73.8954,
     "location": "",
+    "lon": -73.8954,
     "min_horizon": 1,
     "name": "Rocky",
     "observations": 0,
@@ -1266,6 +1404,7 @@
     "status": "Offline"
   },
   {
+    "alt": 600,
     "altitude": 600,
     "antenna": [
       "VHF Quadrafilar"
@@ -1277,6 +1416,7 @@
     "lat": 36.06,
     "lng": -115.18,
     "location": "",
+    "lon": -115.18,
     "min_horizon": 10,
     "name": "N8BSD-VHF-1",
     "observations": 106,
@@ -1284,6 +1424,7 @@
     "status": "Offline"
   },
   {
+    "alt": 3,
     "altitude": 3,
     "antenna": [
       "VHF Lindenblad",
@@ -1296,6 +1437,7 @@
     "lat": 50.836273,
     "lng": 6.071981,
     "location": "",
+    "lon": 6.071981,
     "min_horizon": 10,
     "name": "Herzogenrath",
     "observations": 0,
@@ -1303,6 +1445,7 @@
     "status": "Offline"
   },
   {
+    "alt": 6,
     "altitude": 6,
     "antenna": [
       "VHF Eggbeater"
@@ -1314,6 +1457,7 @@
     "lat": 29.855,
     "lng": -96.535,
     "location": "",
+    "lon": -96.535,
     "min_horizon": 5,
     "name": "N5CNB-VHF",
     "observations": 174,
@@ -1321,6 +1465,7 @@
     "status": "Offline"
   },
   {
+    "alt": 168,
     "altitude": 168,
     "antenna": [
       "HF Dipole"
@@ -1332,6 +1477,7 @@
     "lat": 51.45274,
     "lng": 7.96972,
     "location": "",
+    "lon": 7.96972,
     "min_horizon": 10,
     "name": "DO9SD",
     "observations": 0,
@@ -1339,6 +1485,7 @@
     "status": "Offline"
   },
   {
+    "alt": 20,
     "altitude": 20,
     "antenna": [
       "HF Dipole"
@@ -1350,6 +1497,7 @@
     "lat": 41.737,
     "lng": -111.8338,
     "location": "",
+    "lon": -111.8338,
     "min_horizon": 20,
     "name": "N7GAS-1",
     "observations": 2,
@@ -1357,6 +1505,7 @@
     "status": "Offline"
   },
   {
+    "alt": 80,
     "altitude": 80,
     "antenna": [
       "VHF Lindenblad"
@@ -1368,6 +1517,7 @@
     "lat": 37.9556463,
     "lng": 23.7199816,
     "location": "",
+    "lon": 23.7199816,
     "min_horizon": 10,
     "name": "SV1RVP/NOA/VHF",
     "observations": 0,
@@ -1375,6 +1525,7 @@
     "status": "Offline"
   },
   {
+    "alt": 80,
     "altitude": 80,
     "antenna": [
       "UHF Helical"
@@ -1386,6 +1537,7 @@
     "lat": 37.9556463,
     "lng": 23.7199816,
     "location": "",
+    "lon": 23.7199816,
     "min_horizon": 10,
     "name": "SV1RVP/NOA/UHF",
     "observations": 0,
@@ -1393,6 +1545,7 @@
     "status": "Offline"
   },
   {
+    "alt": 80,
     "altitude": 80,
     "antenna": [
       "UHF Helical"
@@ -1404,6 +1557,7 @@
     "lat": 37.9556463,
     "lng": 23.7199816,
     "location": "",
+    "lon": 23.7199816,
     "min_horizon": 10,
     "name": "SV1RVP/Portable",
     "observations": 0,
@@ -1411,6 +1565,7 @@
     "status": "Offline"
   },
   {
+    "alt": 5,
     "altitude": 5,
     "antenna": [
       "VHF Lindenblad"
@@ -1422,6 +1577,7 @@
     "lat": 44.6257,
     "lng": 26.1241,
     "location": "",
+    "lon": 26.1241,
     "min_horizon": 10,
     "name": "YO3GCF-VHF-1",
     "observations": 48,
@@ -1429,6 +1585,7 @@
     "status": "Testing"
   },
   {
+    "alt": 661,
     "altitude": 661,
     "antenna": [
       "VHF Yagi"
@@ -1440,6 +1597,7 @@
     "lat": 40.372993,
     "lng": -3.919725,
     "location": "",
+    "lon": -3.919725,
     "min_horizon": 10,
     "name": "AirDivision_UEM_GroundStation",
     "observations": 1,
@@ -1447,6 +1605,7 @@
     "status": "Offline"
   },
   {
+    "alt": 7,
     "altitude": 7,
     "antenna": [
       "VHF Lindenblad"
@@ -1458,6 +1617,7 @@
     "lat": 51.974237,
     "lng": 9.865202,
     "location": "",
+    "lon": 9.865202,
     "min_horizon": 10,
     "name": "Alfeld",
     "observations": 177,
@@ -1465,6 +1625,7 @@
     "status": "Offline"
   },
   {
+    "alt": 120,
     "altitude": 120,
     "antenna": [
       "VHF Turnstile"
@@ -1476,6 +1637,7 @@
     "lat": 51.4966392,
     "lng": -0.17218,
     "location": "",
+    "lon": -0.17218,
     "min_horizon": 10,
     "name": "Victoria and Albert Museum",
     "observations": 29,
@@ -1483,6 +1645,7 @@
     "status": "Testing"
   },
   {
+    "alt": 30,
     "altitude": 30,
     "antenna": [
       "VHF Turnstile"
@@ -1494,6 +1657,7 @@
     "lat": 51.245,
     "lng": -0.558,
     "location": "",
+    "lon": -0.558,
     "min_horizon": 20,
     "name": "M0IEB",
     "observations": 550,
@@ -1501,6 +1665,7 @@
     "status": "Testing"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "UHF Yagi"
@@ -1512,6 +1677,7 @@
     "lat": 57.013805,
     "lng": 9.987389,
     "location": "",
+    "lon": 9.987389,
     "min_horizon": 10,
     "name": "AAUSAT-GND testing, look away",
     "observations": 0,
@@ -1519,6 +1685,7 @@
     "status": "Offline"
   },
   {
+    "alt": 176,
     "altitude": 176,
     "antenna": [
       "UHF Eggbeater"
@@ -1530,6 +1697,7 @@
     "lat": 36.848,
     "lng": -87.55,
     "location": "",
+    "lon": -87.55,
     "min_horizon": 10,
     "name": "ka4jwb-1",
     "observations": 8,
@@ -1537,6 +1705,7 @@
     "status": "Testing"
   },
   {
+    "alt": 50,
     "altitude": 50,
     "antenna": [
       "VHF Eggbeater"
@@ -1548,6 +1717,7 @@
     "lat": 55.858685,
     "lng": -3.073789,
     "location": "",
+    "lon": -3.073789,
     "min_horizon": 12,
     "name": "MM0SRY",
     "observations": 11,
@@ -1555,6 +1725,7 @@
     "status": "Offline"
   },
   {
+    "alt": 60,
     "altitude": 60,
     "antenna": [
       "VHF Quadrafilar"
@@ -1566,6 +1737,7 @@
     "lat": 50.77,
     "lng": -2.02,
     "location": "",
+    "lon": -2.02,
     "min_horizon": 20,
     "name": "VHF QFH Minikits LNA RTL-SDR",
     "observations": 1623,
@@ -1573,6 +1745,7 @@
     "status": "Online"
   },
   {
+    "alt": 180,
     "altitude": 180,
     "antenna": [
       "HF Dipole"
@@ -1584,6 +1757,7 @@
     "lat": 45.05265,
     "lng": -83.45755,
     "location": "",
+    "lon": -83.45755,
     "min_horizon": 10,
     "name": "APN01",
     "observations": 60,
@@ -1591,6 +1765,7 @@
     "status": "Testing"
   },
   {
+    "alt": 710,
     "altitude": 710,
     "antenna": [
       "UHF Yagi"
@@ -1602,6 +1777,7 @@
     "lat": 41.6621,
     "lng": -4.7055,
     "location": "",
+    "lon": -4.7055,
     "min_horizon": 5,
     "name": "GS UVA",
     "observations": 126,
@@ -1609,6 +1785,7 @@
     "status": "Testing"
   },
   {
+    "alt": 6,
     "altitude": 6,
     "antenna": [
       "VHF Turnstile"
@@ -1620,6 +1797,7 @@
     "lat": -34.448,
     "lng": 138.383,
     "location": "",
+    "lon": 138.383,
     "min_horizon": 10,
     "name": "AHV-VHF",
     "observations": 24,
@@ -1627,6 +1805,7 @@
     "status": "Offline"
   },
   {
+    "alt": 6,
     "altitude": 6,
     "antenna": [
       "UHF Turnstile"
@@ -1638,6 +1817,7 @@
     "lat": -34.448,
     "lng": 138.383,
     "location": "",
+    "lon": 138.383,
     "min_horizon": 10,
     "name": "AHV-UHF",
     "observations": 28,
@@ -1645,6 +1825,7 @@
     "status": "Offline"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "VHF Quadrafilar"
@@ -1656,6 +1837,7 @@
     "lat": -33.62,
     "lng": 151.33,
     "location": "",
+    "lon": 151.33,
     "min_horizon": 10,
     "name": "sam210723 VHF",
     "observations": 371,
@@ -1663,6 +1845,7 @@
     "status": "Online"
   },
   {
+    "alt": 612,
     "altitude": 612,
     "antenna": [
       "UHF Turnstile"
@@ -1674,6 +1857,7 @@
     "lat": 24.7708,
     "lng": 46.7083,
     "location": "",
+    "lon": 46.7083,
     "min_horizon": 10,
     "name": "RIYADH1",
     "observations": 1040,
@@ -1681,6 +1865,7 @@
     "status": "Testing"
   },
   {
+    "alt": 62,
     "altitude": 62,
     "antenna": [
       "UHF Lindenblad"
@@ -1692,6 +1877,7 @@
     "lat": 42.31404,
     "lng": -71.44789,
     "location": "",
+    "lon": -71.44789,
     "min_horizon": 20,
     "name": "Grove-UHF-01",
     "observations": 606,
@@ -1699,6 +1885,7 @@
     "status": "Online"
   },
   {
+    "alt": 2,
     "altitude": 2,
     "antenna": [
       "VHF Turnstile"
@@ -1710,6 +1897,7 @@
     "lat": -34.828889,
     "lng": 138.499167,
     "location": "",
+    "lon": 138.499167,
     "min_horizon": 15,
     "name": "VK5JO-2M-TEST",
     "observations": 48,
@@ -1717,6 +1905,7 @@
     "status": "Offline"
   },
   {
+    "alt": 20,
     "altitude": 20,
     "antenna": [
       "VHF Yagi"
@@ -1728,6 +1917,7 @@
     "lat": 37.9556463,
     "lng": 23.7199816,
     "location": "",
+    "lon": 23.7199816,
     "min_horizon": 10,
     "name": "SV1RVP",
     "observations": 0,
@@ -1735,6 +1925,7 @@
     "status": "Offline"
   },
   {
+    "alt": 110,
     "altitude": 110,
     "antenna": [
       "VHF Turnstile"
@@ -1746,6 +1937,7 @@
     "lat": 48.64358,
     "lng": 2.231068,
     "location": "",
+    "lon": 2.231068,
     "min_horizon": 10,
     "name": "Marcs",
     "observations": 640,
@@ -1753,6 +1945,7 @@
     "status": "Online"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "VHF Yagi"
@@ -1764,6 +1957,7 @@
     "lat": 51.4719052,
     "lng": 5.5584172,
     "location": "",
+    "lon": 5.5584172,
     "min_horizon": 10,
     "name": "PA3RVG VHF Moxon",
     "observations": 564,
@@ -1771,6 +1965,7 @@
     "status": "Online"
   },
   {
+    "alt": 65,
     "altitude": 65,
     "antenna": [],
     "created": "2018-05-12T11:22:14Z",
@@ -1780,6 +1975,7 @@
     "lat": 14.746722,
     "lng": 121.03722,
     "location": "",
+    "lon": 121.03722,
     "min_horizon": 10,
     "name": "DINO",
     "observations": 0,
@@ -1787,6 +1983,7 @@
     "status": "Offline"
   },
   {
+    "alt": 8,
     "altitude": 8,
     "antenna": [
       "VHF Quadrafilar"
@@ -1798,6 +1995,7 @@
     "lat": 47.801,
     "lng": 9.41133,
     "location": "",
+    "lon": 9.41133,
     "min_horizon": 10,
     "name": "DJ0LRC",
     "observations": 97,
@@ -1805,6 +2003,7 @@
     "status": "Offline"
   },
   {
+    "alt": 16,
     "altitude": 16,
     "antenna": [
       "VHF Eggbeater"
@@ -1816,6 +2015,7 @@
     "lat": 39.9105,
     "lng": -75.0497,
     "location": "",
+    "lon": -75.0497,
     "min_horizon": 20,
     "name": "KU2Y",
     "observations": 292,
@@ -1823,6 +2023,7 @@
     "status": "Testing"
   },
   {
+    "alt": 50,
     "altitude": 50,
     "antenna": [
       "UHF Yagi"
@@ -1834,6 +2035,7 @@
     "lat": 52.51216,
     "lng": 13.32603,
     "location": "",
+    "lon": 13.32603,
     "min_horizon": 10,
     "name": "BEEGND",
     "observations": 1,
@@ -1841,6 +2043,7 @@
     "status": "Offline"
   },
   {
+    "alt": 227,
     "altitude": 227,
     "antenna": [
       "UHF Yagi",
@@ -1853,6 +2056,7 @@
     "lat": 39.700479,
     "lng": -83.939205,
     "location": "",
+    "lon": -83.939205,
     "min_horizon": 10,
     "name": "Hamvention Demo Station",
     "observations": 14,
@@ -1860,6 +2064,7 @@
     "status": "Offline"
   },
   {
+    "alt": 307,
     "altitude": 307,
     "antenna": [
       "UHF Yagi",
@@ -1872,6 +2077,7 @@
     "lat": 29.612517,
     "lng": 106.512097,
     "location": "",
+    "lon": 106.512097,
     "min_horizon": 10,
     "name": "bg8ixq",
     "observations": 0,
@@ -1879,6 +2085,7 @@
     "status": "Offline"
   },
   {
+    "alt": 100,
     "altitude": 100,
     "antenna": [
       "UHF Yagi"
@@ -1890,6 +2097,7 @@
     "lat": 39.5666,
     "lng": 3.2095,
     "location": "",
+    "lon": 3.2095,
     "min_horizon": 10,
     "name": "EA6WQ - Tomas Orzaez",
     "observations": 18,
@@ -1897,6 +2105,7 @@
     "status": "Online"
   },
   {
+    "alt": 25,
     "altitude": 25,
     "antenna": [
       "VHF Quadrafilar"
@@ -1908,6 +2117,7 @@
     "lat": 49.7625772,
     "lng": 15.9192975,
     "location": "",
+    "lon": 15.9192975,
     "min_horizon": 10,
     "name": "ok1phu-1",
     "observations": 56,
@@ -1915,6 +2125,7 @@
     "status": "Offline"
   },
   {
+    "alt": 12,
     "altitude": 12,
     "antenna": [
       "UHF Eggbeater"
@@ -1926,6 +2137,7 @@
     "lat": 52.102,
     "lng": 5.1797,
     "location": "",
+    "lon": 5.1797,
     "min_horizon": 30,
     "name": "Lacuna1",
     "observations": 159,
@@ -1933,6 +2145,7 @@
     "status": "Offline"
   },
   {
+    "alt": 12,
     "altitude": 12,
     "antenna": [
       "UHF Yagi",
@@ -1945,6 +2158,7 @@
     "lat": 1.524543,
     "lng": 103.789807,
     "location": "",
+    "lon": 103.789807,
     "min_horizon": 10,
     "name": "9w2gee",
     "observations": 0,
@@ -1952,6 +2166,7 @@
     "status": "Offline"
   },
   {
+    "alt": 100,
     "altitude": 100,
     "antenna": [
       "VHF Turnstile"
@@ -1963,6 +2178,7 @@
     "lat": 47.4913509,
     "lng": -121.7843942,
     "location": "",
+    "lon": -121.7843942,
     "min_horizon": 25,
     "name": "WA4OSH",
     "observations": 3,
@@ -1970,6 +2186,7 @@
     "status": "Offline"
   },
   {
+    "alt": 12,
     "altitude": 12,
     "antenna": [
       "HF Dipole"
@@ -1981,6 +2198,7 @@
     "lat": 50.258198,
     "lng": 19.577813,
     "location": "",
+    "lon": 19.577813,
     "min_horizon": 10,
     "name": "st1",
     "observations": 0,
@@ -1988,6 +2206,7 @@
     "status": "Offline"
   },
   {
+    "alt": 10,
     "altitude": 10,
     "antenna": [
       "HF Dipole"
@@ -1999,6 +2218,7 @@
     "lat": 42.4140158,
     "lng": -71.123,
     "location": "",
+    "lon": -71.123,
     "min_horizon": 10,
     "name": "Tester1",
     "observations": 16,
@@ -2006,6 +2226,7 @@
     "status": "Testing"
   },
   {
+    "alt": 15,
     "altitude": 15,
     "antenna": [
       "VHF Turnstile"
@@ -2017,6 +2238,7 @@
     "lat": 17.890881,
     "lng": -87.980121,
     "location": "",
+    "lon": -87.980121,
     "min_horizon": 10,
     "name": "V31SH",
     "observations": 0,
@@ -2024,6 +2246,7 @@
     "status": "Offline"
   },
   {
+    "alt": 7,
     "altitude": 7,
     "antenna": [
       "VHF Turnstile"
@@ -2035,6 +2258,7 @@
     "lat": -32.11875,
     "lng": 115.9375,
     "location": "",
+    "lon": 115.9375,
     "min_horizon": 0,
     "name": "shiggy@iprimus.com.au",
     "observations": 0,
@@ -2042,6 +2266,7 @@
     "status": "Offline"
   },
   {
+    "alt": 612,
     "altitude": 612,
     "antenna": [
       "VHF Yagi"
@@ -2053,6 +2278,7 @@
     "lat": 42.81755,
     "lng": 1.5846,
     "location": "",
+    "lon": 1.5846,
     "min_horizon": 20,
     "name": "F6HDW",
     "observations": 0,
@@ -2060,6 +2286,7 @@
     "status": "Offline"
   },
   {
+    "alt": 255,
     "altitude": 255,
     "antenna": [
       "UHF Yagi",
@@ -2073,6 +2300,7 @@
     "lat": 39.7909343,
     "lng": -83.999431,
     "location": "",
+    "lon": -83.999431,
     "min_horizon": 10,
     "name": "Hummingbird",
     "observations": 40,
@@ -2080,6 +2308,7 @@
     "status": "Testing"
   },
   {
+    "alt": 200,
     "altitude": 200,
     "antenna": [
       "UHF Eggbeater"
@@ -2091,6 +2320,7 @@
     "lat": 10.367497,
     "lng": -84.512909,
     "location": "",
+    "lon": -84.512909,
     "min_horizon": 15,
     "name": "TEC-SC",
     "observations": 0,
@@ -2098,6 +2328,7 @@
     "status": "Offline"
   },
   {
+    "alt": 535,
     "altitude": 535,
     "antenna": [
       "UHF Yagi",
@@ -2110,6 +2341,7 @@
     "lat": 30.7158,
     "lng": 104.113,
     "location": "",
+    "lon": 104.113,
     "min_horizon": 10,
     "name": "BG8DIV",
     "observations": 0,
@@ -2117,6 +2349,7 @@
     "status": "Offline"
   },
   {
+    "alt": 35,
     "altitude": 35,
     "antenna": [
       "UHF Yagi"
@@ -2128,6 +2361,7 @@
     "lat": 35.895979,
     "lng": 14.475176,
     "location": "",
+    "lon": 14.475176,
     "min_horizon": 60,
     "name": "9H1Y-70cm-yagi-zenith",
     "observations": 28,
@@ -2135,6 +2369,7 @@
     "status": "Offline"
   },
   {
+    "alt": 1,
     "altitude": 1,
     "antenna": [
       "UHF Turnstile"
@@ -2146,6 +2381,7 @@
     "lat": 43.636566,
     "lng": 3.843127,
     "location": "",
+    "lon": 3.843127,
     "min_horizon": 15,
     "name": "CSU test station v0",
     "observations": 13,
@@ -2153,6 +2389,7 @@
     "status": "Testing"
   },
   {
+    "alt": 220,
     "altitude": 220,
     "antenna": [
       "VHF Quadrafilar"
@@ -2164,6 +2401,7 @@
     "lat": 50.0255,
     "lng": 15.767,
     "location": "",
+    "lon": 15.767,
     "min_horizon": 5,
     "name": "Hvezdarna barona Artura Krause",
     "observations": 93,
@@ -2171,6 +2409,7 @@
     "status": "Testing"
   },
   {
+    "alt": 2,
     "altitude": 2,
     "antenna": [
       "VHF Turnstile"
@@ -2182,6 +2421,7 @@
     "lat": 47.801,
     "lng": 9.411,
     "location": "",
+    "lon": 9.411,
     "min_horizon": 10,
     "name": "G-Station",
     "observations": 0,
@@ -2189,6 +2429,7 @@
     "status": "Offline"
   },
   {
+    "alt": 17,
     "altitude": 17,
     "antenna": [
       "VHF Quadrafilar"
@@ -2200,6 +2441,7 @@
     "lat": 57.657408,
     "lng": -3.305588,
     "location": "",
+    "lon": -3.305588,
     "min_horizon": 3,
     "name": "2M0SQL",
     "observations": 0,
@@ -2207,6 +2449,7 @@
     "status": "Offline"
   },
   {
+    "alt": 300,
     "altitude": 300,
     "antenna": [
       "HF Dipole"
@@ -2218,6 +2461,7 @@
     "lat": 37.818732,
     "lng": -122.180725,
     "location": "",
+    "lon": -122.180725,
     "min_horizon": 10,
     "name": "Chabot Space and Science Center",
     "observations": 27,
@@ -2225,6 +2469,7 @@
     "status": "Offline"
   },
   {
+    "alt": 50,
     "altitude": 50,
     "antenna": [
       "VHF Turnstile",
@@ -2237,6 +2482,7 @@
     "lat": 48.882767,
     "lng": 2.17693,
     "location": "",
+    "lon": 2.17693,
     "min_horizon": 10,
     "name": "XTOPHE",
     "observations": 134,
@@ -2244,6 +2490,7 @@
     "status": "Online"
   },
   {
+    "alt": 80,
     "altitude": 80,
     "antenna": [
       "UHF Yagi"
@@ -2255,6 +2502,7 @@
     "lat": -6.2292,
     "lng": 106.9583,
     "location": "",
+    "lon": 106.9583,
     "min_horizon": 25,
     "name": "yb3mbn",
     "observations": 0,
@@ -2262,6 +2510,7 @@
     "status": "Offline"
   },
   {
+    "alt": 5,
     "altitude": 5,
     "antenna": [
       "VHF Turnstile"
@@ -2273,6 +2522,7 @@
     "lat": 50.73,
     "lng": 7.06,
     "location": "",
+    "lon": 7.06,
     "min_horizon": 10,
     "name": "JO30MRTest",
     "observations": 8,
@@ -2280,6 +2530,7 @@
     "status": "Offline"
   },
   {
+    "alt": 5,
     "altitude": 5,
     "antenna": [
       "VHF Turnstile",
@@ -2292,6 +2543,7 @@
     "lat": 47.17242,
     "lng": 0.18035,
     "location": "",
+    "lon": 0.18035,
     "min_horizon": 2,
     "name": "PA2EON",
     "observations": 18,
@@ -2299,6 +2551,7 @@
     "status": "Offline"
   },
   {
+    "alt": 530,
     "altitude": 530,
     "antenna": [
       "VHF Turnstile"
@@ -2310,6 +2563,7 @@
     "lat": 40.08384,
     "lng": 21.42739,
     "location": "",
+    "lon": 21.42739,
     "min_horizon": 10,
     "name": "Grevena_SatNogs_Station",
     "observations": 0,
@@ -2317,6 +2571,7 @@
     "status": "Offline"
   },
   {
+    "alt": null,
     "altitude": 0,
     "antenna": [
       "HF Dipole"
@@ -2328,6 +2583,7 @@
     "lat": 42.366062,
     "lng": -71.09478,
     "location": "",
+    "lon": -71.09478,
     "min_horizon": 15,
     "name": "The Best Station",
     "observations": 23,
@@ -2335,6 +2591,7 @@
     "status": "Offline"
   },
   {
+    "alt": 645,
     "altitude": 645,
     "antenna": [
       "VHF Yagi",
@@ -2348,6 +2605,7 @@
     "lat": 45.941,
     "lng": 6.184,
     "location": "",
+    "lon": 6.184,
     "min_horizon": 280,
     "name": "F0FYF",
     "observations": 0,
@@ -2355,6 +2613,7 @@
     "status": "Offline"
   },
   {
+    "alt": 33,
     "altitude": 33,
     "antenna": [
       "HF Dipole"
@@ -2366,6 +2625,7 @@
     "lat": 11.562108,
     "lng": 104.888535,
     "location": "",
+    "lon": 104.888535,
     "min_horizon": 10,
     "name": "HooverPP",
     "observations": 0,
@@ -2373,6 +2633,7 @@
     "status": "Offline"
   },
   {
+    "alt": 62,
     "altitude": 62,
     "antenna": [
       "VHF Yagi"
@@ -2384,6 +2645,7 @@
     "lat": 52.9405,
     "lng": -1.5044,
     "location": "",
+    "lon": -1.5044,
     "min_horizon": 10,
     "name": "Derby Central",
     "observations": 0,
@@ -2391,6 +2653,7 @@
     "status": "Offline"
   },
   {
+    "alt": 40,
     "altitude": 40,
     "antenna": [
       "VHF Turnstile"
@@ -2402,6 +2665,7 @@
     "lat": 48.354816,
     "lng": 10.904797,
     "location": "",
+    "lon": 10.904797,
     "min_horizon": 10,
     "name": "DF0HSA",
     "observations": 8,
@@ -2409,6 +2673,7 @@
     "status": "Offline"
   },
   {
+    "alt": 200,
     "altitude": 200,
     "antenna": [
       "VHF Turnstile",
@@ -2421,6 +2686,7 @@
     "lat": 48.15076,
     "lng": 17.05083,
     "location": "",
+    "lon": 17.05083,
     "min_horizon": 10,
     "name": "balcony",
     "observations": 48,
