@@ -8,6 +8,7 @@ from a database.
 
 Ground Station information is stored in a JSON file.
 """
+import os
 from collections import namedtuple
 from datetime import timedelta
 from itertools import product
@@ -18,8 +19,24 @@ import sqlite3
 
 import ephem
 from intervaltree import Interval, IntervalTree
-from pyorbital.orbital import Orbital
+import requests
 
+
+import configparser
+
+config = configparser.ConfigParser(
+    interpolation=configparser.ExtendedInterpolation(),
+)
+
+# defaults
+thisdir = os.path.dirname(__file__)
+config.read_file(open(os.path.join(thisdir, 'bazaar.cfg')))
+
+config.read([
+    'bazaar.cfg',
+    os.path.expanduser('~/.bazaar.cfg'),
+    ]
+)
 
 
 PassTuple = namedtuple('PassTuple',
@@ -28,30 +45,91 @@ PassTuple = namedtuple('PassTuple',
 TleTuple = namedtuple('TleTuple',
                       'norad epoch line0 line1 line2 downloaded')
 
+STATION_KEYS = ('alt', 'lat', 'lon', 'min_horizon', 'name', 'status')
 
-def load_stations(filename='network-stations.json'):
-    """Returns a list of gs dicts from a file.
+
+
+def get_stations(outfile=None, networks=None):
+    """
+    Utility to get download / get station information from the configured
+    networks.  Collects into a single dict.  Returns the dict and also writes
+    to a JSON file for later retrieval.
+    """
+    outfile = outfile or config['DEFAULT']['stations_file']
+
+    # default to reading stations from all networks
+    if networks is None:
+        networks = config.sections()
+
+
+    stations = {}
+    for network in networks:
+        url = config[network]['stations_url']
+
+        if url.startswith('http'):
+            r = requests.get(url)
+            data = r.json()
+
+            nextpage = r.links.get('next')
+            while nextpage:
+                r = requests.get(nextpage['url'])
+                data.extend(r.json())
+                nextpage = r.links.get('next')
+        elif os.path.isfile(url):
+            data = json.load(open(url))
+        else:
+            raise TypeError('Unknown protocol for: {}'.format(url))
+
+        for gs in data:
+            # normalize keys
+            # SatNOGS v1 uses 'lng' for longitude
+            if 'lon' not in gs:
+                gs['lon'] = gs.get('lng') or gs.get('longitude')
+
+            # SatNOGS v1 uses 'altitude' for station height above sea level
+            if 'alt' not in gs:
+                gs['alt'] = gs.get('altitude') or gs.get('elevation')
+
+            # verify sufficient information is present
+            for k in STATION_KEYS:
+                if k not in gs:
+                    raise KeyError('Missing key: {}'.format(k))
+
+            # TODO: better to use 'network/id'?  What about GS on multiple networks?
+            # key = '/'.join((config['network_name'], gs['id']))
+            key = gs['name']
+            stations[key] = gs
+
+    with open(outfile, 'w') as fp:
+        json.dump(stations, fp, sort_keys=True, indent=2)
+
+    return stations
+
+
+def load_stations(filename=None, from_cache=True):
+    """Returns a dict of gs dicts from a file.
 
     Arguments:
     filename -- JSON format as returned by SatNOGS Network api/stations endpoint
+                if None, use 'stations_file' from the configuration file.
 
     required keys:
         altitude
         lat
-        lng
+        lon
         min_horizon
         name
         status  (one of: Online, Testing, Offline)
     """
+    # also fetch and cache the stations from the configured networks
+    if not from_cache:
+        return get_stations()
 
+    # just load from the given filename or configured cache
+    filename = filename or config['DEFAULT']['stations_file']
     with open(filename) as f:
         stations = json.load(f)
-    # some aliases.  TODO may go away!
-    for gs in stations:
-        gs['lon'] = gs['lng']
-        gs['alt'] = gs['altitude']
-    d = {s['name']: s for s in stations}
-    return d
+    return stations
 
 
 def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
@@ -284,6 +362,8 @@ def compute_passes_orbital(args):
     If both, use min(num_passes, duration).
     If neither, find passes for next 24 hours.
     """
+    from pyorbital.orbital import Orbital
+
     (observer, satellite, start_time, num_passes, duration) = args
     print("%s <--> %s" % (observer['name'], satellite['name'].strip()), flush=True)
 
