@@ -15,11 +15,11 @@ import db
 #
 # Configuration
 
-stationsfile = 'network-stations.json'
+stationsfile = None
 satsfile = 'satellites.json'
 
-dbfile = 'allpasses.sqlite'
-# dbfile = 'testpasses.sqlite'
+# dbfile = 'allpasses.sqlite'
+dbfile = 'testpasses.sqlite'
 
 compute_function = db.compute_passes_ephem
 # compute_function = db.compute_passes_orbital
