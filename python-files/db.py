@@ -48,7 +48,6 @@ TleTuple = namedtuple('TleTuple',
 STATION_KEYS = ('alt', 'lat', 'lon', 'min_horizon', 'name', 'status')
 
 
-
 def get_stations(outfile=None, networks=None):
     """
     Utility to get download / get station information from the configured
@@ -60,7 +59,6 @@ def get_stations(outfile=None, networks=None):
     # default to reading stations from all networks
     if networks is None:
         networks = config.sections()
-
 
     stations = {}
     for network in networks:
@@ -143,8 +141,8 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
         sats = json.load(f)
 
     conn = sqlite3.connect('file:' + tledb + '?mode=ro',
-                              uri=True,
-                              detect_types=sqlite3.PARSE_DECLTYPES)
+                           uri=True,
+                           detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
@@ -253,7 +251,7 @@ def compute_passes_ephem(args):
     ground_station.lat = str(observer['lat'])          # in degrees (+N)
     ground_station.elevation = observer['altitude']       # in meters
     ground_station.date = ephem.date(start_time)  # in UTC
-    ground_station.horizon = str(observer['min_horizon']) # in degrees
+    ground_station.horizon = str(observer['min_horizon'])  # in degrees
     ground_station.pressure = 0  # ignore atmospheric refraction at the horizon
 
     # Read in most recent satellite TLE data
