@@ -23,6 +23,8 @@ def random_scheduler(passes, clients, satellites, debug=False):
                 print('*', end='', flush=True)
             else:
                 print('.', end='', flush=True)
+    if debug is True:
+        print()
     return clients
 
 
