@@ -2,8 +2,6 @@
 # when simulating.
 import random
 
-from schedulingbazaar import load_tles
-
 
 def random_scheduler(passes, clients, satellites, debug=False):
     """Randomly schedules passes on the given clients (which are already
@@ -66,15 +64,3 @@ def pass2request(pd, satellites):
     return request
 
 
-# load a dict of satellites
-def load_sat_dict():
-    satelliteslist = load_tles('../python-files/amateur.txt')
-    satellites = {}
-    for s in satelliteslist:
-        sat = {'name': s[0].strip(),
-               'tle0': s[0],
-               'tle1': s[1],
-               'tle2': s[2],
-               }
-        satellites[sat['name']] = sat
-    return satellites
