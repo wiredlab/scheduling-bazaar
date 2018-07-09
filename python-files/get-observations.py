@@ -7,6 +7,7 @@ Collects the paginated objects into a single JSON mapping keyed by observation i
 and stores in a file.
 """
 
+import bz2
 import json
 import requests
 
@@ -15,7 +16,7 @@ import requests
 # requests_cache.install_cache(expire_after=60*60*3)
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
-OBSERVATIONS_JSON = 'observations.json'
+OBSERVATIONS_JSON_BZ2 = 'observations.json.bz2'
 
 MAX_EXTRA_PAGES = 10
 
@@ -25,7 +26,7 @@ def get(url):
 
 
 try:
-    with open(OBSERVATIONS_JSON) as f:
+    with bz2.open(OBSERVATIONS_JSON_BZ2) as f:
         data = json.load(f)
         # json.dump() coerces to string keys
         # convert keys back to integers
@@ -75,5 +76,5 @@ while (extra_pages > 0) and nextpage:
 # filter out the bad data
 obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
 
-with open(OBSERVATIONS_JSON, 'w') as fp:
+with bz2.open(OBSERVATIONS_JSON_BZ2, 'wt') as fp:
     json.dump(obs, fp, sort_keys=True, indent=2)
