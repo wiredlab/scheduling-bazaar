@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 
+import sys
+sys.path.append('../python-files')  # noqa
+
+# from ../python-files/
+import db
+import schedulers
+
+# from ./
+import client
+
+
 # simulate used for comparing different scheduling methods
 def simulate():
     """Simulates client and network interaction using
     given scheduling method.
     """
-
-    from datetime import datetime, timezone
-    import sys
-    sys.path.append('../python-files')  # noqa
-
-    # from ../python-files/
-    import db
-    import schedulers
-
-    # from ./
-    import client
 
     # get passes
     passes = db.getpasses(
@@ -41,7 +41,11 @@ def simulate():
         c = client.YesClient(gs)
         clients[c.name] = c
 
-    schedulers.random_scheduler(passes=passes, clients=clients, satellites=satellites, debug=False)
+    schedulers.random_scheduler(
+        passes=passes,
+        clients=clients,
+        satellites=satellites,
+        debug=False)
 
     return clients
 
