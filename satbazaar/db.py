@@ -147,6 +147,7 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
     cur = conn.cursor()
 
     def get_info(norad):
+        print(norad)
         query = 'SELECT * FROM tle WHERE norad = ? ORDER BY downloaded DESC LIMIT 1'
         cur.execute(query, (norad,))
         return cur.fetchone()

@@ -9,10 +9,8 @@ def random_scheduler(passes, clients, satellites, debug=False):
 
     passes - candidate passes for scheduling.
     clients - dict of ground stations to use.
-    debug - Boolean, defualt False. Will print out status markers for each
-            pass when True.
+    debug - Boolean.  Print out status markers for each.
     """
-
     passes = random.sample(passes, len(passes))
     for pd in passes:
         # create a request
@@ -27,6 +25,28 @@ def random_scheduler(passes, clients, satellites, debug=False):
         print()
     return clients
 
+
+def first_start_scheduler(passes, clients, satellites, debug=False):
+    """Makes requests to stations in order of start time.
+
+    passes - candidate passes for scheduling.
+    clients - dict of ground stations to use.
+    debug - Boolean.  Print out status markers for each pass.
+
+    Returns updated clients with filled calendars.
+    """
+    # TODO: what is the sort key?
+    for pd in sorted(passes):
+        r = pass2request(pd, satellites)
+        offer = clients[pd.data.gs].request(r)
+        if debug is True:
+            if offer['status'] == 'accept':
+                print('*', end='', flush=True)
+            else:
+                print('.', end='', flush=True)
+    if debug is True:
+        print()
+    return clients
 
 # def max_gs_el(passes, clients, debug=False):
 

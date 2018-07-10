@@ -1149,8 +1149,8 @@
   },
   {
     "image": "https://db.satnogs.org/media/satellites/cas-2t-145-435-mhz-fm-transponder-cubesat.jpg",
-    "name": "LISHUI 1-01",
-    "names": "KS-1Q\r\nOBJECT E",
+    "name": "CAS-2T & KS-1Q",
+    "names": "OBJECT E",
     "norad_cat_id": 41845,
     "status": "alive"
   },

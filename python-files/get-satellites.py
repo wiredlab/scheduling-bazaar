@@ -98,7 +98,7 @@ for sat in satellites:
            line0,
            line1,
            line2,
-           datetime.utcnow().isoformat()))
+           datetime.utcnow()))
         # 'INSERT OR IGNORE INTO ...' will suppress the exception
     except sqlite3.IntegrityError:
         pass
