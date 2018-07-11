@@ -30,11 +30,11 @@ config = configparser.ConfigParser(
 
 # defaults
 thisdir = os.path.dirname(__file__)
-config.read_file(open(os.path.join(thisdir, 'bazaar.cfg')))
+config.read_file(open(os.path.join(thisdir, 'satbazaar.cfg')))
 
 config.read([
-    'bazaar.cfg',
-    os.path.expanduser('~/.bazaar.cfg'),
+    'satbazaar.cfg',
+    os.path.expanduser('~/.satbazaar.cfg'),
     ]
 )
 

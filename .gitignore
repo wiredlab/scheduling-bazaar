@@ -2,3 +2,5 @@ jupyter_notebooks/*.pkl
 broker/__pycache__
 **/.ipynb_checkpoints
 **/.pytest_cache
+*.egg-info
+__pycache__
