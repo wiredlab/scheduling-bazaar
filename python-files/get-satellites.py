@@ -13,13 +13,18 @@ from datetime import datetime, timedelta
 import json
 import sqlite3
 from itertools import islice
+from io import StringIO
 
 from lxml import html
 import requests
 
+import requests_cache
+
+requests_cache.install_cache('.get-satellites-cache.db', expire_after=60*60)
+
 
 DO_PRINT = False
-DO_PRINT = True
+# DO_PRINT = True
 
 
 URL = 'https://db.satnogs.org/api/satellites'
@@ -49,26 +54,31 @@ def get_epoch(tle):
     return d
 
 
-# go ahead and fetch the AMSAT TLEs once for this session
-amsat = {}
-r = requests.get(AMSAT)
+def read_3LE(fp):
+    data = {}
+    lines = iter(fp)
+    while lines:
+        triple = islice(lines, 3)
+        tle = [x.rstrip() for x in triple]
+        if len(tle) == 3:
+            norad = int(tle[1][2:7])
+            data[norad] = tle
+        else:
+            break
+    return data
 
-lines = iter(r.text.splitlines())
-while lines:
-    triple = islice(lines, 3)
-    tle = [x.rstrip() for x in triple]
-    if len(tle) == 3:
-        norad = int(tle[1][2:7])
-        amsat[norad] = tle
-    else:
-        break
+
+# go ahead and fetch the AMSAT TLEs once for this session
+r = requests.get(AMSAT)
+amsat = read_3LE(StringIO(r.text))
 
 
 # fetch satellites known to the network
 r = requests.get(URL)
-satellites = r.json()
+satlist = r.json()
 
-satellites[:] = sorted(satellites, key=lambda s: s['norad_cat_id'])
+# satellites[:] = sorted(satellites, key=lambda s: s['norad_cat_id'])
+satellites = {s['norad_cat_id']:s for s in satlist}
 with open(SATELLITES_JSON, 'w') as fp:
     json.dump(satellites, fp, sort_keys=True, indent=2)
 
@@ -87,8 +97,13 @@ cur.execute('''CREATE TABLE IF NOT EXISTS tle
             );''')
 
 UPDATED = 0
-for sat in satellites:
-    norad = sat['norad_cat_id']
+for norad, sat in satellites.items():
+    # don't bother getting TLE for a re-entered satellite
+    if sat['status'] == 're-entered':
+        if DO_PRINT:
+            print(norad, 'has re-entered')
+        continue
+
     try:
         tle = get_celestrak(norad)
         if DO_PRINT:
