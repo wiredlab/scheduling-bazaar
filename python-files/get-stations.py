@@ -8,7 +8,7 @@ Collects the paginated objects into a single JSON list and stores in a file.
 
 import sys
 
-import db
+from satbazaar import db
 
 fname = None
 networks = None
