@@ -7,7 +7,7 @@ import time
 
 import cProfile
 
-import db
+from satbazaar import db
 
 
 
