@@ -40,7 +40,7 @@ config.read([
 
 
 PassTuple = namedtuple('PassTuple',
-                       'start end duration rise_az set_az tca max_el gs sat')
+                       'start end duration rise_az set_az tca max_el gs norad')
 
 TleTuple = namedtuple('TleTuple',
                       'norad epoch line0 line1 line2 downloaded')
@@ -139,6 +139,7 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
 
     with open(satsfile) as f:
         sats = json.load(f)
+    sats = {int(norad):sat for norad, sat in sats.items()}
 
     conn = sqlite3.connect('file:' + tledb + '?mode=ro',
                            uri=True,
@@ -151,8 +152,7 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
         cur.execute(query, (norad,))
         return cur.fetchone()
 
-    for sat in sats:
-        norad = sat['norad_cat_id']
+    for norad, sat in sats.items():
         row = get_info(norad)
         if not row:
             continue
@@ -160,7 +160,7 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
         sat['epoch'] = row['epoch']
         sat['tle'] = (row['line0'], row['line1'], row['line2'])
 
-    d = {s['name']: s for s in sats if 'tle' in s}
+    d = {norad:sat for (norad, sat) in sats.items() if 'tle' in sat}
     return d
 
 
@@ -181,7 +181,7 @@ def getpasses(dbfile='allpasses.sqlite', gs=None, sat=None, start=None, end=None
         Filename of SQLite3 database of pre-computed passes.
     gs : str
         Glob string selecting a Ground Station name.
-    sat : str
+    sat : int
         Glob selecting satellite(s).
     start : datetime or SQlite3 datetime string
         Select passes which end on or after `start` time.
@@ -291,6 +291,12 @@ def compute_passes_ephem(args):
             # [4]=set time, [5]=set azimuth
             info = ground_station.next_pass(sat)
             rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
+
+            if rise_time is None or set_time is None:
+                print('*** oops ***', flush=True)
+                ground_station.date = ground_station.date + ephem.minute
+                continue
+
             deg_per_rad = 180.0/pi           # use to conv azimuth to deg
             try:
                 pass_duration = timedelta(days=set_time-rise_time)  # timedelta
@@ -307,7 +313,7 @@ def compute_passes_ephem(args):
                 max_el = (max_alt * deg_per_rad)
             except AttributeError:
                 # when no set or rise time
-                pass
+                raise
 
             pass_data = {
                 'start': rising,
@@ -318,7 +324,7 @@ def compute_passes_ephem(args):
                 'tca': tca,
                 'max_el': max_el,
                 'gs': observer['name'],
-                'sat': satellite['name'],
+                'norad': satellite['norad_cat_id'],
             }
 
             try:
@@ -422,7 +428,7 @@ def compute_passes_orbital(args):
             'tca': tca,
             'max_el': max_el,
             'gs': observer['name'],
-            'sat': satellite['name'],
+            'norad': satellite['norad_cat_id'],
         }
         contacts.append(pass_data)
     # convert to namedtuples since the info doesn't change
@@ -460,7 +466,10 @@ def compute_all_passes(stations, satellites, start_time,
               tca timestamp,
               max_el real,
               gs text,
-              sat text);''')
+              norad integer);''')
+    cur.execute('''CREATE INDEX idx_gs ON passes (gs);''')
+    cur.execute('''CREATE INDEX idx_norad ON passes (norad);''')
+    cur.execute('''CREATE INDEX idx_gs_norad ON passes (gs, norad);''')
 
     tree = IntervalTree()
 
