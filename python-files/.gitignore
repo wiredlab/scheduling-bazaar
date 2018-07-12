@@ -3,3 +3,6 @@ __pycache__
 allpasses.sqlite
 requests-cache.sqlite
 .get-satellites-cache.db.sqlite
+
+# data folder backup
+data.tar.gz
