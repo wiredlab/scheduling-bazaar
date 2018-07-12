@@ -17,60 +17,22 @@ from io import StringIO
 
 from lxml import html
 import requests
-
 import requests_cache
+
+from satbazaar.db import TLESource
 
 requests_cache.install_cache('.get-satellites-cache.db', expire_after=60*60)
 
 
-DO_PRINT = False
-# DO_PRINT = True
+DO_PRINT = True
 
 
 URL = 'https://db.satnogs.org/api/satellites'
 SATELLITES_JSON = 'satellites.json'
 TLE_DB = 'tle.sqlite'
 
-AMSAT = 'https://www.amsat.org/tle/current/nasabare.txt'
 
-
-def get_celestrak(norad):
-    r = requests.get('http://www.celestrak.com/cgi-bin/TLE.pl?CATNR={}'.format(norad))
-    p = html.fromstring(r.text)
-    lines = p.xpath('//pre/text()')[0].split('\n')
-    if len(lines) == 5:
-        return lines[1].strip(), lines[2].strip(), lines[3].strip()
-    else:
-        raise KeyError('{} not found'.format(norad))
-
-
-def get_epoch(tle):
-    y = int(tle[1][18:20])
-    jd = float(tle[1][20:32])
-    if y < 57:
-        y += 100
-    y += 1900
-    d = datetime(y, 1, 1) + timedelta(days=jd)
-    return d
-
-
-def read_3LE(fp):
-    data = {}
-    lines = iter(fp)
-    while lines:
-        triple = islice(lines, 3)
-        tle = [x.rstrip() for x in triple]
-        if len(tle) == 3:
-            norad = int(tle[1][2:7])
-            data[norad] = tle
-        else:
-            break
-    return data
-
-
-# go ahead and fetch the AMSAT TLEs once for this session
-r = requests.get(AMSAT)
-amsat = read_3LE(StringIO(r.text))
+tle_source = TLESource()
 
 
 # fetch satellites known to the network
@@ -104,27 +66,30 @@ for norad, sat in satellites.items():
             print(norad, 'has re-entered')
         continue
 
+    # TLESource lazily fetches TLEs only when requested.
+    # using catching the KeyError is faster than (norad in tle_source)
+    #
+    # vvv ensure we don't use a tle from the previous loop
+    tle = None
     try:
-        tle = get_celestrak(norad)
-        if DO_PRINT:
-            print('{} TLE from CelesTrak'.format(norad))
+        tle = tle_source[norad]
     except KeyError:
-        # bad parse of data, typically response was "No TLE found"
-        if norad in amsat:
-            tle = amsat[norad]
-            if DO_PRINT:
-                print('{} TLE from AMSAT'.format(norad))
-        else:
-            if DO_PRINT:
-                print('{} no TLE'.format(norad))
+        if DO_PRINT:
+            print('{} no TLE'.format(norad))
+        continue
     else:
-        line0, line1, line2 = tle
-        epoch = get_epoch(tle)
+        if DO_PRINT:
+            print('{} from {}'.format(norad, tle.source))
 
     try:
         cur.execute(
           'INSERT INTO tle VALUES (?,?,?,?,?,?);',
-          (norad, epoch, line0, line1, line2, datetime.utcnow()))
+          (norad,
+           tle.epoch,
+           tle.line0,
+           tle.line1,
+           tle.line2,
+           datetime.utcnow()))
         # 'INSERT OR IGNORE INTO ...' will suppress the exception
     except sqlite3.IntegrityError:
         pass

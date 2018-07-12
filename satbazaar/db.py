@@ -9,20 +9,30 @@ from a database.
 Ground Station information is stored in a JSON file.
 """
 import os
-from collections import namedtuple
-from datetime import timedelta
-from itertools import product
+from collections import namedtuple, OrderedDict
+from collections.abc import Mapping
+from datetime import datetime, timedelta, timezone
+from itertools import product, islice
 import json
 import multiprocessing
 from math import pi
+from io import StringIO
 import sqlite3
+
+
+from lxml import html
 
 import ephem
 from intervaltree import Interval, IntervalTree
 import requests
 
+import requests_cache
 
 import configparser
+
+requests_cache.install_cache('.satbazaar-db-cache', expire_after=60*60)
+
+
 
 config = configparser.ConfigParser(
     interpolation=configparser.ExtendedInterpolation(),
@@ -46,6 +56,171 @@ TleTuple = namedtuple('TleTuple',
                       'norad epoch line0 line1 line2 downloaded')
 
 STATION_KEYS = ('alt', 'lat', 'lon', 'min_horizon', 'name', 'status')
+
+
+
+class TLE:
+    """Class to access TLE attributes."""
+    def __init__(self, tle, source=None):
+        self.source = source
+        self.lines = tle
+        self.line0 = tle[0]
+        self.line1 = tle[1]
+        self.line2 = tle[2]
+        self.name = tle[0].strip()
+        self.norad = int(tle[1][2:7])
+        self.classification = tle[1][7]
+        self.cospar = '{}-{}'.format(
+            self._year_digits(tle[1][9:11]),
+            tle[1][11:17].rstrip(),
+        )
+
+        y = self._year_digits(tle[1][18:20])
+        year = datetime(y, 1, 1, tzinfo=timezone.utc)
+        jd = timedelta(days=float(tle[1][20:32]))
+        self.epoch = year + jd
+
+        self.elset = int(tle[1][64:68])
+
+        norad2 = int(tle[2][2:7])
+        if self.norad != norad2:
+            raise TypeError(
+                'Inconsistent catalog numbers: {} - {}'.format(
+                    self.norad, norad2))
+
+        self.inclination = float(tle[2][8:16])
+        self.raan = float(tle[2][17:25])
+        self.eccentricity = float('0.' + tle[2][26:33])
+        self.ap = float(tle[2][34:42])
+        self.mean_anomaly = float(tle[2][43:51])
+        self.mean_motion = float(tle[2][52:63])
+        self.orbit = int(tle[2][63:68])
+
+    def _year_digits(self, y):
+        """Returns a year integer from a given two-digit string or integer year."""
+        if isinstance(y, str):
+            y = int(y)
+        if y < 57:
+            y += 100
+        y += 1900
+        return y
+
+    def __str__(self):
+        return '\n'.join(self.tle)
+
+    def __repr__(self):
+        return "TLE(source={}, line0='{}', line1='{}', line2='{}')".format(
+            self.source,
+            self.line0,
+            self.line1,
+            self.line2,
+        )
+
+
+class TLESource(Mapping):
+    r"""Dictionary-like mapping which returns a TLE object for a given NORAD number.
+
+    Example:
+    >>> d = TLESource()
+
+    >>> str(d[25544])  #doctest: +ELLIPSIS
+    'ISS (ZARYA)\n1 25544U 98067A ...'
+
+    >>> repr(d[25544])  #doctest: +ELLIPSIS
+    "TLE(source=CelesTrak, line0='ISS (ZARYA)', line1='1 25544U 98067A ..."
+    """
+    def __init__(self, sources=None, fn=None):
+        self._data = {}
+        if sources is None:
+            sources = TLE_SOURCES
+
+        self.data_source = {}
+        for name, method, arg in sources:
+            self.data_source[name] = method(name, arg)
+
+    def __getitem__(self, norad):
+        for source, d in self.data_source.items():
+            if norad in d:
+                v = d[norad]
+                self._data[norad] = v
+                return v
+        raise KeyError('Unknown satellite {}'.format(norad))
+
+    def __iter__(self):
+        return iter(self._data)
+
+    def __len__(self):
+        return len(self._data)
+
+
+class APITLESource(TLESource):
+    """Mapping which fetches TLEs from an API."""
+    def __init__(self, name, template):
+        """
+        name: short string to identify the source
+        template: URL template suitable for .format(norad)
+        """
+        self.name = name
+        self.template = template
+
+    def __getitem__(self, norad):
+        r = requests.get(self.template.format(norad))
+        p = html.fromstring(r.text)
+        lines = p.xpath('//pre/text()')[0].split('\n')
+        if len(lines) == 5:
+            t = (lines[1].strip(), lines[2].strip(), lines[3].strip())
+            return TLE(t, self.name)
+        else:
+            raise KeyError('{} not found'.format(norad))
+
+
+class FileTLESource(TLESource):
+    """Mapping which reads TLEs from text files with 3 lines per satellite."""
+    def __init__(self, name, fname):
+        """
+        name: short string to identify the source
+        fname: filename containing 3-line groups
+        """
+        self.name = name
+        self._data = self.read_3LE(fname)
+
+    def __getitem__(self, norad):
+        return self._data[norad]
+
+    def _get_fp(self, fname):
+        if url.startswith('http'):
+            r = requests.get(url)
+            return StringIO(r.text)
+        else:
+            return open(url)
+
+    def read_3LE(self, fname):
+        if fname.startswith('http'):
+            r = requests.get(fname)
+            fp = StringIO(r.text)
+        else:
+            fp = open(fname)
+
+        data = {}
+        file_iter= iter(fp)
+        while file_iter:
+            triple = islice(file_iter, 3)
+            lines = [x.rstrip() for x in triple]
+            if len(lines) == 3:
+                tle = TLE(lines, self.name)
+                data[tle.norad] = tle
+            else:
+                break
+        return data
+
+
+
+# ordered by fallback priority
+TLE_SOURCES = (
+    ('CelesTrak', APITLESource, 'http://www.celestrak.com/cgi-bin/TLE.pl?CATNR={}'),
+    ('AMSAT', FileTLESource, 'https://www.amsat.org/tle/current/nasabare.txt'),
+)
+
 
 
 def get_stations(outfile=None, networks=None):
@@ -128,6 +303,12 @@ def load_stations(filename=None, from_cache=True):
     with open(filename) as f:
         stations = json.load(f)
     return stations
+
+
+def get_satellites():
+    # fetch sources
+    pass
+
 
 
 def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):

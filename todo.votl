@@ -4,3 +4,4 @@
 	[_] new -> db.get_satellites()
 [X] remove orbit dependency
 	[X] only used for CelesTrak query, do direct
+Fix tle.sqlite for consistency with NORAD ids
