@@ -18,6 +18,7 @@ import multiprocessing
 from math import pi
 from io import StringIO
 import sqlite3
+import configparser
 
 
 from lxml import html
@@ -25,10 +26,9 @@ from lxml import html
 import ephem
 from intervaltree import Interval, IntervalTree
 import requests
-
 import requests_cache
 
-import configparser
+from satbazaar import util
 
 requests_cache.install_cache('.satbazaar-db-cache', expire_after=60*60)
 
@@ -43,8 +43,8 @@ thisdir = os.path.dirname(__file__)
 config.read_file(open(os.path.join(thisdir, 'satbazaar.cfg')))
 
 config.read([
-    'satbazaar.cfg',
     os.path.expanduser('~/.satbazaar.cfg'),
+    'satbazaar.cfg',
     ]
 )
 
@@ -310,13 +310,15 @@ def get_satellites():
     pass
 
 
-
-def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
+def load_satellites(satsfile=None, tledb=None):
     """Load satellites from satsfile (json) and pickup the latest TLE from
     tledb.
 
     Only return satellites with complete information (a known TLE).
     """
+
+    satsfile = satsfile or config['DEFAULT']['satellites_file']
+    tledb = tledb or config['DEFAULT']['tle_db']
 
     with open(satsfile) as f:
         sats = json.load(f)
@@ -345,12 +347,19 @@ def load_satellites(satsfile='satellites.json', tledb='tle.sqlite'):
     return d
 
 
+
+def load_observations(obsfile=None):
+    """Load a, possibly compressed, file of JSON observations."""
+    obsfile = obsfile or config['DEFAULT']['observations_file']
+    return json.load(util.open_compressed(obsfile))
+
+
 def passrow2interval(p):
     data = PassTuple(**p)
     return Interval(data.start, data.end, data)
 
 
-def getpasses(dbfile='allpasses.sqlite', gs=None, sat=None, start=None, end=None):
+def getpasses(passes_db=None, gs=None, sat=None, start=None, end=None):
     """Retrieve all matching Satellite--Ground passes from the database.
 
     Unspecified arguments match all values.  Set `start` == `end` to select
@@ -358,7 +367,7 @@ def getpasses(dbfile='allpasses.sqlite', gs=None, sat=None, start=None, end=None
 
     Parameters
     ----------
-    dbfile : str
+    passes_db : str
         Filename of SQLite3 database of pre-computed passes.
     gs : str
         Glob string selecting a Ground Station name.
@@ -374,9 +383,10 @@ def getpasses(dbfile='allpasses.sqlite', gs=None, sat=None, start=None, end=None
     IntervalTree
         All matching passes from the database with `.data` set to a `PassTuple`.
     """
+    passes_db = passes_db or config['DEFAULT']['passes_db']
     tree = IntervalTree()
 
-    conn = sqlite3.connect('file:' + dbfile + '?mode=ro',
+    conn = sqlite3.connect('file:' + passes_db + '?mode=ro',
                            uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
@@ -621,7 +631,7 @@ def compute_passes_orbital(args):
 
 
 def compute_all_passes(stations, satellites, start_time,
-                       dbfile='passes.db',
+                       passes_db=None,
                        num_passes=None, duration=None,
                        num_processes=4,
                        compute_function=compute_passes_ephem):
@@ -632,7 +642,9 @@ def compute_all_passes(stations, satellites, start_time,
 
     num_processes > 1 (default: 4) will use a parallel map() for computation.
     """
-    conn = sqlite3.connect('file:' + dbfile, uri=True,
+    passes_db = passes_db or config['DEFAULT']['passes_db']
+
+    conn = sqlite3.connect('file:' + passes_db, uri=True,
                            detect_types=sqlite3.PARSE_DECLTYPES)
     cur = conn.cursor()
     cur.execute('''DROP TABLE IF EXISTS passes;''')
@@ -682,19 +694,4 @@ def compute_all_passes(stations, satellites, start_time,
     conn.commit()
     conn.close()
     print('%i passes' % len(tree))
-    return tree
-
-
-def load_all_passes(dbfile='passes.db'):
-    """Loads pre-computed passes from the SQLite database into an IntervalTree
-    whose data is a namedtuple PassTuple.
-    """
-    tree = IntervalTree()
-    conn = sqlite3.connect('file:' + dbfile + '?mode=ro', uri=True,
-                           detect_types=sqlite3.PARSE_DECLTYPES)
-    conn.row_factory = sqlite3.Row
-
-    for p in conn.execute('''SELECT * FROM passes;'''):
-        tree.add(passrow2interval(p))
-    conn.close()
     return tree
