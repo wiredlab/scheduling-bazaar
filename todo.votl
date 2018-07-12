@@ -4,4 +4,9 @@
 	[_] new -> db.get_satellites()
 [X] remove orbit dependency
 	[X] only used for CelesTrak query, do direct
-Fix tle.sqlite for consistency with NORAD ids
+[_] Fix tle.sqlite for consistency with NORAD ids
+	: A bug in get-satellites would cause a the TLE for the previous norad number
+	: to be used as the TLE for a satellite whose TLE could not be found.
+	:
+	: Fix by deleting all rows where the norad column doesn't match the number in
+	: line1 and line2
