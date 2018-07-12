@@ -1,0 +1,6 @@
+[_] use NORAD as satellite key
+	[_] get-satellites.py
+	[_] db.load_satellites()
+	[_] new -> db.get_satellites()
+[X] remove orbit dependency
+	[X] only used for CelesTrak query, do direct

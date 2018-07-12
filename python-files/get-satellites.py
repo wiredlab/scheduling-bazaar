@@ -9,20 +9,22 @@ Script exits with 0 if there were new TLEs to update.
 """
 
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import sqlite3
 from itertools import islice
+from io import StringIO
 
+from lxml import html
 import requests
-import orbit
+
+import requests_cache
+
+requests_cache.install_cache('.get-satellites-cache.db', expire_after=60*60)
+
 
 DO_PRINT = False
-
-# default expire time is 24 hours
-orbit.tle.requests_cache.uninstall_cache()
-orbit.tle.requests_cache.install_cache(cache_name='requests-cache',
-                                       expire_after=60*60)
+# DO_PRINT = True
 
 
 URL = 'https://db.satnogs.org/api/satellites'
@@ -31,26 +33,52 @@ TLE_DB = 'tle.sqlite'
 
 AMSAT = 'https://www.amsat.org/tle/current/nasabare.txt'
 
-# go ahead and fetch the AMSAT TLEs once for this session
-amsat = {}
-r = requests.get(AMSAT)
 
-lines = iter(r.text.splitlines())
-while lines:
-    triple = islice(lines, 3)
-    tle = [x.rstrip() for x in triple]
-    if len(tle) == 3:
-        norad = int(tle[1][2:7])
-        amsat[norad] = tle
+def get_celestrak(norad):
+    r = requests.get('http://www.celestrak.com/cgi-bin/TLE.pl?CATNR={}'.format(norad))
+    p = html.fromstring(r.text)
+    lines = p.xpath('//pre/text()')[0].split('\n')
+    if len(lines) == 5:
+        return lines[1].strip(), lines[2].strip(), lines[3].strip()
     else:
-        break
+        raise KeyError('{} not found'.format(norad))
+
+
+def get_epoch(tle):
+    y = int(tle[1][18:20])
+    jd = float(tle[1][20:32])
+    if y < 57:
+        y += 100
+    y += 1900
+    d = datetime(y, 1, 1) + timedelta(days=jd)
+    return d
+
+
+def read_3LE(fp):
+    data = {}
+    lines = iter(fp)
+    while lines:
+        triple = islice(lines, 3)
+        tle = [x.rstrip() for x in triple]
+        if len(tle) == 3:
+            norad = int(tle[1][2:7])
+            data[norad] = tle
+        else:
+            break
+    return data
+
+
+# go ahead and fetch the AMSAT TLEs once for this session
+r = requests.get(AMSAT)
+amsat = read_3LE(StringIO(r.text))
 
 
 # fetch satellites known to the network
 r = requests.get(URL)
-satellites = r.json()
+satlist = r.json()
 
-satellites[:] = sorted(satellites, key=lambda s: s['norad_cat_id'])
+# satellites[:] = sorted(satellites, key=lambda s: s['norad_cat_id'])
+satellites = {s['norad_cat_id']:s for s in satlist}
 with open(SATELLITES_JSON, 'w') as fp:
     json.dump(satellites, fp, sort_keys=True, indent=2)
 
@@ -69,36 +97,34 @@ cur.execute('''CREATE TABLE IF NOT EXISTS tle
             );''')
 
 UPDATED = 0
-for sat in satellites:
-    norad = sat['norad_cat_id']
+for norad, sat in satellites.items():
+    # don't bother getting TLE for a re-entered satellite
+    if sat['status'] == 're-entered':
+        if DO_PRINT:
+            print(norad, 'has re-entered')
+        continue
+
     try:
-        # fetch information from CelesTrak
-        body = orbit.satellite(norad)
-        if DO_PRINT: print('{} TLE from CelesTrak'.format(norad))
-
-        line0, line1, line2 = body.tle_raw
-
-        # TODO: merge information from
-        # https://www.amsat.org/tle/current/nasabare.txt
-    except IndexError:
+        tle = get_celestrak(norad)
+        if DO_PRINT:
+            print('{} TLE from CelesTrak'.format(norad))
+    except KeyError:
         # bad parse of data, typically response was "No TLE found"
         if norad in amsat:
-            line0, line1, line2 = amsat[norad]
-            if DO_PRINT: print('{} TLE from AMSAT'.format(norad))
+            tle = amsat[norad]
+            if DO_PRINT:
+                print('{} TLE from AMSAT'.format(norad))
         else:
-            if DO_PRINT: print('{} no TLE'.format(norad))
+            if DO_PRINT:
+                print('{} no TLE'.format(norad))
     else:
-        epoch = body.tle_parsed._epoch.datetime()
+        line0, line1, line2 = tle
+        epoch = get_epoch(tle)
 
     try:
         cur.execute(
           'INSERT INTO tle VALUES (?,?,?,?,?,?);',
-          (norad,
-           epoch,
-           line0,
-           line1,
-           line2,
-           datetime.utcnow()))
+          (norad, epoch, line0, line1, line2, datetime.utcnow()))
         # 'INSERT OR IGNORE INTO ...' will suppress the exception
     except sqlite3.IntegrityError:
         pass
