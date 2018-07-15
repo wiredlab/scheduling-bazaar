@@ -10,7 +10,7 @@ Dan White <dan.white@valpo.edu>
 Ideas on what to do when the TLE gets updated for a previously scheduled job.
 
 
-== Time of Closest Approach
+== Match by Time of Closest Approach
 
 === Naive solution
 Begin with the original TLE, ground station (latitude, longitude, altitude), and the selected pass times (AOS, TCA, LOS).
@@ -39,6 +39,10 @@ From the list of these maxima (or TCAs), then find the new TCA which is closest 
 Matching to a new TCA with a negative elevation angle is reason to outright cancel the previously scheduled job.
 Otherwise, the job's AOS, TCA, and LOS can be updated to the newly computed values.
 
+
+=== Transition Between TLE
+For a smoother transition between TLE versions, propagate both over the interval epoch~0~ to epoch~1~.
+Select the time to switch TLE version as the time where the difference in position between the two propagators is minimum.
 
 
 [bibliography]
