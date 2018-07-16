@@ -49,9 +49,11 @@ config.read([
 )
 
 
+# used in database of computed sat-gs passes
 PassTuple = namedtuple('PassTuple',
                        'start end duration rise_az set_az tca max_el gs norad')
 
+# order used in TLE database
 TleTuple = namedtuple('TleTuple',
                       'norad epoch line0 line1 line2 downloaded')
 
@@ -119,6 +121,8 @@ class TLE:
 
 class TLESource(Mapping):
     r"""Dictionary-like mapping which returns a TLE object for a given NORAD number.
+    Configured sources are tried in order or raises a KeyError if the number is
+    not found in any known source.
 
     Example:
     >>> d = TLESource()
@@ -169,7 +173,7 @@ class APITLESource(TLESource):
         lines = p.xpath('//pre/text()')[0].split('\n')
         if len(lines) == 5:
             t = (lines[1].strip(), lines[2].strip(), lines[3].strip())
-            return TLE(t, self.name)
+            return TLE(t, source=self.name)
         else:
             raise KeyError('{} not found'.format(norad))
 
@@ -182,43 +186,71 @@ class FileTLESource(TLESource):
         fname: filename containing 3-line groups
         """
         self.name = name
+        self.fname = fname
         self._data = self.read_3LE(fname)
 
     def __getitem__(self, norad):
         return self._data[norad]
 
     def _get_fp(self, fname):
-        if url.startswith('http'):
-            r = requests.get(url)
-            return StringIO(r.text)
-        else:
-            return open(url)
-
-    def read_3LE(self, fname):
+        """Return a file-like object to a local file or one served via http."""
         if fname.startswith('http'):
             r = requests.get(fname)
-            fp = StringIO(r.text)
+            return StringIO(r.text)
+        elif isinstance(fname, file):
+            return fname
+        elif isinstance(fname, str):
+            return open(fname)
         else:
-            fp = open(fname)
+            raise TypeError('Unhandled type {}'.format(type(fname)))
 
+    def read_3LE(self, fname):
+        fp = self._get_fp(fname)
         data = {}
         file_iter= iter(fp)
         while file_iter:
             triple = islice(file_iter, 3)
             lines = [x.rstrip() for x in triple]
             if len(lines) == 3:
-                tle = TLE(lines, self.name)
+                tle = TLE(lines, source=self.name)
                 data[tle.norad] = tle
             else:
                 break
         return data
 
+    def reload(self, fname=None):
+        """Re-fetch the file to possibly get new data."""
+        self._data = self.read_3LE(fname if fname else self.fname)
+
+
+class SqliteTLESource(TLESource):
+    """Mapping which reads TLEs from an sqlite3 database in read-only mode."""
+    def __init__(self, name, dbfile):
+        self.name = name
+        self.dbfile = dbfile
+        self.conn = sqlite3.connect(
+            'file:' + dbfile + '?mode=ro',
+            uri=True,
+            detect_types=sqlite3.PARSE_DECLTYPES)
+        self.conn.row_factory = sqlite3.Row
+        self.cur = self.conn.cursor()
+
+    def __getitem__(self, norad):
+        query = '''SELECT * FROM tle
+                     WHERE norad = ?
+                     ORDER BY downloaded DESC
+                     LIMIT 1'''
+        data = self.cur.execute(query, (norad,)).fetchone()
+        tle = TLE((data['line0'], data['line1'], data['line2']), source=self.name)
+        return tle
 
 
 # ordered by fallback priority
 TLE_SOURCES = (
     ('CelesTrak', APITLESource, 'http://www.celestrak.com/cgi-bin/TLE.pl?CATNR={}'),
     ('AMSAT', FileTLESource, 'https://www.amsat.org/tle/current/nasabare.txt'),
+    ('CalPolyMSTL', FileTLESource, 'http://mstl.atl.calpoly.edu/~ops/keps/kepler.txt'),
+    ('LocalSqliteDB', SqliteTLESource, config['DEFAULT']['tle_db']),
 )
 
 
