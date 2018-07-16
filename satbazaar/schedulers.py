@@ -1,7 +1,9 @@
 # This file contains the different scheduling method definitions to be used
 # when simulating.
+from collections import defaultdict
 import random
 
+from intervaltree import IntervalTree
 
 
 class Scheduler:
@@ -63,7 +65,8 @@ class DurationScheduler(Scheduler):
 
 
 class EndStartScheduler(Scheduler):
-    """Should be same result as FirstScheduler."""
+    """Should be exactly the same result as FirstScheduler.
+    Here just as an example of using features of the passes IntervalTree class."""
     def __call__(self, passes):
         now = passes.begin()
         last = passes.end()
@@ -75,6 +78,70 @@ class EndStartScheduler(Scheduler):
             pd = s[0]
             self.do_request(pd)
             now = pd.end
+
+
+class OwnerPreferenceScheduler(Scheduler):
+    """Select passes based on list of sats sorted by priority."""
+    def __init__(self, clients, satellites, priority={}, passes=None, debug=False):
+        self.priority = priority
+        super().__init__(clients, satellites, passes=passes, debug=debug)
+
+    def __call__(self, passes):
+        # go down list of priority sats
+        # if in passes, schedule it
+        # remove all overlapping passes
+
+        # construct separate trees for individual GSs
+        gstree = {gs:IntervalTree() for gs in self.priority.keys()}
+        othertree = IntervalTree()
+        sattree = {gs:defaultdict(list) for gs in self.priority.keys()}
+        for pd in passes:
+            if pd.data.gs in gstree:
+                gstree[pd.data.gs].add(pd)
+                # easy access to participating sats
+                sattree[pd.data.gs][pd.data.norad].append(pd)
+            else:
+                othertree.add(pd)
+
+        # collapse the trees by priority
+        for gs, tree in gstree.items():
+            for norad in self.priority[gs]:
+                # remove passes which overlap with a priority sat's pass
+                # Alternate is to first request these passes, then let the
+                # Client reject later requests which overlap, but this would
+                # burn much network overhead.
+                for pd in sattree[gs][norad]:
+                    # pass could have already been removed, so check first
+                    if pd in tree:
+                        tree.remove_overlap(pd)
+                        # add back the pass in question
+                        tree.add(pd)
+
+        # TODO: have a hierarchy of Schedulers
+        #       what should the strategy be for the remaining overlaps?
+        #
+        # Each scheduler in the list runs in order.
+        # Passes remaining (not scheduled and also not removed by earlier) are
+        # sent to the following scheduler.
+        #   ( OwnerPreferenceScheduler(config),
+        #     NextScheduler(config2),
+        #     FinalScheduler(config3),
+        #   )
+
+        # TODO: idea
+        #   Each of these operates as a filter to deal with overlaps.
+        #   maybe use own version of IntervalTree.merge_overlaps(datafunc)
+
+        # Schedule passes on GSs without priorities by first start
+        for pd in sorted(othertree, key=lambda p: p.begin):
+            self.do_request(pd)
+
+        # Schedule passes on GS with preferences using the pruned trees
+        for gs, tree in gstree.items():
+            for pd in sorted(tree, key=lambda p: p.begin):
+                self.do_request(pd)
+
+
 
 
 
