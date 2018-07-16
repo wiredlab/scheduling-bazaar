@@ -19,12 +19,12 @@ stationsfile = None
 satsfile = 'satellites.json'
 
 # dbfile = 'allpasses.sqlite'
-dbfile = 'testpasses.sqlite'
+dbfile = 'passes_2018-07-11.sqlite'
 
 compute_function = db.compute_passes_ephem
 # compute_function = db.compute_passes_orbital
 
-start_time = '2018/6/20 00:00:00'
+start_time = '2018/7/11 00:00:00'
 # duration = 8760 #a year worth of hours
 duration = 24*90
 
@@ -72,8 +72,8 @@ print(len(sats), 'satellites')
 line = '-- %-30s -------------'
 print(line % 'Computing passes')
 
-pr = cProfile.Profile()
-pr.enable()
+#pr = cProfile.Profile()
+#pr.enable()
 tree = db.compute_all_passes(
                           iter(stations.values()),
                           iter(sats.values()),
@@ -82,8 +82,8 @@ tree = db.compute_all_passes(
                           dbfile=dbfile,
                           num_processes=num_processes,
                           compute_function=compute_function)
-pr.disable()
-pr.print_stats(sort='time')
+#pr.disable()
+#pr.print_stats(sort='time')
 # give the filesystem some time to finish closing the database file
 time.sleep(1)
 
