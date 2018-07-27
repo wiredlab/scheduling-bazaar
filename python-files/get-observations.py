@@ -20,9 +20,10 @@ OBSERVATIONS_JSON_BZ2 = 'observations.json.bz2'
 
 MAX_EXTRA_PAGES = 10
 
+client = requests.session()
 def get(url):
     print(url)
-    return requests.get(url)
+    return client.get(url)
 
 
 try:

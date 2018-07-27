@@ -166,9 +166,10 @@ class APITLESource(TLESource):
         """
         self.name = name
         self.template = template
+        self.client = requests.session()
 
     def __getitem__(self, norad):
-        r = requests.get(self.template.format(norad))
+        r = self.client.get(self.template.format(norad))
         p = html.fromstring(r.text)
         lines = p.xpath('//pre/text()')[0].split('\n')
         if len(lines) == 5:
@@ -272,12 +273,13 @@ def get_stations(outfile=None, networks=None):
         url = config[network]['stations_url']
 
         if url.startswith('http'):
-            r = requests.get(url)
+            client = requests.session()
+            r = client.get(url)
             data = r.json()
 
             nextpage = r.links.get('next')
             while nextpage:
-                r = requests.get(nextpage['url'])
+                r = client.get(nextpage['url'])
                 data.extend(r.json())
                 nextpage = r.links.get('next')
         elif os.path.isfile(url):
