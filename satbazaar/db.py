@@ -242,8 +242,10 @@ class SqliteTLESource(TLESource):
                      ORDER BY downloaded DESC
                      LIMIT 1'''
         data = self.cur.execute(query, (norad,)).fetchone()
-        tle = TLE((data['line0'], data['line1'], data['line2']), source=self.name)
-        return tle
+        if data is not None:
+            return TLE((data['line0'], data['line1'], data['line2']), source=self.name)
+        else:
+            raise KeyError('{} not found'.format(norad))
 
 
 # ordered by fallback priority
