@@ -14,12 +14,9 @@ import requests
 import pprint
 print = pprint.pprint
 
-import requests_cache
-requests_cache.install_cache()
-
-# uncomment this when testing the script and not getting new data
+# just for developing script
 # import requests_cache
-# requests_cache.install_cache(expire_after=60*60*3)
+# requests_cache.install_cache(expire_after=60*60)
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 OBSERVATIONS_JSON = 'observations.json'
