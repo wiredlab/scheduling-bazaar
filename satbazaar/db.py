@@ -166,12 +166,13 @@ class APITLESource(TLESource):
         """
         self.name = name
         self.template = template
+        self.client = requests.session()
 
     def __getitem__(self, norad):
-        r = requests.get(self.template.format(norad))
+        r = self.client.get(self.template.format(norad))
         p = html.fromstring(r.text)
         lines = p.xpath('//pre/text()')[0].split('\n')
-        if len(lines) == 5:
+        if len(lines) == 6:
             t = (lines[1].strip(), lines[2].strip(), lines[3].strip())
             return TLE(t, source=self.name)
         else:
@@ -241,13 +242,15 @@ class SqliteTLESource(TLESource):
                      ORDER BY downloaded DESC
                      LIMIT 1'''
         data = self.cur.execute(query, (norad,)).fetchone()
-        tle = TLE((data['line0'], data['line1'], data['line2']), source=self.name)
-        return tle
+        if data is not None:
+            return TLE((data['line0'], data['line1'], data['line2']), source=self.name)
+        else:
+            raise KeyError('{} not found'.format(norad))
 
 
 # ordered by fallback priority
 TLE_SOURCES = (
-    ('CelesTrak', APITLESource, 'http://www.celestrak.com/cgi-bin/TLE.pl?CATNR={}'),
+    ('CelesTrak', APITLESource, 'http://www.celestrak.com/satcat/tle.php?CATNR={}'),
     ('AMSAT', FileTLESource, 'https://www.amsat.org/tle/current/nasabare.txt'),
     ('CalPolyMSTL', FileTLESource, 'http://mstl.atl.calpoly.edu/~ops/keps/kepler.txt'),
     ('LocalSqliteDB', SqliteTLESource, config['DEFAULT']['tle_db']),
@@ -272,12 +275,13 @@ def get_stations(outfile=None, networks=None):
         url = config[network]['stations_url']
 
         if url.startswith('http'):
-            r = requests.get(url)
+            client = requests.session()
+            r = client.get(url)
             data = r.json()
 
             nextpage = r.links.get('next')
             while nextpage:
-                r = requests.get(nextpage['url'])
+                r = client.get(nextpage['url'])
                 data.extend(r.json())
                 nextpage = r.links.get('next')
         elif os.path.isfile(url):

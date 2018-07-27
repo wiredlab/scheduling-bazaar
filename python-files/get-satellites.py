@@ -94,7 +94,7 @@ for norad, sat in satellites.items():
     except sqlite3.IntegrityError:
         pass
     else:
-        cur.commit()
+        conn.commit()
         UPDATED += 1
     finally:
         pass

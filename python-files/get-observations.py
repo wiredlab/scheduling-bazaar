@@ -7,46 +7,58 @@ Collects the paginated objects into a single JSON mapping keyed by observation i
 and stores in a file.
 """
 
-import bz2
+import gzip
 import json
 import requests
 
-# uncomment this when testing the script and not getting new data
+import pprint
+print = pprint.pprint
+
+# just for developing script
 # import requests_cache
-# requests_cache.install_cache(expire_after=60*60*3)
+# requests_cache.install_cache(expire_after=60*60)
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
-OBSERVATIONS_JSON_BZ2 = 'observations.json.bz2'
+OBSERVATIONS_JSON = 'observations.json.gz'
 
 MAX_EXTRA_PAGES = 10
 
+client = requests.session()
 def get(url):
     print(url)
-    return requests.get(url)
+    return client.get(url)
 
 
-try:
-    with bz2.open(OBSERVATIONS_JSON_BZ2) as f:
+if OBSERVATIONS_JSON.endswith('.gz'):
+    with gzip.open(OBSERVATIONS_JSON) as f:
         data = json.load(f)
         # json.dump() coerces to string keys
         # convert keys back to integers
         observations = {}
         for k,v in data.items():
             observations[int(k)] = v
-except IOError:
-    observations = {}
+else:
+    with open(OBSERVATIONS_JSON) as f:
+        data = json.load(f)
+        # json.dump() coerces to string keys
+        # convert keys back to integers
+        observations = {}
+        for k,v in data.items():
+            observations[int(k)] = v
 
 
 def update(o, observations):
     o_id = int(o['id'])
     print(o_id)
+    was_updated = False
     if o_id not in observations:
         observations[o_id] = o
-        was_new = True
-    else:
-        observations.update(o)
-        was_new = False
-    return was_new
+        was_updated = True
+    elif o != observations[o_id]:
+        observations[o_id] = o
+        print('different data')
+        was_updated = True
+    return was_updated
 
 
 r = get(OBSERVATIONS_API)
@@ -76,5 +88,25 @@ while (extra_pages > 0) and nextpage:
 # filter out the bad data
 obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
 
-with bz2.open(OBSERVATIONS_JSON_BZ2, 'wt') as fp:
-    json.dump(obs, fp, sort_keys=True, indent=2)
+
+# try to fetch old obs with no vetting
+for o_id, o in sorted(obs.items(), reverse=True):
+    break
+    if o['vetted_status'] == 'unknown':
+        r = get(OBSERVATIONS_API + '/' + str(o_id))
+        d = r.json()
+        if d != o:
+            if d.get('detail'):
+                print('%i was deleted' % o_id)
+                del obs[o_id]
+            else:
+                print('%i updated' % o_id)
+                obs[o_id] = d
+
+
+if OBSERVATIONS_JSON.endswith('.gz'):
+    with gzip.open(OBSERVATIONS_JSON, 'wt') as fp:
+        json.dump(obs, fp, sort_keys=True, indent=2)
+else:
+    with open(OBSERVATIONS_JSON, 'w') as fp:
+        json.dump(obs, fp, sort_keys=True, indent=2)
