@@ -7,7 +7,7 @@ Collects the paginated objects into a single JSON mapping keyed by observation i
 and stores in a file.
 """
 
-import bz2
+import gzip
 import json
 import requests
 
@@ -19,7 +19,7 @@ print = pprint.pprint
 # requests_cache.install_cache(expire_after=60*60)
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
-OBSERVATIONS_JSON = 'observations.json'
+OBSERVATIONS_JSON = 'observations.json.gz'
 
 MAX_EXTRA_PAGES = 10
 
@@ -29,8 +29,8 @@ def get(url):
     return client.get(url)
 
 
-if OBSERVATIONS_JSON.endswith('.bz2'):
-    with bz2.open(OBSERVATIONS_JSON) as f:
+if OBSERVATIONS_JSON.endswith('.gz'):
+    with gzip.open(OBSERVATIONS_JSON) as f:
         data = json.load(f)
         # json.dump() coerces to string keys
         # convert keys back to integers
@@ -90,21 +90,22 @@ obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
 
 
 # try to fetch old obs with no vetting
-for o_id, o in sorted(observations.items(), reverse=True):
+for o_id, o in sorted(obs.items(), reverse=True):
+    break
     if o['vetted_status'] == 'unknown':
         r = get(OBSERVATIONS_API + '/' + str(o_id))
         d = r.json()
         if d != o:
             if d.get('detail'):
                 print('%i was deleted' % o_id)
-                del observations[o_id]
+                del obs[o_id]
             else:
                 print('%i updated' % o_id)
-                observations[o_id] = d
+                obs[o_id] = d
 
 
-if OBSERVATIONS_JSON.endswith('bz2'):
-    with bz2.open(OBSERVATIONS_JSON, 'wt') as fp:
+if OBSERVATIONS_JSON.endswith('.gz'):
+    with gzip.open(OBSERVATIONS_JSON, 'wt') as fp:
         json.dump(obs, fp, sort_keys=True, indent=2)
 else:
     with open(OBSERVATIONS_JSON, 'w') as fp:
