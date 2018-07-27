@@ -172,7 +172,7 @@ class APITLESource(TLESource):
         r = self.client.get(self.template.format(norad))
         p = html.fromstring(r.text)
         lines = p.xpath('//pre/text()')[0].split('\n')
-        if len(lines) == 5:
+        if len(lines) == 6:
             t = (lines[1].strip(), lines[2].strip(), lines[3].strip())
             return TLE(t, source=self.name)
         else:
@@ -248,7 +248,7 @@ class SqliteTLESource(TLESource):
 
 # ordered by fallback priority
 TLE_SOURCES = (
-    ('CelesTrak', APITLESource, 'http://www.celestrak.com/cgi-bin/TLE.pl?CATNR={}'),
+    ('CelesTrak', APITLESource, 'http://www.celestrak.com/satcat/tle.php?CATNR={}'),
     ('AMSAT', FileTLESource, 'https://www.amsat.org/tle/current/nasabare.txt'),
     ('CalPolyMSTL', FileTLESource, 'http://mstl.atl.calpoly.edu/~ops/keps/kepler.txt'),
     ('LocalSqliteDB', SqliteTLESource, config['DEFAULT']['tle_db']),
