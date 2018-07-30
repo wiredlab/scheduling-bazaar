@@ -21,7 +21,7 @@ print = pprint.pprint
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 OBSERVATIONS_JSON = 'observations.json.gz'
 
-MAX_EXTRA_PAGES = 10
+MAX_EXTRA_PAGES = 40
 
 client = requests.session()
 def get(url):
@@ -49,15 +49,33 @@ else:
 
 def update(o, observations):
     o_id = int(o['id'])
-    print(o_id)
     was_updated = False
     if o_id not in observations:
+        print('%i new' % o_id)
         observations[o_id] = o
         was_updated = True
+
+    elif o.get('detail'):
+        print('%i was deleted' % o_id)
+        del obs[o_id]
+
     elif o != observations[o_id]:
-        observations[o_id] = o
-        print('different data')
-        was_updated = True
+        # get symmetric difference
+        # ignore user-updated keys: 'station_*'
+        #
+        # converting to a 'k: v' string is a hack around ignorance...
+        orig = tuple(['%s: %s' % (k,v) for k,v in observations[o_id].items() if not k.startswith('station')])
+        new = tuple(['%s: %s' % (k,v) for k,v in o.items() if not k.startswith('station')])
+        orig = set(orig)
+        new = set(new)
+        diff = orig ^ new
+
+        if len(diff) > 0:
+            print('%i different data' % o_id)
+            print(diff)
+            observations[o_id] = o
+            was_updated = True
+
     return was_updated
 
 
@@ -71,7 +89,7 @@ extra_pages = MAX_EXTRA_PAGES
 while (extra_pages > 0) and nextpage:
     r = get(nextpage['url'])
     updated = [update(o, observations) for o in r.json()]
-    print(updated)
+    # print(updated)
 
     nextpage = r.links.get('next')
 
