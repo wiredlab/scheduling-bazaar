@@ -21,7 +21,7 @@ print = pprint.pprint
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 OBSERVATIONS_JSON = 'observations.json.gz'
 
-MAX_EXTRA_PAGES = 40
+MAX_EXTRA_PAGES = 50
 
 client = requests.session()
 def get(url):
