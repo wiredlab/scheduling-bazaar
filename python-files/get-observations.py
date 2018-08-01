@@ -20,6 +20,8 @@ print = pprint.pprint
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 OBSERVATIONS_JSON = 'observations.json.gz'
+# OBSERVATIONS_API = 'https://network-dev.satnogs.org/api/observations'
+# OBSERVATIONS_JSON = 'observations-dev.json.gz'
 
 MAX_EXTRA_PAGES = 50
 
@@ -29,22 +31,26 @@ def get(url):
     return client.get(url)
 
 
-if OBSERVATIONS_JSON.endswith('.gz'):
-    with gzip.open(OBSERVATIONS_JSON) as f:
-        data = json.load(f)
-        # json.dump() coerces to string keys
-        # convert keys back to integers
-        observations = {}
-        for k,v in data.items():
-            observations[int(k)] = v
-else:
-    with open(OBSERVATIONS_JSON) as f:
-        data = json.load(f)
-        # json.dump() coerces to string keys
-        # convert keys back to integers
-        observations = {}
-        for k,v in data.items():
-            observations[int(k)] = v
+try:
+    if OBSERVATIONS_JSON.endswith('.gz'):
+        with gzip.open(OBSERVATIONS_JSON) as f:
+            data = json.load(f)
+            # json.dump() coerces to string keys
+            # convert keys back to integers
+            observations = {}
+            for k,v in data.items():
+                observations[int(k)] = v
+    else:
+        with open(OBSERVATIONS_JSON) as f:
+            data = json.load(f)
+            # json.dump() coerces to string keys
+            # convert keys back to integers
+            observations = {}
+            for k,v in data.items():
+                observations[int(k)] = v
+except FileNotFoundError:
+    # this creates a new file
+    observations = {}
 
 
 def update(o, observations):
@@ -88,8 +94,11 @@ extra_pages = MAX_EXTRA_PAGES
 
 while (extra_pages > 0) and nextpage:
     r = get(nextpage['url'])
-    updated = [update(o, observations) for o in r.json()]
-    # print(updated)
+    # network-dev returns a 500 server error at some point 350+ pages in
+    try:
+        updated = [update(o, observations) for o in r.json()]
+    except:
+        print(r)
 
     nextpage = r.links.get('next')
 
@@ -108,18 +117,18 @@ obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
 
 
 # try to fetch old obs with no vetting
-for o_id, o in sorted(obs.items(), reverse=True):
-    break
-    if o['vetted_status'] == 'unknown':
-        r = get(OBSERVATIONS_API + '/' + str(o_id))
-        d = r.json()
-        if d != o:
+try:
+    for o_id, o in sorted(obs.items(), reverse=True):
+        if o['vetted_status'] == 'unknown':
+            r = get(OBSERVATIONS_API + '/' + str(o_id))
+            d = r.json()
             if d.get('detail'):
                 print('%i was deleted' % o_id)
                 del obs[o_id]
             else:
-                print('%i updated' % o_id)
-                obs[o_id] = d
+                update(d, obs)
+except KeyboardInterrupt:
+    print('Stopping...')
 
 
 if OBSERVATIONS_JSON.endswith('.gz'):
