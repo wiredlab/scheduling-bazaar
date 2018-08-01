@@ -10,3 +10,12 @@ ATTACH 'other.sqlite' AS other;
 INSERT OR IGNORE INTO tle SELECT * FROM other.tle;
 ----
 
+
+## Filter observations to find null values
+
+[source,bash]
+----
+jq '.[] | if (.ground_station | not) then .id else "x" end' | grep -v '"x"'
+----
+
+How to emit *nothing* in the `else` clause?
