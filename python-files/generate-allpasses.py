@@ -79,7 +79,7 @@ tree = db.compute_all_passes(
                           iter(sats.values()),
                           start_time,
                           duration=duration,
-                          dbfile=dbfile,
+                          passes_db=dbfile,
                           num_processes=num_processes,
                           compute_function=compute_function)
 #pr.disable()
