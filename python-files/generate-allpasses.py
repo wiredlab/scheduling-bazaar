@@ -15,20 +15,21 @@ from satbazaar import db
 #
 # Configuration
 
-stationsfile = None
+stationsfile = 'stations.json'  # None
 satsfile = 'satellites.json'
 
 # dbfile = 'allpasses.sqlite'
-dbfile = 'passes_2018-07-11.sqlite'
+dbfile = 'passes_2018-08-16.sqlite'
 
 compute_function = db.compute_passes_ephem
 # compute_function = db.compute_passes_orbital
 
-start_time = '2018/7/11 00:00:00'
+start_time = '2018/8/16 00:00:00'
 # duration = 8760 #a year worth of hours
-duration = 24*90
+# duration = 24*90
+duration = 24*3
 
-num_processes = 4
+num_processes = 1
 
 # TODO: convert to argparse or other better CLI args system
 print(sys.argv)
