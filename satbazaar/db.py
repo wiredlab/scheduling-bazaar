@@ -508,40 +508,45 @@ def compute_passes_ephem(args):
         # if both are given, use minimum
         end_time = ephem.date(ground_station.date+duration*ephem.hour)
 
-    try:
-        for i in range(num_passes):
-            if ground_station.date > end_time:
-                break
-            sat.compute(ground_station)  # compute all body attributes for sat
-            # next pass command yields array with [0]=rise time,
-            # [1]=rise azimuth, [2]=max alt time, [3]=max alt,
-            # [4]=set time, [5]=set azimuth
+    for i in range(num_passes):
+        # have we reached the requested duration?
+        if ground_station.date > end_time:
+            break
+
+        # fill in all body attributes for sat
+        sat.compute(ground_station)
+
+        # next pass command yields array with [0]=rise time,
+        # [1]=rise azimuth, [2]=max alt time, [3]=max alt,
+        # [4]=set time, [5]=set azimuth
+        try:
             info = ground_station.next_pass(sat)
-            rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
+        except ValueError:
+            # could not find a rise time
+            print('pyephem: ValueError')
+            return []
 
-            if rise_time is None or set_time is None:
-                print('*** oops ***', flush=True)
-                ground_station.date = ground_station.date + ephem.minute
-                continue
+        # check None indicating libastro NORISE, NOSET, NOTRANS flags
+        if not all(info):
+            print('pyephem: NORISE NOSET NOTRANS')
+            # keep looking
+            ground_station.date = ground_station.date + ephem.minute
+            continue
 
-            deg_per_rad = 180.0/pi           # use to conv azimuth to deg
-            try:
-                pass_duration = timedelta(days=set_time-rise_time)  # timedelta
-                r_angle = (rise_az*deg_per_rad)
-                s_angle = (set_az*deg_per_rad)
-            except TypeError:
-                # when no set or rise time
-                pass
-            try:
-                rising = rise_time.datetime()
-                setting = set_time.datetime()
-                pass_seconds = timedelta.total_seconds(pass_duration)
-                tca = max_alt_time.datetime()
-                max_el = (max_alt * deg_per_rad)
-            except AttributeError:
-                # when no set or rise time
-                raise
+        rise_time, rise_az, max_alt_time, max_alt, set_time, set_az = info
 
+        deg_per_rad = 180.0/pi
+
+        pass_duration = timedelta(days=set_time-rise_time)  # timedelta
+        r_angle = rise_az * deg_per_rad
+        s_angle = set_az * deg_per_rad
+        rising = rise_time.datetime()
+        setting = set_time.datetime()
+        pass_seconds = timedelta.total_seconds(pass_duration)
+        tca = max_alt_time.datetime()
+        max_el = max_alt * deg_per_rad
+
+        if setting > rising:
             pass_data = {
                 'start': rising,
                 'end': setting,
@@ -553,22 +558,14 @@ def compute_passes_ephem(args):
                 'gs': observer['name'],
                 'norad': satellite['norad_cat_id'],
             }
+            # update current time
+            ground_station.date = set_time
+            contacts.append(pass_data)
+        else:
+            print('pyephem: AOS > LOS')
 
-            try:
-                # only update if set time > rise time
-                if set_time > rise_time:
-                    # new obs time = prev set time
-                    ground_station.date = set_time
-                    if ground_station.date <= end_time:
-                        contacts.append(pass_data)
-            except TypeError:
-                pass
-
-            # increase by 1 min and look for next pass
-            ground_station.date = ground_station.date + ephem.minute
-    except ValueError:
-        # No (more) visible passes
-        pass
+        # increase by 1 min and look for next pass
+        ground_station.date = ground_station.date + ephem.minute
 
     # convert to namedtuples since the info doesn't change
     data = []
