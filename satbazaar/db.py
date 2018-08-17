@@ -467,7 +467,8 @@ def compute_passes_ephem(args):
     If neither, find passes for next 24 hours.
     """
     (observer, satellite, start_time, num_passes, duration) = args
-    print("%s <--> %s" % (observer['name'], satellite['name'].strip()), flush=True)
+    # s = "%s <--> %s | " % (observer['name'], satellite['name'].strip())
+    s = "%3i <--> %5i | " % (observer['id'], satellite['norad_cat_id'])
 
     tle_line0, tle_line1, tle_line2 = satellite['tle']
 
@@ -523,12 +524,15 @@ def compute_passes_ephem(args):
             info = ground_station.next_pass(sat)
         except ValueError:
             # could not find a rise time
-            print('pyephem: ValueError')
+            s += 'E'
+            print(s)
+            # print('pyephem: ValueError')
             return []
 
         # check None indicating libastro NORISE, NOSET, NOTRANS flags
         if not all(info):
-            print('pyephem: NORISE NOSET NOTRANS')
+            s += 'F'
+            # print('pyephem: NORISE NOSET NOTRANS')
             # keep looking
             ground_station.date = ground_station.date + ephem.minute
             continue
@@ -561,12 +565,15 @@ def compute_passes_ephem(args):
             # update current time
             ground_station.date = set_time
             contacts.append(pass_data)
+            s += '.'
         else:
-            print('pyephem: AOS > LOS')
+            s += 'N'
+            # print('pyephem: AOS > LOS')
 
         # increase by 1 min and look for next pass
         ground_station.date = ground_station.date + ephem.minute
 
+    print(s)
     # convert to namedtuples since the info doesn't change
     data = []
     for p in contacts:
