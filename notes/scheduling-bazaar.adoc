@@ -6,31 +6,35 @@
 
 
 = Scheduling Bazaar
-Dan White <dan.white@valpo.edu>
-v0.1
+Dan White <dan.white@libre.space>
+v0.2, 2019-10-19
 
 Federated Networks of Independent Satellite Ground Stations
 
 
-[NOTE]
-====
-The most recent source for this document may be found at:
+* The most recent source for this document may be found at:
 https://github.com/wiredlab/scheduling-bazaar/blob/master/notes/scheduling-bazaar.adoc
 
-A rendered version is published at:
+* A rendered version is published at:
 https://agnd.net/tmp/bazaar/scheduling-bazaar.html
-====
 
 
 == Introduction
+
+****
+The intent of this document is to stimulate discussion of and offer a solution to the issue of scheduling ground station observations in a manner consistent with the https://manifesto.libre.space/[Libre Space Manifesto^].
+****
+
+
+=== Setup
 The Libre Space Foundation's SatNOGS project seeks to open access to space-related information by creating an ecosystem of open source software and hardware components.
-It is accomplishing this goal by reducing the cost of owning a satellite ground station and providing software tools to automatically manage the creation and execution of satellite observations.
+The SatNOGS project accomplishes this goal by reducing the cost of owning a satellite ground station and providing software tools to automatically manage the creation and execution of satellite observations.
 
 The _libre_ philosophy of the project acknowledges the liberty of a ground station owner to operate their station as they see fit.
 Generally, these owners are interested in making their station available for others to schedule observations during times when the station is not being actively controlled.
 
-SatNOGS is the first operational network for coordinating ground stations using an open model and especially one focused on the freedom of the participants.
-To remain the leaders in this area, SatNOGS should create, specify, and provide the reference implementation for the _interactions_ between a Network and Client.
+SatNOGS is the first operational network for coordinating ground stations using an open model and especially one focused on free and open source development.
+To remain the leaders in this area, SatNOGS should *also* create, specify, and provide the reference implementation for the _interactions_ between a Network and Client.
 Having a stable Network<-->Client interface is a key step to promoting interoperation or https://en.wikipedia.org/wiki/Federation_(information_technology)[federating^] between more stakeholders.
 
 // GENSO
@@ -42,163 +46,136 @@ Having a stable Network<-->Client interface is a key step to promoting interoper
 // RBC Signals
 // etc...
 
-Since its conception, however, there have been several ground station network alternatives with various stages of development, capability, and goals -- both commercial and non-commercial.
+Since SatNOGS' conception, however, there have been several ground station network alternatives with various stages of development, capabilities, and goals -- in various combinations of proprietary / open and commercial / non-commercial.
 By publishing *both* the minimum requirements for interoperation *and* providing a body of reference code, the SatNOGS community can materially reduce or reverse the fracturing happening in this arena.
+There is arguably progress in this area at this time (2019), but there are still areas open for taking a leadership role.
 
 === Problem
 Currently, the SatNOGS Client component has no decision-making capability, it accepts all jobs assigned to it from the SatNOGS Network.
-Some policies about are implemented within the Network code which partially address the authority issue.
+There is no mechanism to assist an Observer in scheduling observations that are compatible with an Owner's preferences or other priorities such as launches, special satellite operations.
+This higher level of scheduling strategy depends on Observer familiarity of these desires and has been an issue within the community.
+Also, the auto-scheduler, as currently implemented, only automates scheduling observations on stations from one Owner using that Owner's prioritized preferences.
 
-The current job scheduling system does not easily allow a particular Client to schedule jobs in cooperation with other networks, as allowed by the Owner's freedom of autonomy.
-In addition, there is not a clear way for separating the priorities of a Network from those of a ground station Owner or of a third entity (Observer) when dealing with overlaps in passes.
-This prevents automation of job scheduling, since such a system would need to know all participants' priorities and authorities in order to find an optimal schedule.
+In addition, there is not a clear way for describing the priorities of a Network, a ground station Owner, or an Observer to help deal with overlaps in passes.
+This issue prevents acceptable automation of job scheduling, since such a system would need to know all participants' priorities and authorizations in order to find an optimal schedule.footnote:[Because the Client can not (yet!) handle two or more simultaneous passes.]
+
+The current job scheduling system does not (easily) allow a particular Client to schedule jobs in cooperation with other networks (including switching to transceiver mode when an Owner is also a satellite control operator).
+Such behavior should be allowed to respect and reinforce the Owner's right to operate their station as they see fit.
+
 
 [NOTE]
 ====
 The AGPL3 licensing of the SatNOGS code base does permit operation of separate Network instances.
-However, since a Client can communicate with only one Network, this just creates another ground station network *island*, discouraging interoperation and not forwarding the goal of opening space technologies to everyone.
+An Owner would then manually manage Observations across the affiliated Networks.
+However, since a Client can communicate with only one Network, this just creates another ground station network *island*.
+But this effect discourages interoperation does not encourage our open data pillar: _All data related to and produced in Outer Space shall be freely used, shared, and built upon by anyone, anywhere, for any purpose_.
+
+This can may reduce the utility of white-labeling the Network component.
 ====
 
 
+== Design principles
+The following properties and constraints are satisfied with this proposal.
 
-=== Proposal
-Situating the authority for accepting jobs with the Client (alone) is a necessary step for addressing the scheduling priority issue.
-A `request` process should happen between a Network and Client where both parties agree on the set of details for a requested job.
-Either side of the negotiation may respond with modified details.
-The other side then indicates agreement by an `accept` response that references a specific received `request`.
+=== Station Owner autonomy
+* The Owner of a set of Clients retains autonomy in determining which ``job``s are accepted.
 
-The Network and Client indicate their preferences to each other by two means:
+* The Owner also retains the ability to cancel a Job at any time before or during a pass for any reason.
 
-* Originating a `request` to the other (both directions are possible).
-* Using the `bounty` field of the `request` object to indicate the "`reward`" for accepting and completing a job.
+* An Agreement (contract) directly between a Network and an Owner are the sole means of modifying the behavior of an Owner and associated Clients with respect to scheduling.
 
-The `bounty` may be a list of several currencies, real or Network-specific.
-For example, the SatNOGS Network could offer `SNC`'s set to the duration in minutes for a particular job.
-Earning and spending these bounties depend on a specific Network's policies and any direct agreements between a Network and Owner.
+* An Owner is not required to completely reveal their preferences.
 
 
+=== Network policies and priorities 
+* The Network is not required to completely reveal its preferences to any Client.
+
+* The Network may enforce a uniform contract across all Clients or may execute individual agreements at its sole discretion.
+
+
+=== Ownership of data
+* Data generated from ``job``s is owned by the Client's Owner.footnote:[This is the default under U.S. Copyright law, other countries may be different.]  The Owner is therefore allowed dual-license the data under different terms to separate Networks.
+
+* Only agreements between a Network and Owner shall modify the ownership and licensing of received data.  
+
+
+== Proposal
+____
+The authority for *accepting* jobs lies with the individual Client *alone*.
+This is necessary to feasibly address the scheduling issue for multi-party preferences.
+____
+
+=== Scheduling with priorities
+A `request` process should happen between a Network and Client where both parties arrive (or not) at an agreement on the set of details for a requested Job.
+Either side of the negotiation may respond with a modified set of details corresponding to a more desirable request.
+A Job is only considered as scheduled when one side indicates agreement via an `accept` response which references the Network-unique `id` of a specific received `request`.
+
+The Network and Client initiate the scheduling of a Job and indicate their preferences to each other by:
+
+* Sending a `request` to the other -- *both directions are allowed*.
+* (optional) Including a `bounty` field in the `request` object to indicate the "`reward`" for accepting (and successfully completing) a Job.
+
+The `bounty` is a list of one or more _key:value_ pairs, where each pair has a Network-specific meaning.
+Accounting for these values depends on a specific Network's policies and any direct agreements (contracts) between a Network and Owner.
 
 
 [NOTE]
 ====
-The problem of _how_ to capture and manage the priorities and preferences of the Network, Owner, and Observer is *not* a part of this proposal.
-Indeed, a general solution is not possible
-What is now made possible is to allow each Network and individual Client's Owner to set local policies for when to accept each job request.
-The software implementing the Client may then allow the user to specify an ordered list of satellites to receive, or write a custom function which implements a more complex local policy.
+The problem of _how_ to capture and manage the preferences of Networks, Owners, and Observers is *not* a part of this proposal.
+Indeed, a truly general solution is not even possible
+What is now made possible is to allow each Network and individual Client's Owner to set local policies for when to accept each job request, including when to initiate a request.
 
-Work building a simulator to model this multi-agent system is ongoing and lives at https://github.com/wiredlab/scheduling-bazaar[^].
 ====
 
+Work building a simulator to model this multi-agent system is ongoing and lives at https://github.com/wiredlab/scheduling-bazaar[^].
 
 
-== Definitions
-=== Network
-A central Internet-based service which requests ``job``s, stores data, and coordinates the observations of a number of ground station Clients.
+=== Examples
+The software implementing the Client enables an Owner to specify an ordered list of satellites, or provide a callback function which implements a more complex local policy.
+This is similar to the current `satnogs-auto-scheduler`.
 
-The Network makes `request`s to registered Clients for collecting satellite downlink signals and data.
-Each Network manages its own set of priorities and scheduling preferences to determine which passes to request from connected Clients.
+The SatNOGS Network could offer `SNC` set to the duration in minutes for a particular job, which would accumulate in the Owner's user account (think leaderboard statistics and ability to schedule on other stations).
+Non-Owners can use `SNC`s to increase the offered `bounty` for particular ``request``s.
+Absent a conflicting Owner preference, the Client may naturally choose the set of overlapping ``request``s which maximizes the total `SNC` value.
+In this scenario, a Client can detect that _someone_ wants this particular observation when the offered `SNC` is larger than the pass duration, which may be useful information to an Owner.
 
+An Owner is particularly interested in a certain satellite.
+They will configure their Client(s) to accept ``request``s for observations of this satellite and reject any requests which overlap with those passes.
+Upon receiving a `request` from a Network for a non-priority satellite, the Client may make a modified `request` back to the Network with modified times which no longer overlap with the priority Job.
+The requesting Network may then choose to accept or reject the modified `request`.
+The Owner may also maintain a local Network instance to `accept` Jobs that no other Network will take or to act as a local archive.
 
-=== Broker
-The entity which handles communication between a Network and a Client for the purposes of arriving at an agreed-upon set of `job` parameters.
-
-Typically, the Broker function is integrated into the Network software.
-For future versions of the protocol, the Broker may be a separate service from the Network.
-
-
-=== Client
-The software end point which processes requests from a Network's Broker and generates replies.
-It contains the authoritative schedule of all ``job``s associated with a specific ground station from all associated Networks and from local (manual) sources.
-
-The hardware of a single ground station may be associated with several Client instances, typically set by the number of independent receivers available.
-
-* Example 1: A ground station may have two directional antennas attached to a common rotator with each antenna attached to a separate receiver.
-The first Client instance is able to control the rotator for tracking and can select the antenna for any observation.
-A second Client instance has the ability to use the unused antenna+receiver for scheduling passes for other satellite passes.
-These two Client instances may or may not be associated with the same satellite.
-
-* Example 2: A ground station has a single omni-directional antenna and thus no rotator.
-The antenna feed is split and sent to several receivers where each is controlled by a unique Client instance.
-In this manner, a single antenna may be used to track several overlapping passes in the same frequency range.
-
-
-=== Owner
-An owner retains exclusive control of a number of Client instances.
-Typically, an Owner is also the person or entity which owns the physical hardware at a ground station.
-The Owner sets the local policy and preferences for their set of Clients for the acceptance and generation of ``request``s.
-
-
-=== `request`
-A software object (typicaly JSON) which contains all information required for a Client or Network to determine whether to accept or reject the proposed `job`.
-
-Either the Network or Client may originate a `request`.
-
-
-=== `job`
-A software object which contains all information associated with a specific Satellite pass over a Client.
-It also contains information for the Client to report the results of the observation back to the specific Network.
-
-A `request` object becomes a `job` object only after the requestee responds to the `request` with a `status: accept` response containing an unambiguous reference to a previously-sent `request`.
-
-
-
-== Design principles
-For the purposes of this document, the following attributes are assumed unless otherwise stated:
-
-=== Owner autonomy
-The Owner of a set of Clients retains autonomy in determining which `job`s are accepted.
-The Owner also retains the ability to cancel a `job` at any time before or during a pass for any reason.
-
-An Agreement (Contract) directly between a Network and an Owner are the sole means of modifying the behavior of an Owner and associated Clients with respect to scheduling.
-
-=== Network-Client agreement
-A `job` is not considered as scheduled until an `status: accept` response is returned with an associated `request: id` unique to each Network.
-
-=== Network incentives
-Each Network sets a "`bounty`" for a particular `request` according to its own scheme or agreements with individual Owners.
-
-These bounties may represent real currency or be credits associated with each Network.
-For example, OURSAT Network may offer bounties in `ONC` credits set to the duration in minutes of the particular job.
-An Owner may then use their earned `ONC` credits for increasing the bounty when making requests to other Clients.
-
-=== Ownership of data
-Data generated from ``job``s is owned by the Client's Owner.
-Only agreements between a Network and Owner may modify the ownership and licensing of received information.
-
-* Example: Bar Network makes a `request` to a certain Client.
-The ALLSAT Network also makes a `request` to the Client for the same satellite pass with perhaps slightly different times.
-The Client accepts the Bar Network `request` according to its certain policy and rejects the ALLSAT Network `request`.
-However, since the pass data was generated from information obtained from https://db.satnogs.org, the license allows the Client to make a `request` to the ALLSAT Network using the scheduled job parameters.
-In this way, the Bar Network set the specific parameters of the `job`, but the ALLSAT Network may also accept archive the results of the `job`.
-
-* Example: The OURSAT Network has entered into agreements with several Owners/Clients for making observations of OURSAT's satelite(s).
+The OURSAT Network has entered into agreements with several Owners/Clients for making observations of OURSAT's satellite(s).
 Part of the agreement involves payments to an Owner for `jobs` observing an OURSAT satellite.
 The agreement does not restrict the observation data.
 In this case, the Client might accept ``request``s from OURSAT Network and then make a ``request`` to the SatNOGS Network for the same `job`.
-The net result is OURSAT gets priority scheduling with a certain Client and the observation data is also made available to all via the SatNOGS Network.
+The net result is OURSAT gets priority scheduling with a certain Client _and_ the observation data is also made available to all via the SatNOGS Network.
 
-* Example: The information contained in the `request` object from Foo Network is proprietary.
-An agreement between the Owner and Foo Network prohibits the disclosure of the `request` data to other parties.
-The agreement also prohibits a Client from uploading data received using parameters of the `request` to other Networks.
+An agreement between the Owner and Spam Network prohibits the disclosure of the `request` data to other parties and also prohibits a Client from uploading received Observation data to other Networks.
+The information contained in the `request` object from Foo Network may be proprietary.
+This scenario still allows the Client to accept Jobs from other Networks for unrelated observations.
 
-* Example: An Owner is particularly interested in a certain satellite.
-They will configure their Client(s) to accept ``request``s for observations of this satellite and reject any requests which overlap with those passes.
-Upon receiving a `request` from a Network for a non-priority satellite, the Client may make a modified `request` back to the Network with modified times which no longer overlap with the priority `job`.
-The requesting Network may then choose to accept or reject the modified `request`.
+Another Network (&iquest;SatNOGS Pro?) operates as a data service provider for Satellite Operators or third parties interested in specific Observations -- Observations as a Service (OaaS).
+Nothing prevents an Owner's right to use their Client to earn a nominal remuneration for providing observation data.
+Also, nothing prevents a Client from scheduling the same Job with several Networks, besides an exclusion clause in a Network-Owner contract, which would be allowed but discouraged.
+In this example, a Client would by default schedule Jobs with SatNOGS Network, but would schedule Jobs with monetary value with another Network.
+Then the Client would send the same Job information as a `request` to SatNOGS Network which would respond with an additional item in the `bounty` list or simply not reply if not interested.
 
-== Minimum requirements
-=== Overview
-Networks and Clients send `request` objects to each other until one replies
-with `status: accept` and a reference to a previous `request` object sent by
-the other party.
-There may be just one `request` sent then a `status:accept` or a chain of
-`request` objects referencing each other as the two parties negotiate the
-details of the proposed `job`.
 
-The Client is responsible for only ``accept``ing a `request` where there is a reasonable expectation that the Client will be successful, i.e. no overlaps, appropriate receiving scripts and hardware, available antenna, etc.
 
-A future extension to this protocol can include a `capabilities` object which a Client sends to a Network.
-It would include information such as frequency ranges and receive system performance.
+
+
+== Comments
+The Client is responsible for only ``accept``ing a `request` when there is a reasonable expectation that the Client will be successful, i.e. no overlaps, appropriate receiving software and hardware, available antenna, etc.
+This is naturally encouraged if a Network keeps good/bad/fail statistics.
+
+A `bounty` may represent real currency or be credits associated with each Network.
+For example, OURSAT Network may offer bounties in both `ONC` credits set to the duration in minutes of the particular job and `USD` for payment for a successful job.
+The definition of _successful_ is set by the particular Network and any Network<-->Owner agreements.
+
+A future extension to this protocol can include a `capabilities` object which a Client sends to a Network as an advertisement.
+It would include information such as frequency ranges and receive system performance that may change with time and allows a Network to pass:[<strike>economically</strike>] efficiently plan its ``request``s to connected Clients.
+
 
 
 // vim: textwidth=0
