@@ -4,8 +4,10 @@
 :sectnums:
 :sectnumlevels: 3
 
+
 = Scheduling Bazaar
 Dan White <dan.white@valpo.edu>
+v0.1
 
 Federated Networks of Independent Satellite Ground Stations
 
