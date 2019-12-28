@@ -1,3 +1,4 @@
 [submodule "data"]
 	path = data
-	url = https://github.com/wiredlab/scheduling-bazaar-data.git
+        #url = https://github.com/wiredlab/scheduling-bazaar-data.git
+	url = git@git.whiteaudio.com:scheduling-bazaar-data.git
