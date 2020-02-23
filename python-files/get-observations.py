@@ -92,32 +92,32 @@ any_updated = any(updated)
 nextpage = r.links.get('next')
 extra_pages = MAX_EXTRA_PAGES
 
-while (extra_pages > 0) and nextpage:
-    r = get(nextpage['url'])
-    # network-dev returns a 500 server error at some point 350+ pages in
-    try:
-        updated = [update(o, observations) for o in r.json()]
-    except:
-        print(r)
+try:  # allow KeyboardInterrupt to stop the update but save data
+    while (extra_pages > 0) and nextpage:
+        r = get(nextpage['url'])
+        # network-dev returns a 500 server error at some point 350+ pages in
+        try:
+            updated = [update(o, observations) for o in r.json()]
+        except:
+            print(r)
 
-    nextpage = r.links.get('next')
+        nextpage = r.links.get('next')
 
-    # heuristic to capture recent updates to observations
-    # keep fetching pages of observations until we see
-    # MAX_EXTRA_PAGES in a row with no updates
-    if not any(updated):
-        extra_pages -= 1
-    else:
-        extra_pages = MAX_EXTRA_PAGES
-    print(extra_pages)
-
-
-# filter out the bad data
-obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
+        # heuristic to capture recent updates to observations
+        # keep fetching pages of observations until we see
+        # MAX_EXTRA_PAGES in a row with no updates
+        if not any(updated):
+            extra_pages -= 1
+        else:
+            extra_pages = MAX_EXTRA_PAGES
+        print(extra_pages)
 
 
-# try to fetch old obs with no vetting
-try:
+    # filter out the bad data
+    obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
+
+
+    # try to fetch old obs with no vetting
     for o_id, o in sorted(obs.items(), reverse=True):
         if o['vetted_status'] == 'unknown':
             r = get(OBSERVATIONS_API + '/' + str(o_id))
