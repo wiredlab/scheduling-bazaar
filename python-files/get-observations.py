@@ -118,13 +118,17 @@ while (extra_pages > 0) and nextpage:
 print('**************************')
 print('* Filtering out bad data')
 print('**************************')
-obs = {k:v for k,v in observations.items() if isinstance(v, dict)}
+badkeys = [k for k,v in observations.items() if not isinstance(v, dict)]
+for k in badkeys:
+    del observations[k]
+
 
 
 print('***********************************')
 print('* NOT UPDATING unknown vetted obs *')
 # print('* updating unknown vetted obs *')
 print('***********************************')
+# if True:
 if False:
     try:  # allow KeyboardInterrupt to stop the update but save data
         # try to fetch old obs with no vetting
@@ -132,22 +136,22 @@ if False:
         print('******************************')
         print('* Getting unknown vetted obs')
         print('******************************')
-        for o_id, o in sorted(obs.items(), reverse=True):
+        for o_id, o in sorted(observations.items(), reverse=True):
             if o['vetted_status'] == 'unknown':
                 r = get(OBSERVATIONS_API + '/' + str(o_id))
                 d = r.json()
                 if d.get('detail'):
                     print('%i was deleted' % o_id)
-                    del obs[o_id]
+                    del observations[o_id]
                 else:
-                    update(d, obs)
-    except KeyboardInterrupt:
+                    update(d, observations)
+    except: #anything...    KeyboardInterrupt:
         print('Stopping...')
 
 
 if OBSERVATIONS_JSON.endswith('.gz'):
     with gzip.open(OBSERVATIONS_JSON, 'wt') as fp:
-        json.dump(obs, fp, sort_keys=True, indent=2)
+        json.dump(observations, fp, sort_keys=True, indent=2)
 else:
     with open(OBSERVATIONS_JSON, 'w') as fp:
-        json.dump(obs, fp, sort_keys=True, indent=2)
+        json.dump(observations, fp, sort_keys=True, indent=2)
