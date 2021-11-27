@@ -25,9 +25,9 @@ OBSERVATIONS_JSON = 'observations.json'
 # OBSERVATIONS_API = 'https://network-dev.satnogs.org/api/observations'
 # OBSERVATIONS_JSON = 'observations-dev.json.gz'
 
-# MAX_EXTRA_PAGES = 50
+MAX_EXTRA_PAGES = 50
+# MAX_EXTRA_PAGES = 20
 # MAX_EXTRA_PAGES = 5
-MAX_EXTRA_PAGES = 20
 
 # RETRY_UNKNOWN_VETTED_OBS = True
 RETRY_UNKNOWN_VETTED_OBS = False
@@ -123,7 +123,7 @@ try:  # allow KeyboardInterrupt to stop the update but save data
             extra_pages = MAX_EXTRA_PAGES
         print(extra_pages)
 
-except Exception as e: #anything...    KeyboardInterrupt:
+except KeyboardInterrupt as e: #anything...    KeyboardInterrupt:
     print(e)
     print('Stopping...')
 
@@ -145,7 +145,7 @@ if RETRY_UNKNOWN_VETTED_OBS:
     print('******************************')
     try:  # allow KeyboardInterrupt to stop the update but save data
         # try to fetch old obs with no vetting
-        for o_id, o in sorted(observations.items(), reverse=True):
+        for o_id, o in sorted(observations.items(), reverse=True)[1000:]:
             if o['vetted_status'] == 'unknown':
                 r = get(OBSERVATIONS_API + '/' + str(o_id))
                 d = r.json()
@@ -154,7 +154,7 @@ if RETRY_UNKNOWN_VETTED_OBS:
                     del observations[o_id]
                 else:
                     update(d, observations)
-    except: #anything...    KeyboardInterrupt:
+    except KeyboardInterrupt: #anything...    KeyboardInterrupt:
         e = sys.exc_info()
         print(e)
         print('Stopping...')
