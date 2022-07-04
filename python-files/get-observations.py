@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 
 """
-Utility to get observations from a SatNOGS Network server.
-
-Collects the paginated objects into a single JSON mapping keyed by observation id
-and stores in a file.
+Utility to get observations from a SatNOGS Network server and store in a local
+SQLite3 database.
 """
 
 import gzip
 import json
 import requests
+import sqlite3
 import sys
 
-import pprint
-print = pprint.pprint
+from pprint import pprint
+
+def print(*args):
+    pprint(*args)
+    sys.stdout.flush()
+# print = pprint.pprint
 
 # just for developing script
 # import requests_cache
@@ -21,7 +24,8 @@ print = pprint.pprint
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 #OBSERVATIONS_JSON = 'observations.json.gz'
-OBSERVATIONS_JSON = 'observations.json'
+# OBSERVATIONS_JSON = 'observations.json'
+OBSERVATIONS_DB= 'observations.db'
 # OBSERVATIONS_API = 'https://network-dev.satnogs.org/api/observations'
 # OBSERVATIONS_JSON = 'observations-dev.json.gz'
 
@@ -37,50 +41,156 @@ RETRY_UNKNOWN_VETTED_OBS = False
 client = requests.session()
 def get(url):
     print(url)
-    return client.get(url)
+    return client.get(url) #, verify=False)
 
 
 try:
-    if OBSERVATIONS_JSON.endswith('.gz'):
-        with gzip.open(OBSERVATIONS_JSON) as f:
-            data = json.load(f)
-            # json.dump() coerces to string keys
-            # convert keys back to integers
-            observations = {}
-            for k,v in data.items():
-                observations[int(k)] = v
-    else:
-        with open(OBSERVATIONS_JSON) as f:
-            data = json.load(f)
-            # json.dump() coerces to string keys
-            # convert keys back to integers
-            observations = {}
-            for k,v in data.items():
-                observations[int(k)] = v
+    pass
 except FileNotFoundError:
     # this creates a new file
     observations = {}
 
+class ObservationsDB(dict):
+    def __init__(self, db=OBSERVATIONS_DB):
+        self.db_conn = sqlite3.connect('file:' + OBSERVATIONS_DB, uri=True,
+                            detect_types=sqlite3.PARSE_DECLTYPES)
 
-def update(o, observations):
-    o_id = int(o['id'])
+        self.db_conn.row_factory = sqlite3.Row
+        self.db_cur = self.db_conn.cursor()
+        self.db_cur.execute('''CREATE TABLE IF NOT EXISTS observations
+            (id INTEGER PRIMARY KEY,
+            start TEXT,
+            end TEXT,
+            ground_station INTEGER,
+            transmitter TEXT,
+            norad_cat_id INTEGER,
+            payload TEXT,
+            waterfall TEXT,
+            demoddata TEXT,
+            station_name TEXT,
+            station_lat REAL,
+            station_lng REAL,
+            station_alt REAL,
+            vetted_status TEXT,
+            vetted_user INTEGER,
+            vetted_datetime TEXT,
+            archived INTEGER,
+            archive_url TEXT,
+            client_version TEXT,
+            client_metadata TEXT,
+            status TEXT,
+            waterfall_status TEXT,
+            waterfall_status_user INTEGER,
+            waterfall_status_datetime TEXT,
+            rise_azimuth REAL,
+            set_azimuth REAL,
+            max_altitude REAL,
+            transmitter_uuid TEXT,
+            transmitter_description TEXT,
+            transmitter_type TEXT,
+            transmitter_uplink_low INTEGER,
+            transmitter_uplink_high INTEGER,
+            transmitter_uplink_drift INTEGER,
+            transmitter_downlink_low INTEGER,
+            transmitter_downlink_high INTEGER,
+            transmitter_downlink_drift INTEGER,
+            transmitter_mode TEXT,
+            transmitter_invert INTEGER,
+            transmitter_baud REAL,
+            transmitter_updated TEXT,
+            tle0 TEXT,
+            tle1 TEXT,
+            tle2 TEXT,
+            tle TEXT);''')
+
+        self.db_conn.commit()
+
+        # Extract the columns back out so we can construct an INSERT statement
+        # with placeholders
+        info = self.db_cur.execute('pragma table_info(observations);')
+        # (1, 'start', 'TEXT', 0, None, 0)
+        # n, name, type, maybe_null, default, primary
+        self.keys = [k[1] for k in info]
+
+        columns = ', '.join(self.keys)
+        placeholders = ':' + ', :'.join(self.keys)
+        self.insert_query = 'INSERT OR REPLACE INTO observations (%s) VALUES (%s)' % (columns, placeholders)
+        self.get_query = 'SELECT * from observations;'
+
+    def __setitem__(self, obs_id, obs_dict):
+        # ensure keys exist for all DB columns
+        d = {k:None for k in self.keys}
+
+        # d.update(obs_dict) but detect extra keys
+        for k,v in obs_dict.items():
+            if k in self.keys:
+                d[k] = obs_dict[k]
+            else:
+                raise KeyError(f'Unknown or new column: {k}:{v}')
+
+        columns = ', '.join(obs_dict.keys())
+        placeholders = ':' + ', :'.join(obs_dict.keys())
+        insert_query = 'INSERT OR REPLACE INTO observations (%s) VALUES (%s)' % (columns, placeholders)
+        self.db_cur.execute(insert_query, obs_dict)
+        self.db_conn.commit()
+
+    def __getitem__(self, key):
+        self.db_conn.row_factory = sqlite3.Row
+        query = f'SELECT * from observations WHERE id = {key};'
+        result = self.db_cur.execute(query)
+        # print(result.fetchone())
+        item = result.fetchone()
+        if item is None:
+            return item
+        else:
+            d = {k:item[k] for k in item.keys()}
+        return d
+
+    def commit(self):
+        self.db_conn.commit()
+
+    def close(self):
+        self.db_conn.close()
+
+
+observations = ObservationsDB()
+
+def update(obs, observations):
+    # Is either an empty list or a list of objects
+    obs['demoddata'] = str(obs['demoddata'])
+
+    # handle missing entries
+    # d = {k:None for k in observations.keys}
+    # d.update(obs)
+
+    # Translate True/False to db-compatible 1/0 integers
+    for k,v in obs.items():
+        if isinstance(v, bool):
+            if v:
+                obs[k] = 1
+            else:
+                obs[k] = 0
+
+    o_id = int(obs['id'])
     was_updated = False
-    if o_id not in observations:
+
+    db_obs = observations[o_id]
+    if db_obs is None:
         print('%i new' % o_id)
-        observations[o_id] = o
+        observations[o_id] = obs
         was_updated = True
 
-    elif o.get('detail'):
+    elif obs.get('detail'):
         print('%i was deleted' % o_id)
         del obs[o_id]
 
-    elif o != observations[o_id]:
+    elif obs != observations[o_id]:
         # get symmetric difference
         # ignore user-updated keys: 'station_*'
         #
         # converting to a 'k: v' string is a hack around ignorance...
-        orig = tuple(['%s: %s' % (k,v) for k,v in observations[o_id].items() if not k.startswith('station')])
-        new = tuple(['%s: %s' % (k,v) for k,v in o.items() if not k.startswith('station')])
+        orig = tuple(['%s: %s' % (k,v) for k,v in observations[o_id].items() if not (k.startswith('station') or k == 'tle')])
+        new = tuple(['%s: %s' % (k,v) for k,v in obs.items() if not k.startswith('station')])
         orig = set(orig)
         new = set(new)
         diff = orig ^ new
@@ -88,7 +198,7 @@ def update(o, observations):
         if len(diff) > 0:
             print('%i different data' % o_id)
             print(diff)
-            observations[o_id] = o
+            observations[o_id] = obs
             was_updated = True
 
     return was_updated
@@ -128,20 +238,21 @@ except KeyboardInterrupt as e: #anything...    KeyboardInterrupt:
     print('Stopping...')
 
 
-# filter out the bad data
-print('**************************')
-print('* Filtering out bad data')
-print('**************************')
-badkeys = [k for k,v in observations.items() if not isinstance(v, dict)]
-for k in badkeys:
-    del observations[k]
+## filter out the bad data
+#print('**************************')
+#print('* Filtering out bad data')
+#print('**************************')
+#badkeys = [k for k,v in observations.items() if not isinstance(v, dict)]
+#for k in badkeys:
+#    del observations[k]
 
 
 
 print('')
 if RETRY_UNKNOWN_VETTED_OBS:
     print('******************************')
-    print('* Getting unknown vetted obs')
+    print('* FIXME: TODO: db version    *')
+    print('* Getting unknown vetted obs *')
     print('******************************')
     try:  # allow KeyboardInterrupt to stop the update but save data
         # try to fetch old obs with no vetting
@@ -164,13 +275,16 @@ else:
     print('***********************************')
 
 print('Finished getting new/updated obs.')
-print('Saving ' + OBSERVATIONS_JSON)
-if OBSERVATIONS_JSON.endswith('.gz'):
-    with gzip.open(OBSERVATIONS_JSON, 'wt') as fp:
-        json.dump(observations, fp, sort_keys=True, indent=2)
-else:
-    with open(OBSERVATIONS_JSON, 'w') as fp:
-        json.dump(observations, fp, sort_keys=True, indent=2)
+observations.commit()
+observations.close()
+
+# print('Saving ' + OBSERVATIONS_JSON)
+# if OBSERVATIONS_JSON.endswith('.gz'):
+    # with gzip.open(OBSERVATIONS_JSON, 'wt') as fp:
+        # json.dump(observations, fp, sort_keys=True, indent=2)
+# else:
+    # with open(OBSERVATIONS_JSON, 'w') as fp:
+        # json.dump(observations, fp, sort_keys=True, indent=2)
 
 print('Done!')
 

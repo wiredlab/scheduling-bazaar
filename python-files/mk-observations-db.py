@@ -7,7 +7,7 @@ from json_stream_parser import load_iter
 
 
 DB_FILE = '../data/observations.db'
-JSON_FILE = '../data/observations.json'
+JSON_FILE = 'observations.json'
 
 conn = sqlite3.connect('file:' + DB_FILE, uri=True,
                        detect_types=sqlite3.PARSE_DECLTYPES)
