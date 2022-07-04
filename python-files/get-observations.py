@@ -266,7 +266,7 @@ def fetch_unknown(observations, reverse=False):
         else:
             order = 'ASC'
 
-        for o_id in iter(observations.find(f'vetted_status = "unknown" ORDER BY id {order}')):
+        for o_id in iter(observations.find(f'status = "unknown" ORDER BY id {order}')):
             print(o_id)
             r = get(OBSERVATIONS_API + '/' + str(o_id))
             obs = r.json()
