@@ -26,6 +26,7 @@ OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 #OBSERVATIONS_JSON = 'observations.json.gz'
 # OBSERVATIONS_JSON = 'observations.json'
 OBSERVATIONS_DB= 'observations.db'
+OBSERVATIONS_DB= '../data/observations.db'
 # OBSERVATIONS_API = 'https://network-dev.satnogs.org/api/observations'
 # OBSERVATIONS_JSON = 'observations-dev.json.gz'
 
@@ -33,8 +34,8 @@ MAX_EXTRA_PAGES = 50
 # MAX_EXTRA_PAGES = 20
 # MAX_EXTRA_PAGES = 5
 
-# RETRY_UNKNOWN_VETTED_OBS = True
-RETRY_UNKNOWN_VETTED_OBS = False
+RETRY_UNKNOWN_VETTED_OBS = True
+# RETRY_UNKNOWN_VETTED_OBS = False
 
 
 
@@ -44,11 +45,6 @@ def get(url):
     return client.get(url) #, verify=False)
 
 
-try:
-    pass
-except FileNotFoundError:
-    # this creates a new file
-    observations = {}
 
 class ObservationsDB(dict):
     def __init__(self, db=OBSERVATIONS_DB):
@@ -136,7 +132,7 @@ class ObservationsDB(dict):
 
     def __getitem__(self, key):
         self.db_conn.row_factory = sqlite3.Row
-        query = f'SELECT * from observations WHERE id = {key};'
+        query = f'SELECT * FROM observations WHERE id = {key};'
         result = self.db_cur.execute(query)
         # print(result.fetchone())
         item = result.fetchone()
@@ -146,6 +142,16 @@ class ObservationsDB(dict):
             d = {k:item[k] for k in item.keys()}
         return d
 
+    def find(self, query):
+        q = f'SELECT id FROM observations WHERE {query};'
+        print(q)
+        cur = self.db_conn.cursor()
+        result = cur.execute(q)
+        print(result)
+
+        for x in result:
+            yield x['id']
+
     def commit(self):
         self.db_conn.commit()
 
@@ -153,7 +159,6 @@ class ObservationsDB(dict):
         self.db_conn.close()
 
 
-observations = ObservationsDB()
 
 def update(obs, observations):
     # Is either an empty list or a list of objects
@@ -204,38 +209,39 @@ def update(obs, observations):
     return was_updated
 
 
-r = get(OBSERVATIONS_API)
-updated = [update(o, observations) for o in r.json()]
-any_updated = any(updated)
+def fetch_new(observations):
+    r = get(OBSERVATIONS_API)
+    updated = [update(o, observations) for o in r.json()]
+    any_updated = any(updated)
 
-nextpage = r.links.get('next')
-extra_pages = MAX_EXTRA_PAGES
+    nextpage = r.links.get('next')
+    extra_pages = MAX_EXTRA_PAGES
 
-try:  # allow KeyboardInterrupt to stop the update but save data
-    while (extra_pages > 0) and nextpage:
-        r = get(nextpage['url'])
-        # network-dev returns a 500 server error at some point 350+ pages in
-        # try:
-        updated = [update(o, observations) for o in r.json()]
-        # except Exception as e:
-            # print('Error on response:', r)
-            # print(e)
-            # raise e
+    try:  # allow KeyboardInterrupt to stop the update but save data
+        while (extra_pages > 0) and nextpage:
+            r = get(nextpage['url'])
+            # network-dev returns a 500 server error at some point 350+ pages in
+            # try:
+            updated = [update(o, observations) for o in r.json()]
+            # except Exception as e:
+                # print('Error on response:', r)
+                # print(e)
+                # raise e
 
-        nextpage = r.links.get('next')
+            nextpage = r.links.get('next')
 
-        # heuristic to capture recent updates to observations
-        # keep fetching pages of observations until we see
-        # MAX_EXTRA_PAGES in a row with no updates
-        if not any(updated):
-            extra_pages -= 1
-        else:
-            extra_pages = MAX_EXTRA_PAGES
-        print(extra_pages)
+            # heuristic to capture recent updates to observations
+            # keep fetching pages of observations until we see
+            # MAX_EXTRA_PAGES in a row with no updates
+            if not any(updated):
+                extra_pages -= 1
+            else:
+                extra_pages = MAX_EXTRA_PAGES
+            print(extra_pages)
 
-except KeyboardInterrupt as e: #anything...    KeyboardInterrupt:
-    print(e)
-    print('Stopping...')
+    except KeyboardInterrupt as e: #anything...    KeyboardInterrupt:
+        print(e)
+        print('Stopping...')
 
 
 ## filter out the bad data
@@ -248,35 +254,33 @@ except KeyboardInterrupt as e: #anything...    KeyboardInterrupt:
 
 
 
-print('')
-if RETRY_UNKNOWN_VETTED_OBS:
+def fetch_unknown(observations, reverse=False):
+    print('')
     print('******************************')
-    print('* FIXME: TODO: db version    *')
     print('* Getting unknown vetted obs *')
     print('******************************')
     try:  # allow KeyboardInterrupt to stop the update but save data
         # try to fetch old obs with no vetting
-        for o_id, o in sorted(observations.items(), reverse=True)[1000:]:
-            if o['vetted_status'] == 'unknown':
-                r = get(OBSERVATIONS_API + '/' + str(o_id))
-                d = r.json()
-                if d.get('detail'):
-                    print('%i was deleted' % o_id)
-                    del observations[o_id]
-                else:
-                    update(d, observations)
+        if reverse:
+            order = 'DESC'
+        else:
+            order = 'ASC'
+
+        for o_id in iter(observations.find(f'vetted_status = "unknown" ORDER BY id {order}')):
+            print(o_id)
+            r = get(OBSERVATIONS_API + '/' + str(o_id))
+            obs = r.json()
+            update(obs, observations)
+            # if d.get('detail'):
+                # print('%i was deleted' % o_id)
+                # del observations[o_id]
+            # else:
+                # update(d, observations)
     except KeyboardInterrupt: #anything...    KeyboardInterrupt:
         e = sys.exc_info()
         print(e)
         print('Stopping...')
-else:
-    print('***********************************')
-    print('* NOT UPDATING unknown vetted obs *')
-    print('***********************************')
 
-print('Finished getting new/updated obs.')
-observations.commit()
-observations.close()
 
 # print('Saving ' + OBSERVATIONS_JSON)
 # if OBSERVATIONS_JSON.endswith('.gz'):
@@ -286,5 +290,16 @@ observations.close()
     # with open(OBSERVATIONS_JSON, 'w') as fp:
         # json.dump(observations, fp, sort_keys=True, indent=2)
 
-print('Done!')
+
+if __name__ == '__main__':
+    observations = ObservationsDB()
+
+    fetch_new(observations)
+
+    if RETRY_UNKNOWN_VETTED_OBS:
+        fetch_unknown(observations, reverse=False)
+
+    # print('Finished getting new/updated obs.')
+    # observations.commit()
+    # observations.close()
 
