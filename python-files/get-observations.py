@@ -5,38 +5,50 @@ Utility to get observations from a SatNOGS Network server and store in a local
 SQLite3 database.
 """
 
+import argparse
+from pprint import pprint
 import gzip
 import json
-import requests
+import os.path
 import sqlite3
 import sys
 
-from pprint import pprint
+import requests
 
-def print(*args):
-    pprint(*args)
-    sys.stdout.flush()
-# print = pprint.pprint
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('db', metavar='observations.db',
+                    help='Database of observations')
+parser.add_argument('--create', action='store_true', default=False,
+                    help="Create the DB if it doesn't exist")
+parser.add_argument('--fetch', action=argparse.BooleanOptionalAction,
+                    dest='fetch_new', default=True,
+                    help='Fetch new observations')
+parser.add_argument('--pages', nargs=1, dest='MAX_EXTRA_PAGES',
+                    default=50,
+                    help='Extra pages to fetch (default: %(default)s)')
+parser.add_argument('--retry-unknown',
+                    action='store_true',
+                    dest='retry_unknown', default=False,
+                    help='Retry fetching obs. with "unknown" status')
+parser.add_argument('--reverse',
+                    action='store_true', default=False,
+                    help='Retry obs by descending ID')
+
 
 # just for developing script
 # import requests_cache
 # requests_cache.install_cache(expire_after=60*60)
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
-#OBSERVATIONS_JSON = 'observations.json.gz'
-# OBSERVATIONS_JSON = 'observations.json'
-OBSERVATIONS_DB= 'observations.db'
-OBSERVATIONS_DB= '../data/observations.db'
-# OBSERVATIONS_API = 'https://network-dev.satnogs.org/api/observations'
-# OBSERVATIONS_JSON = 'observations-dev.json.gz'
 
-MAX_EXTRA_PAGES = 50
-# MAX_EXTRA_PAGES = 20
-# MAX_EXTRA_PAGES = 5
 
-RETRY_UNKNOWN_VETTED_OBS = True
-# RETRY_UNKNOWN_VETTED_OBS = False
 
+def print(*args):
+    pprint(*args)
+    sys.stdout.flush()
+# print = pprint.pprint
 
 
 client = requests.session()
@@ -47,8 +59,8 @@ def get(url):
 
 
 class ObservationsDB(dict):
-    def __init__(self, db=OBSERVATIONS_DB):
-        self.db_conn = sqlite3.connect('file:' + OBSERVATIONS_DB, uri=True,
+    def __init__(self, db):
+        self.db_conn = sqlite3.connect(f'file:{db}', uri=True,
                             detect_types=sqlite3.PARSE_DECLTYPES)
 
         self.db_conn.row_factory = sqlite3.Row
@@ -134,7 +146,6 @@ class ObservationsDB(dict):
         self.db_conn.row_factory = sqlite3.Row
         query = f'SELECT * FROM observations WHERE id = {key};'
         result = self.db_cur.execute(query)
-        # print(result.fetchone())
         item = result.fetchone()
         if item is None:
             return item
@@ -144,10 +155,8 @@ class ObservationsDB(dict):
 
     def find(self, query):
         q = f'SELECT id FROM observations WHERE {query};'
-        print(q)
         cur = self.db_conn.cursor()
         result = cur.execute(q)
-        print(result)
 
         for x in result:
             yield x['id']
@@ -209,7 +218,7 @@ def update(obs, observations):
     return was_updated
 
 
-def fetch_new(observations):
+def fetch_new(observations, MAX_EXTRA_PAGES):
     r = get(OBSERVATIONS_API)
     updated = [update(o, observations) for o in r.json()]
     any_updated = any(updated)
@@ -217,31 +226,27 @@ def fetch_new(observations):
     nextpage = r.links.get('next')
     extra_pages = MAX_EXTRA_PAGES
 
-    try:  # allow KeyboardInterrupt to stop the update but save data
-        while (extra_pages > 0) and nextpage:
-            r = get(nextpage['url'])
-            # network-dev returns a 500 server error at some point 350+ pages in
-            # try:
-            updated = [update(o, observations) for o in r.json()]
-            # except Exception as e:
-                # print('Error on response:', r)
-                # print(e)
-                # raise e
+    while (extra_pages > 0) and nextpage:
+        r = get(nextpage['url'])
+        # network-dev returns a 500 server error at some point 350+ pages in
+        # try:
+        updated = [update(o, observations) for o in r.json()]
+        # except Exception as e:
+            # print('Error on response:', r)
+            # print(e)
+            # raise e
 
-            nextpage = r.links.get('next')
+        nextpage = r.links.get('next')
 
-            # heuristic to capture recent updates to observations
-            # keep fetching pages of observations until we see
-            # MAX_EXTRA_PAGES in a row with no updates
-            if not any(updated):
-                extra_pages -= 1
-            else:
-                extra_pages = MAX_EXTRA_PAGES
-            print(extra_pages)
+        # heuristic to capture recent updates to observations
+        # keep fetching pages of observations until we see
+        # MAX_EXTRA_PAGES in a row with no updates
+        if not any(updated):
+            extra_pages -= 1
+        else:
+            extra_pages = MAX_EXTRA_PAGES
+        print(extra_pages)
 
-    except KeyboardInterrupt as e: #anything...    KeyboardInterrupt:
-        print(e)
-        print('Stopping...')
 
 
 ## filter out the bad data
@@ -254,32 +259,26 @@ def fetch_new(observations):
 
 
 
-def fetch_unknown(observations, reverse=False):
+def retry_unknown(observations, reverse=False):
     print('')
     print('******************************')
     print('* Getting unknown vetted obs *')
     print('******************************')
-    try:  # allow KeyboardInterrupt to stop the update but save data
-        # try to fetch old obs with no vetting
-        if reverse:
-            order = 'DESC'
-        else:
-            order = 'ASC'
+    # try to fetch old obs with no vetting
+    if reverse:
+        order = 'DESC'
+    else:
+        order = 'ASC'
 
-        for o_id in iter(observations.find(f'status = "unknown" ORDER BY id {order}')):
-            print(o_id)
-            r = get(OBSERVATIONS_API + '/' + str(o_id))
-            obs = r.json()
-            update(obs, observations)
-            # if d.get('detail'):
-                # print('%i was deleted' % o_id)
-                # del observations[o_id]
-            # else:
-                # update(d, observations)
-    except KeyboardInterrupt: #anything...    KeyboardInterrupt:
-        e = sys.exc_info()
-        print(e)
-        print('Stopping...')
+    for o_id in iter(observations.find(f'status = "unknown" ORDER BY id {order}')):
+        r = get(OBSERVATIONS_API + '/' + str(o_id))
+        obs = r.json()
+        update(obs, observations)
+        # if d.get('detail'):
+            # print('%i was deleted' % o_id)
+            # del observations[o_id]
+        # else:
+            # update(d, observations)
 
 
 # print('Saving ' + OBSERVATIONS_JSON)
@@ -292,14 +291,23 @@ def fetch_unknown(observations, reverse=False):
 
 
 if __name__ == '__main__':
-    observations = ObservationsDB()
+    opts = parser.parse_args()
 
-    fetch_new(observations)
+    if not (os.path.isfile(opts.db) or opts.create):
+        raise FileNotFoundError('Database does not exist: {opts.db}')
 
-    if RETRY_UNKNOWN_VETTED_OBS:
-        fetch_unknown(observations, reverse=False)
+    observations = ObservationsDB(opts.db)
+
+    try:
+        if opts.fetch_new:
+            fetch_new(observations, opts.MAX_EXTRA_PAGES)
+
+        if opts.retry_unknown:
+            retry_unknown(observations, reverse=opts.reverse)
+    except KeyboardInterrupt:
+        print('Cancelled by user, exiting.')
 
     # print('Finished getting new/updated obs.')
-    # observations.commit()
-    # observations.close()
+    observations.commit()
+    observations.close()
 
