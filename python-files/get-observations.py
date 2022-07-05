@@ -64,8 +64,7 @@ class ObservationsDB(dict):
                             detect_types=sqlite3.PARSE_DECLTYPES)
 
         self.db_conn.row_factory = sqlite3.Row
-        self.db_cur = self.db_conn.cursor()
-        self.db_cur.execute('''CREATE TABLE IF NOT EXISTS observations
+        self.db_conn.execute('''CREATE TABLE IF NOT EXISTS observations
             (id INTEGER PRIMARY KEY,
             start TEXT,
             end TEXT,
@@ -115,7 +114,7 @@ class ObservationsDB(dict):
 
         # Extract the columns back out so we can construct an INSERT statement
         # with placeholders
-        info = self.db_cur.execute('pragma table_info(observations);')
+        info = self.db_conn.execute('pragma table_info(observations);')
         # (1, 'start', 'TEXT', 0, None, 0)
         # n, name, type, maybe_null, default, primary
         self.keys = [k[1] for k in info]
@@ -139,13 +138,14 @@ class ObservationsDB(dict):
         columns = ', '.join(obs_dict.keys())
         placeholders = ':' + ', :'.join(obs_dict.keys())
         insert_query = 'INSERT OR REPLACE INTO observations (%s) VALUES (%s)' % (columns, placeholders)
-        self.db_cur.execute(insert_query, obs_dict)
-        self.db_conn.commit()
+
+        with self.db_conn:
+            self.db_conn.execute(insert_query, obs_dict)
 
     def __getitem__(self, key):
         self.db_conn.row_factory = sqlite3.Row
         query = f'SELECT * FROM observations WHERE id = {key};'
-        result = self.db_cur.execute(query)
+        result = self.db_conn.execute(query)
         item = result.fetchone()
         if item is None:
             return item
@@ -155,8 +155,7 @@ class ObservationsDB(dict):
 
     def find(self, query):
         q = f'SELECT id FROM observations WHERE {query};'
-        cur = self.db_conn.cursor()
-        result = cur.execute(q)
+        result = self.db_conn.execute(q)
 
         for x in result:
             yield x['id']
