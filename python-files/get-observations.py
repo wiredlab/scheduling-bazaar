@@ -35,6 +35,10 @@ parser.add_argument('--retry-unknown',
 parser.add_argument('--reverse',
                     action='store_true', default=False,
                     help='Retry obs by descending ID')
+parser.add_argument('--idstart', action='store', type=int,
+                    help='First obs ID to inspect when retrying')
+parser.add_argument('--idend', action='store', type=int,
+                    help='Last obs ID to inspect when retrying')
 
 
 # just for developing script
@@ -160,6 +164,26 @@ class ObservationsDB(dict):
         for x in result:
             yield x['id']
 
+    def get_unknown(self, reverse, idstart=None, idend=None):
+        query = 'status = "unknown"'
+        if reverse:
+            order = 'DESC'
+            if idstart:
+                query += f' AND id <= {idstart}'
+            if idend:
+                query += f' AND id >= {idend}'
+        else:
+            order = 'ASC'
+            if idstart:
+                query += f' AND id >= {idstart}'
+            if idend:
+                query += f' AND id <= {idend}'
+
+        query += f' ORDER BY id {order}'
+        print(query)
+
+        return iter(self.find(query))
+
     def commit(self):
         self.db_conn.commit()
 
@@ -258,18 +282,13 @@ def fetch_new(observations, MAX_EXTRA_PAGES):
 
 
 
-def retry_unknown(observations, reverse=False):
+def retry_unknown(observations, reverse=False, idstart=None, idend=None):
     print('')
     print('******************************')
     print('* Getting unknown vetted obs *')
     print('******************************')
     # try to fetch old obs with no vetting
-    if reverse:
-        order = 'DESC'
-    else:
-        order = 'ASC'
-
-    for o_id in iter(observations.find(f'status = "unknown" ORDER BY id {order}')):
+    for o_id in observations.get_unknown(reverse, idstart, idend):
         r = get(OBSERVATIONS_API + '/' + str(o_id))
         obs = r.json()
         update(obs, observations)
@@ -302,7 +321,11 @@ if __name__ == '__main__':
             fetch_new(observations, opts.MAX_EXTRA_PAGES)
 
         if opts.retry_unknown:
-            retry_unknown(observations, reverse=opts.reverse)
+            retry_unknown(observations,
+                          reverse=opts.reverse,
+                          idstart=opts.idstart,
+                          idend=opts.idend)
+
     except KeyboardInterrupt:
         print('Cancelled by user, exiting.')
 
