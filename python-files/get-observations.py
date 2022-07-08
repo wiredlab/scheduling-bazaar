@@ -221,12 +221,12 @@ def update(obs, observations):
         print('%i was deleted' % o_id)
         del obs[o_id]
 
-    elif obs != observations[o_id]:
+    elif obs != db_obs:
         # get symmetric difference
         # ignore user-updated keys: 'station_*'
         #
         # converting to a 'k: v' string is a hack around ignorance...
-        orig = tuple(['%s: %s' % (k,v) for k,v in observations[o_id].items() if not (k.startswith('station') or k == 'tle')])
+        orig = tuple(['%s: %s' % (k,v) for k,v in db_obs.items() if not (k.startswith('station') or k == 'tle')])
         new = tuple(['%s: %s' % (k,v) for k,v in obs.items() if not k.startswith('station')])
         orig = set(orig)
         new = set(new)
