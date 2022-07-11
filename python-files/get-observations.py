@@ -26,7 +26,7 @@ parser.add_argument('--fetch', action=argparse.BooleanOptionalAction,
                     dest='fetch_new', default=True,
                     help='Fetch new observations')
 parser.add_argument('--pages', nargs=1, dest='MAX_EXTRA_PAGES',
-                    default=50,
+                    type=int, default=[50],
                     help='Extra pages to fetch (default: %(default)s)')
 parser.add_argument('--retry-unknown',
                     action='store_true',
@@ -318,7 +318,8 @@ if __name__ == '__main__':
 
     try:
         if opts.fetch_new:
-            fetch_new(observations, opts.MAX_EXTRA_PAGES)
+            pages = opts.MAX_EXTRA_PAGES[0]
+            fetch_new(observations, pages)
 
         if opts.retry_unknown:
             retry_unknown(observations,
