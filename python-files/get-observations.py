@@ -116,12 +116,17 @@ class ObservationsDB(dict):
 
         self.db_conn.commit()
 
-        # Extract the columns back out so we can construct an INSERT statement
-        # with placeholders
-        info = self.db_conn.execute('pragma table_info(observations);')
-        # (1, 'start', 'TEXT', 0, None, 0)
-        # n, name, type, maybe_null, default, primary
-        self.keys = [k[1] for k in info]
+        with self.db_conn:
+            # Extract the columns back out so we can construct an INSERT
+            # statement with placeholders
+            info = self.db_conn.execute('PRAGMA table_info(observations);')
+            # (1, 'start', 'TEXT', 0, None, 0)
+            # n, name, type, maybe_null, default, primary
+            self.keys = [k[1] for k in info]
+
+            # Allow reads when there is a writer
+            result = self.db_conn.execute('PRAGMA journal_mode=WAL;')
+            assert(result.fetchone()[0] == 'wal')
 
         columns = ', '.join(self.keys)
         placeholders = ':' + ', :'.join(self.keys)
@@ -149,20 +154,27 @@ class ObservationsDB(dict):
     def __getitem__(self, key):
         self.db_conn.row_factory = sqlite3.Row
         query = f'SELECT * FROM observations WHERE id = {key};'
-        result = self.db_conn.execute(query)
-        item = result.fetchone()
-        if item is None:
-            return item
-        else:
-            d = {k:item[k] for k in item.keys()}
+
+        with self.db_conn:
+            result = self.db_conn.execute(query)
+            item = result.fetchone()
+            if item is None:
+                return item
+            else:
+                d = {k:item[k] for k in item.keys()}
+
         return d
 
     def find(self, query):
+        """Execute the query and return a list of id's that match."""
         q = f'SELECT id FROM observations WHERE {query};'
-        result = self.db_conn.execute(q)
 
-        for x in result:
-            yield x['id']
+        with self.db_conn:
+            result = self.db_conn.execute(q)
+            # save the results to a list so we can close the cursor
+            ids = [x['id'] for x in result]
+
+        return ids
 
     def get_unknown(self, reverse, idstart=None, idend=None):
         query = 'status = "unknown"'
@@ -181,8 +193,9 @@ class ObservationsDB(dict):
 
         query += f' ORDER BY id {order}'
         print(query)
-
-        return iter(self.find(query))
+        ids = self.find(query)
+        print(f'found: {len(ids)}')
+        return ids
 
     def commit(self):
         self.db_conn.commit()
