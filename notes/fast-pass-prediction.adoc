@@ -123,5 +123,23 @@ See <<Rhodes>> for a discussion of using the elevation angle to search for inter
 
 - [[[Rhodes]]] Brandon Rhodes.  https://github.com/skyfielders/astronomy-notebooks/blob/master/Solvers/Earth-Satellite-Passes.ipynb
 
+....
+update: Author: Brandon Rhodes <brandon@rhodesmill.org>  2020-07-21 23:28:30
+Committer: Brandon Rhodes <brandon@rhodesmill.org>  2020-07-21 23:28:30
+Parent: c066f0e111a12aa0b7703a24047d9e9abf83f63a (Update notebooks in the Introduction folder)
+Child:  fb6110db079457d696f9ba2df0ea96244091a97c (Upgrade Skyfield version)
+Branches: master, remotes/origin/dependabot/pip/notebook-6.4.12, remotes/origin/dependabot/pip/numpy-1.21.0, remotes/origin/master
+Follows:
+Precedes:
+
+    Remove old notebook looking at SciPy solvers
+
+    It turns out that SciPy is a heavyweight enough dependency that Skyfield
+    is choosing to not depend on it for anything, but instead has decided to
+    implement its own solver routines, so the notebook exploring the SciPy
+    options can now be retired.
+....
+
+
 
 // vim: textwidth=0
