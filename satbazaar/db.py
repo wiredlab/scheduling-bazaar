@@ -390,6 +390,156 @@ def load_observations(obsfile=None):
     return json.load(util.open_compressed(obsfile))
 
 
+class ObservationsDB(dict):
+    def __init__(self, db):
+        self.db_conn = sqlite3.connect(f'file:{db}', uri=True,
+                            detect_types=sqlite3.PARSE_DECLTYPES)
+
+        self.db_conn.row_factory = sqlite3.Row
+        self.db_conn.execute('''CREATE TABLE IF NOT EXISTS observations
+            (id INTEGER PRIMARY KEY,
+            start TEXT,
+            end TEXT,
+            ground_station INTEGER,
+            transmitter TEXT,
+            norad_cat_id INTEGER,
+            payload TEXT,
+            waterfall TEXT,
+            demoddata TEXT,
+            station_name TEXT,
+            station_lat REAL,
+            station_lng REAL,
+            station_alt REAL,
+            vetted_status TEXT,
+            vetted_user INTEGER,
+            vetted_datetime TEXT,
+            archived INTEGER,
+            archive_url TEXT,
+            client_version TEXT,
+            client_metadata TEXT,
+            status TEXT,
+            waterfall_status TEXT,
+            waterfall_status_user INTEGER,
+            waterfall_status_datetime TEXT,
+            rise_azimuth REAL,
+            set_azimuth REAL,
+            max_altitude REAL,
+            transmitter_uuid TEXT,
+            transmitter_description TEXT,
+            transmitter_type TEXT,
+            transmitter_uplink_low INTEGER,
+            transmitter_uplink_high INTEGER,
+            transmitter_uplink_drift INTEGER,
+            transmitter_downlink_low INTEGER,
+            transmitter_downlink_high INTEGER,
+            transmitter_downlink_drift INTEGER,
+            transmitter_mode TEXT,
+            transmitter_invert INTEGER,
+            transmitter_baud REAL,
+            transmitter_updated TEXT,
+            tle0 TEXT,
+            tle1 TEXT,
+            tle2 TEXT,
+            tle TEXT);''')
+
+        self.db_conn.commit()
+
+        with self.db_conn:
+            # Extract the columns back out so we can construct an INSERT
+            # statement with placeholders
+            info = self.db_conn.execute('PRAGMA table_info(observations);')
+            # (1, 'start', 'TEXT', 0, None, 0)
+            # n, name, type, maybe_null, default, primary
+            self.keys = [k[1] for k in info]
+
+            # Allow reads when there is a writer
+            result = self.db_conn.execute('PRAGMA journal_mode=WAL;')
+            assert(result.fetchone()[0] == 'wal')
+
+        columns = ', '.join(self.keys)
+        placeholders = ':' + ', :'.join(self.keys)
+        self.insert_query = 'INSERT OR REPLACE INTO observations (%s) VALUES (%s)' % (columns, placeholders)
+        self.get_query = 'SELECT * from observations;'
+
+    def __setitem__(self, obs_id, obs_dict):
+        # ensure keys exist for all DB columns
+        d = {k:None for k in self.keys}
+
+        # d.update(obs_dict) but detect extra keys
+        for k,v in obs_dict.items():
+            if k in self.keys:
+                d[k] = obs_dict[k]
+            else:
+                raise KeyError(f'Unknown or new column: {k}:{v}')
+
+        columns = ', '.join(obs_dict.keys())
+        placeholders = ':' + ', :'.join(obs_dict.keys())
+        insert_query = 'INSERT OR REPLACE INTO observations (%s) VALUES (%s)' % (columns, placeholders)
+
+        with self.db_conn:
+            self.db_conn.execute(insert_query, obs_dict)
+
+    def __getitem__(self, key):
+        self.db_conn.row_factory = sqlite3.Row
+        query = f'SELECT * FROM observations WHERE id = {key};'
+
+        with self.db_conn:
+            result = self.db_conn.execute(query)
+            item = result.fetchone()
+            if item is None:
+                return item
+            else:
+                d = {k:item[k] for k in item.keys()}
+
+        return d
+
+    def find(self, query):
+        """Execute the query and return a list of id's that match."""
+        q = f'SELECT id FROM observations WHERE {query};'
+
+        with self.db_conn:
+            result = self.db_conn.execute(q)
+            # save the results to a list so we can close the cursor
+            ids = [x['id'] for x in result]
+
+        return ids
+
+    def values(self, num):
+        """Return an iterator over all observations."""
+        q = f'SELECT * FROM observations LIMIT {num};'
+        with self.db_conn:
+            result = self.db_conn.execute(q)
+            return result
+
+
+    def get_unknown(self, reverse, idstart=None, idend=None):
+        query = 'status = "unknown"'
+        if reverse:
+            order = 'DESC'
+            if idstart:
+                query += f' AND id <= {idstart}'
+            if idend:
+                query += f' AND id >= {idend}'
+        else:
+            order = 'ASC'
+            if idstart:
+                query += f' AND id >= {idstart}'
+            if idend:
+                query += f' AND id <= {idend}'
+
+        query += f' ORDER BY id {order}'
+        print(query)
+        ids = self.find(query)
+        print(f'found: {len(ids)}')
+        return ids
+
+    def commit(self):
+        self.db_conn.commit()
+
+    def close(self):
+        self.db_conn.close()
+
+
 def passrow2interval(p):
     data = PassTuple(**p)
     return Interval(data.start, data.end, data)
