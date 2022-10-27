@@ -504,9 +504,13 @@ class ObservationsDB(dict):
 
         return ids
 
-    def values(self, num):
+    def values(self, limit=None):
         """Return an iterator over all observations."""
-        q = f'SELECT * FROM observations LIMIT {num};'
+        if limit is None:
+            q = f'SELECT * FROM observations;'
+        else:
+            q = f'SELECT * FROM observations LIMIT {limit};'
+
         with self.db_conn:
             result = self.db_conn.execute(q)
             return result
