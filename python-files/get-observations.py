@@ -39,6 +39,10 @@ parser.add_argument('--idstart', action='store', type=int,
                     help='First obs ID to inspect when retrying')
 parser.add_argument('--idend', action='store', type=int,
                     help='Last obs ID to inspect when retrying')
+parser.add_argument('--start', action='store', type=str,
+                    help='Obs beginning after this datetime (RFC3339)')
+parser.add_argument('--end', action='store', type=str,
+                    help='Obs ending before this datetime (RFC3339)')
 
 
 # just for developing script
@@ -56,9 +60,10 @@ def print(*args):
 
 
 client = requests.session()
-def get(url):
-    print(url)
-    return client.get(url) #, verify=False)
+def get(url, params=None):
+    result = client.get(url, params=params) #, verify=False)
+    print(result.url)
+    return result
 
 
 
@@ -254,8 +259,8 @@ def update(obs, observations):
     return was_updated
 
 
-def fetch_new(observations, MAX_EXTRA_PAGES):
-    r = get(OBSERVATIONS_API)
+def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
+    r = get(OBSERVATIONS_API, params)
     updated = [update(o, observations) for o in r.json()]
     any_updated = any(updated)
 
@@ -324,6 +329,13 @@ def retry_unknown(observations, reverse=False, idstart=None, idend=None):
 if __name__ == '__main__':
     opts = parser.parse_args()
 
+    parameters = {}
+    if opts.start:
+        parameters['start'] = opts.start
+
+    if opts.end:
+        parameters['end'] = opts.end
+
     if not (os.path.isfile(opts.db) or opts.create):
         raise FileNotFoundError('Database does not exist: {opts.db}')
 
@@ -332,7 +344,8 @@ if __name__ == '__main__':
     try:
         if opts.fetch_new:
             pages = opts.MAX_EXTRA_PAGES[0]
-            fetch_new(observations, pages)
+
+            fetch_new(observations, pages, params=parameters)
 
         if opts.retry_unknown:
             retry_unknown(observations,
