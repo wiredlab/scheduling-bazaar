@@ -8,6 +8,7 @@ SQLite3 database.
 import argparse
 from pprint import pprint
 import gzip
+from itertools import islice
 import json
 import os.path
 import sqlite3
@@ -32,6 +33,10 @@ parser.add_argument('--retry-unknown',
                     action='store_true',
                     dest='retry_unknown', default=False,
                     help='Retry fetching obs. with "unknown" status')
+parser.add_argument('--retry-observer',
+                    action='store_true',
+                    dest='retry_observer_null', default=False,
+                    help='Retry fetching obs. with null "observer" field')
 parser.add_argument('--reverse',
                     action='store_true', default=False,
                     help='Retry obs by descending ID')
@@ -208,6 +213,27 @@ class ObservationsDB(dict):
         print(f'found: {len(ids)}')
         return ids
 
+    def get_observer_null(self, reverse, idstart=None, idend=None):
+        query = 'observer is NULL'
+        if reverse:
+            order = 'DESC'
+            if idstart:
+                query += f' AND id <= {idstart}'
+            if idend:
+                query += f' AND id >= {idend}'
+        else:
+            order = 'ASC'
+            if idstart:
+                query += f' AND id >= {idstart}'
+            if idend:
+                query += f' AND id <= {idend}'
+
+        query += f' ORDER BY id {order}'
+        print(query)
+        ids = self.find(query)
+        print(f'found: {len(ids)}')
+        return ids
+
     def commit(self):
         self.db_conn.commit()
 
@@ -307,6 +333,15 @@ def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
 #    del observations[k]
 
 
+def iter_chunks(iterable, size):
+    """Iterate over the input in groups of size length."""
+    it = iter(iterable)
+    while True:
+        chunk = tuple(islice(it, size))
+        if not chunk:
+            break
+        yield chunk
+
 
 def retry_unknown(observations, reverse=False, idstart=None, idend=None):
     print('')
@@ -324,6 +359,36 @@ def retry_unknown(observations, reverse=False, idstart=None, idend=None):
         # else:
             # update(d, observations)
 
+
+def retry_observer_null(observations, reverse=False, idstart=None, idend=None):
+    print('')
+    print('******************************')
+    print('* Getting observer field     *')
+    print('******************************')
+
+    # NOTE: server will silently drop IDs if query is too long
+    CHUNK_SIZE = 25
+    for ids in iter_chunks(observations.get_observer_null(reverse, idstart, idend), CHUNK_SIZE):
+        url = OBSERVATIONS_API + '/?observation_id=' + ','.join(map(str, ids))
+        r = get(url)
+        items = r.json()
+
+        # items list may be shorter than ids list,
+        # this happens when observations are deleted from Network
+        items_dict = {o['id']:o for o in items}
+        items_set = set(items_dict.keys())
+        ids_set = set(ids)
+        deleted_ids = ids_set - items_set
+        for i in deleted_ids:
+            # emulate result as for single obs id request
+            items_dict[i] = {'id':i, 'detail':'Not found.'}
+
+        # updated = [update(o, observations) for o in items]
+        # for o in items:
+        for o in items_dict.values():
+            update(o, observations)
+
+        print('requested/got: %d/%d' % (len(items), len(ids)))
 
 # print('Saving ' + OBSERVATIONS_JSON)
 # if OBSERVATIONS_JSON.endswith('.gz'):
@@ -357,6 +422,12 @@ if __name__ == '__main__':
 
         if opts.retry_unknown:
             retry_unknown(observations,
+                          reverse=opts.reverse,
+                          idstart=opts.idstart,
+                          idend=opts.idend)
+
+        if opts.retry_observer_null:
+            retry_observer_null(observations,
                           reverse=opts.reverse,
                           idstart=opts.idstart,
                           idend=opts.idend)
