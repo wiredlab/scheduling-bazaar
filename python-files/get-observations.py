@@ -205,9 +205,9 @@ class ObservationsDB(dict):
     def commit(self):
         self.db_conn.commit()
 
-    def close(self):
+    def __del__(self):
+        self.commit()
         self.db_conn.close()
-
 
 
 def update(obs, observations):
@@ -358,5 +358,4 @@ if __name__ == '__main__':
 
     # print('Finished getting new/updated obs.')
     observations.commit()
-    observations.close()
 
