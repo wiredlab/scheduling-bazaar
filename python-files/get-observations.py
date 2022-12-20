@@ -349,15 +349,27 @@ def retry_unknown(observations, reverse=False, idstart=None, idend=None):
     print('* Getting unknown vetted obs *')
     print('******************************')
     # try to fetch old obs with no vetting
-    for o_id in observations.get_unknown(reverse, idstart, idend):
-        r = get(OBSERVATIONS_API + '/' + str(o_id))
-        obs = r.json()
-        update(obs, observations)
-        # if d.get('detail'):
-            # print('%i was deleted' % o_id)
-            # del observations[o_id]
-        # else:
-            # update(d, observations)
+    # NOTE: server will silently drop IDs if query is too long
+    CHUNK_SIZE = 25
+    for ids in iter_chunks(observations.get_unknown(reverse, idstart, idend), CHUNK_SIZE):
+        url = OBSERVATIONS_API + '/?observation_id=' + ','.join(map(str, ids))
+        r = get(url)
+        items = r.json()
+
+        # items list may be shorter than ids list,
+        # this happens when observations are deleted from Network
+        items_dict = {o['id']:o for o in items}
+        items_set = set(items_dict.keys())
+        ids_set = set(ids)
+        deleted_ids = ids_set - items_set
+        for i in deleted_ids:
+            # emulate result as for single obs id request
+            items_dict[i] = {'id':i, 'detail':'Not found.'}
+
+        for o in items_dict.values():
+            update(o, observations)
+
+        print('requested/got: %d/%d' % (len(items), len(ids)))
 
 
 def retry_observer_null(observations, reverse=False, idstart=None, idend=None):
