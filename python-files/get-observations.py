@@ -170,6 +170,11 @@ class ObservationsDB(dict):
 
         return d
 
+    def __delitem__(self, key):
+        query = f'DELETE FROM observations where id = {key};'
+        with self.db_conn:
+            result = self.db_conn.execute(query)
+
     def find(self, query):
         """Execute the query and return a list of id's that match."""
         q = f'SELECT id FROM observations WHERE {query};'
@@ -211,6 +216,13 @@ class ObservationsDB(dict):
 
 
 def update(obs, observations):
+    o_id = int(obs['id'])
+
+    if obs.get('detail'):
+        print('%i was deleted' % o_id)
+        del observations[o_id]
+        return True
+
     # Is either an empty list or a list of objects
     obs['demoddata'] = str(obs['demoddata'])
 
@@ -226,7 +238,6 @@ def update(obs, observations):
             else:
                 obs[k] = 0
 
-    o_id = int(obs['id'])
     was_updated = False
 
     db_obs = observations[o_id]
@@ -234,10 +245,6 @@ def update(obs, observations):
         print('%i new' % o_id)
         observations[o_id] = obs
         was_updated = True
-
-    elif obs.get('detail'):
-        print('%i was deleted' % o_id)
-        del obs[o_id]
 
     elif obs != db_obs:
         # get symmetric difference
