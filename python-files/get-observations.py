@@ -117,7 +117,8 @@ class ObservationsDB(dict):
             tle0 TEXT,
             tle1 TEXT,
             tle2 TEXT,
-            tle TEXT);''')
+            center_frequency INTEGER,
+            observer INTEGER);''')
 
         self.db_conn.commit()
 
