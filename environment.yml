@@ -7,6 +7,9 @@ dependencies:
   - ipython
   - jupyter
   - ephem
+  - matplotlib
+  - intervaltree
+  - iso8601
   - requests
   - requests-cache
 
