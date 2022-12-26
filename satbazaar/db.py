@@ -306,7 +306,8 @@ def get_stations(outfile=None, networks=None):
 
             # TODO: better to use 'network/id'?  What about GS on multiple networks?
             # key = '/'.join((config['network_name'], gs['id']))
-            key = gs['name']
+            #key = gs['name']
+            key = gs['id']
             stations[key] = gs
 
     with open(outfile, 'w') as fp:
