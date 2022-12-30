@@ -5,6 +5,7 @@ channels:
   - wiredlab
 dependencies:
   - ipython
+  - ipython-sql
   - jupyter
   - ephem
   - matplotlib
