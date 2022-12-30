@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+import json
+import sqlite3
+import sys
+
+
+JSON_FILE = sys.argv[1] or 'stations.json'
+DB_FILE = sys.argv[2] or 'stations.db'
+
+
+conn = sqlite3.connect('file:' + DB_FILE, uri=True,
+                       detect_types=sqlite3.PARSE_DECLTYPES)
+
+cur = conn.cursor()
+cur.execute('''CREATE TABLE IF NOT EXISTS stations (
+    id INT PRIMARY KEY,
+    altitude REAL,
+    antenna TEXT CHECK(json_valid(antenna)),  -- array of objects
+    client_version TEXT,
+    created TEXT,       --  YYYY-mm-ddTHH:MMZ
+    description TEXT,
+    last_seen TEXT,     --  YYYY-mm-ddTHH:MMZ
+    lat REAL,
+    lng REAL,
+    min_horizon REAL,
+    name TEXT,
+    observations INT,
+    qthlocator TEXT,
+    status TEXT,
+    target_utilization INT,
+    rotator INT         -- 0, 1, or 2 axis rotation
+    );''')
+
+conn.commit()
+
+
+# Extract the columns back out so we can construct an INSERT statement
+# with placeholders
+info = cur.execute('pragma table_info(stations);')
+# (1, 'start', 'TEXT', 0, None, 0)
+# n, name, type, maybe_null, default, primary
+keys = [k[1] for k in info]
+
+columns = ', '.join(keys)
+placeholders = ':' + ', :'.join(keys)
+insert_query = 'INSERT OR REPLACE INTO stations (%s) VALUES (%s)' % (columns, placeholders)
+
+
+with open(JSON_FILE) as f:
+    j = json.load(f)
+    for gs in j.values():
+        # handle data types
+        # stored as a string in the DB, but json.load() gives a list of dicts
+        gs['antenna'] = json.dumps(gs['antenna'])
+
+        # handle missing entries
+        d = {k:None for k in keys}
+        d.update(gs)
+
+        # Do the deed
+        cur.execute(insert_query, d)
+
+    # save!
+    conn.commit()
+
+conn.close()
+
