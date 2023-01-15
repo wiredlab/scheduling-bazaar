@@ -123,6 +123,7 @@ class ObservationsDB(dict):
             tle1 TEXT,
             tle2 TEXT,
             center_frequency INTEGER,
+            observation_frequency INTEGER,
             observer INTEGER);''')
 
         self.db_conn.commit()
