@@ -119,6 +119,7 @@ class ObservationsDB(dict):
             transmitter_invert INTEGER,
             transmitter_baud REAL,
             transmitter_updated TEXT,
+            transmitter_status TEXT,
             tle0 TEXT,
             tle1 TEXT,
             tle2 TEXT,
