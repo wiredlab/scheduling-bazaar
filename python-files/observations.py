@@ -5,14 +5,20 @@ Utility to get observations from a SatNOGS Network server and store in a local
 SQLite3 database.
 """
 
-from pprint import pprint
+import concurrent.futures
+from datetime import datetime
 from itertools import islice
 import json
 import os.path
+from pprint import pprint
 import sqlite3
 import sys
+import threading
+import time
+from urllib.parse import urlparse
 
 import requests
+import skyfield.api
 
 
 
@@ -228,12 +234,14 @@ class ObservationsDB(dict):
 
         was_updated = False
 
+        # brand new observation?
         db_obs = self[o_id]
         if db_obs is None:
             print('%i new' % o_id)
             self[o_id] = obs
             was_updated = True
 
+        # this is an update
         elif obs != db_obs:
             # get symmetric difference
             # ignore user-updated keys: 'station_*'
@@ -251,7 +259,22 @@ class ObservationsDB(dict):
                 self[o_id] = obs
                 was_updated = True
 
+        # Fetch the demodulated frames and store in demoddata DB
+        frames_downloaded = self.fetch_demoddata(obs)
+
+        was_updated = was_updated or (frames_downloaded > 0)
         return was_updated
+
+    def fetch_demoddata(self, obs):
+        # translate the string into proper JSON
+        dd = obs['demoddata'].replace("'", "\"")
+        frames = json.loads(dd)
+
+        urls = []
+        for frame in frames:
+            urls.append(frame['payload_demod'])
+        return self.demoddata.fetch_data(urls, obs)
+
 
 
 class DemoddataDB(dict):
@@ -281,11 +304,12 @@ class DemoddataDB(dict):
             # (1, 'start', 'TEXT', 0, None, 0)
             # n, name, type, maybe_null, default, primary
             self.keys = [k[1] for k in info]
-            print(self.keys)
 
             # Allow reads when there is a writer
             result = self.db_conn.execute('PRAGMA journal_mode=WAL;')
             assert(result.fetchone()[0] == 'wal')
+        # thread-local things
+        self.thread_local = threading.local()
 
     def __getitem__(self, key):
         """Get list of frames by observation id, or get a single frame by its
@@ -295,22 +319,178 @@ class DemoddataDB(dict):
                     FROM obs_demoddata
                     WHERE id = ?
                     ORDER BY datetime ASC;'''
-            with self.db_conn:
-                result = self.db_conn.execute(query, [key])
-                items = result.fetchall()
-                return items
+            result = self.db_conn.execute(query, [key])
+            items = result.fetchall()
+            return items
         else:
             query = '''SELECT *
                     FROM obs_demoddata
                     WHERE name = ?;'''
-            with self.db_conn:
-                result = self.db_conn.execute(query, [key])
-                items = result.fetchall()
-                return items[0]
+            result = self.db_conn.execute(query, [key])
+            items = result.fetchall()
+            return items[0]
 
     def __del__(self):
         self.db_conn.commit()
         self.db_conn.close()
+
+    def is_name_archived(self, name):
+        results = self.db_conn.execute(
+            'SELECT * FROM obs_demoddata WHERE name = ?', [name]).fetchall()
+        if len(results) > 0:
+            have_az = results[0]['azimuth'] is not None
+        else:
+            have_az = False
+        return have_az
+
+    def get_session(self):
+        if not hasattr(self.thread_local, "session"):
+            #thread_local.session = requests_cache.CachedSession()
+            self.thread_local.session = requests.Session()
+        return self.thread_local.session
+
+    def get_frame_content(self, f, url):
+        session = self.get_session()
+        with session.get(url) as r:
+            f['data'] = r.content
+        return f
+
+    def add_frame(self, frame):
+        self.db_conn.execute('PRAGMA busy_timeout = 4000;')
+        retries = 4
+        while True:
+            try:
+                self.db_conn.execute('''INSERT INTO obs_demoddata
+                    VALUES(:id, :dt, :name,
+                            :data, :azimuth, :elevation, :range)
+                    ON CONFLICT(name) DO
+                    UPDATE SET
+                        id=:id, datetime=:dt,
+                        azimuth=:azimuth, elevation=:elevation, range=:range;''',
+                    frame)
+            except sqlite3.OperationalError as e:
+                retries -= 1
+                if retries == 0:
+                    raise e
+                continue
+            break
+
+    def _setup_tracking(self, obs):
+        tle0 = obs['tle0']
+        tle1 = obs['tle1']
+        tle2 = obs['tle2']
+        lat = obs['station_lat']
+        lng = obs['station_lng']
+        alt = obs['station_alt']
+
+        satellite = skyfield.api.EarthSatellite(tle1, tle2, tle0)
+        ground_station = skyfield.api.wgs84.latlon(lat, lng, elevation_m=alt)
+
+        # vector between sat and GS
+        gs_sat_pos = satellite - ground_station
+        return gs_sat_pos
+
+    def fetch_data(self, urls, observation):
+        # potentially thousands of GET requests
+        # hence we use threads to have multiple HTTP requests in-flight
+        num_frames = 0
+        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as pool:
+            for batch in iter_chunks(urls, 1000):
+                futures = []
+                t1 = time.perf_counter()
+                num_jobs = 0
+                for url in batch:
+                    u = urlparse(url)
+                    dirname, filename = os.path.split(u.path)
+
+                    # may have multiple "."
+                    # but we want the part before any dots at all
+                    name, *ext = filename.split('.')
+                    head, obspath = os.path.split(dirname)
+
+                    try:
+                        prefix, obsid, datestr, *suffix= name.split('_')
+                        assert(obsid == obspath)
+                        obs = int(obsid)
+                    except:
+                        print(f"bad,{url}")
+                        continue
+
+
+                    try:
+                        year, month, dayhour, minute, second = datestr.split('-')
+                        dt = f'{year}-{month}-{dayhour}:{minute}:{second}'
+                    except:
+                        print(f"bad-date,{url}")
+                        dt = 'YYYY-MM-DDTHH:MM:SS'
+                        continue
+
+                    # TODO: for now, we skip items with extensions, remove soon
+                    if len(ext) > 0:
+                        continue
+
+                    # do not re-download
+                    if self.is_name_archived(filename):
+                        continue
+
+                    frame = dict(id=obs,
+                                 dt=dt,
+                                 name=filename,
+                                 data=None,
+                                 azimuth=None,
+                                 elevation=None,
+                                 range=None)
+                    futures.append(
+                        pool.submit(
+                            self.get_frame_content, frame, url))
+                    num_jobs += 1
+
+                if len(futures) == 0:
+                    continue
+
+
+                datalist = []
+                for future in concurrent.futures.as_completed(futures):
+                    # (obs, dt, filename, data) = future.result()
+                    datalist.append(future.result())
+
+                tf2 = time.perf_counter()
+
+                # Compute the pointing vector
+                if observation['id'] != obs:
+                    raise Error(f"Error: observation ({observation['id']}) does not match frame ({obs})")
+
+                ts = skyfield.api.load.timescale()
+                gs_sat_pos = self._setup_tracking(observation)
+
+                # Only commit() the after all frames, to speed up DB work
+                with self.db_conn:
+                    for frame in datalist:
+                        frame_time = ts.from_datetime(
+                                        datetime.fromisoformat(
+                                            frame['dt'] + '+00:00'))
+
+                        elevation, azimuth, slant_range = gs_sat_pos.at(frame_time).altaz()
+
+                        frame['elevation'] = elevation.degrees
+                        frame['azimuth'] = azimuth.degrees
+                        frame['range'] = slant_range.km
+
+                        self.add_frame(frame)
+                        num_frames += 1
+
+
+                t2 = time.perf_counter()
+                duration = t2 - t1
+                rate = num_jobs / duration
+
+                duration_futures = tf2 - t1
+                duration_db = t2 - tf2
+
+                print(f"{num_jobs:5d} in {duration:5.1f} s, {rate:5.1f} f/s" +
+                      f" | {duration_futures:0.2f} fu, {duration_db:0.2f} db")
+        return num_frames
+
 
 
 
