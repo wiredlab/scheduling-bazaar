@@ -347,10 +347,7 @@ def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
 def iter_chunks(iterable, size):
     """Iterate over the input in groups of size length."""
     it = iter(iterable)
-    while True:
-        chunk = tuple(islice(it, size))
-        if not chunk:
-            break
+    while chunk := tuple(islice(it, size)):
         yield chunk
 
 
