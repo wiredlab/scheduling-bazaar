@@ -5,9 +5,7 @@ Utility to get observations from a SatNOGS Network server and store in a local
 SQLite3 database.
 """
 
-import argparse
 from pprint import pprint
-import gzip
 from itertools import islice
 import json
 import os.path
@@ -16,38 +14,6 @@ import sys
 
 import requests
 
-
-
-parser = argparse.ArgumentParser()
-parser.add_argument('db', metavar='observations.db',
-                    help='Database of observations')
-parser.add_argument('--create', action='store_true', default=False,
-                    help="Create the DB if it doesn't exist")
-parser.add_argument('--fetch', action=argparse.BooleanOptionalAction,
-                    dest='fetch_new', default=True,
-                    help='Fetch new observations')
-parser.add_argument('--pages', nargs=1, dest='MAX_EXTRA_PAGES',
-                    type=int, default=[50],
-                    help='Extra pages to fetch (default: %(default)s)')
-parser.add_argument('--retry-unknown',
-                    action='store_true',
-                    dest='retry_unknown', default=False,
-                    help='Retry fetching obs. with "unknown" status')
-parser.add_argument('--retry-observer',
-                    action='store_true',
-                    dest='retry_observer_null', default=False,
-                    help='Retry fetching obs. with null "observer" field')
-parser.add_argument('--reverse',
-                    action='store_true', default=False,
-                    help='Retry obs by descending ID')
-parser.add_argument('--idstart', action='store', type=int,
-                    help='First obs ID to inspect when retrying')
-parser.add_argument('--idend', action='store', type=int,
-                    help='Last obs ID to inspect when retrying')
-parser.add_argument('--start', action='store', type=str,
-                    help='Obs beginning after this datetime (RFC3339)')
-parser.add_argument('--end', action='store', type=str,
-                    help='Obs ending before this datetime (RFC3339)')
 
 
 # just for developing script
@@ -61,7 +27,6 @@ OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 def print(*args):
     pprint(*args)
     sys.stdout.flush()
-# print = pprint.pprint
 
 
 client = requests.session()
@@ -256,10 +221,6 @@ class ObservationsDB(dict):
         # Is either an empty list or a list of objects
         obs['demoddata'] = str(obs['demoddata'])
 
-        # handle missing entries
-        # d = {k:None for k in observations.keys}
-        # d.update(obs)
-
         # Translate True/False to db-compatible 1/0 integers
         for k,v in obs.items():
             if isinstance(v, bool):
@@ -383,16 +344,6 @@ def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
         print(extra_pages)
 
 
-
-## filter out the bad data
-#print('**************************')
-#print('* Filtering out bad data')
-#print('**************************')
-#badkeys = [k for k,v in observations.items() if not isinstance(v, dict)]
-#for k in badkeys:
-#    del observations[k]
-
-
 def iter_chunks(iterable, size):
     """Iterate over the input in groups of size length."""
     it = iter(iterable)
@@ -462,53 +413,7 @@ def retry_observer_null(observations, reverse=False, idstart=None, idend=None):
 
         print('requested/got: %d/%d' % (len(items), len(ids)))
 
-# print('Saving ' + OBSERVATIONS_JSON)
-# if OBSERVATIONS_JSON.endswith('.gz'):
-    # with gzip.open(OBSERVATIONS_JSON, 'wt') as fp:
-        # json.dump(observations, fp, sort_keys=True, indent=2)
-# else:
-    # with open(OBSERVATIONS_JSON, 'w') as fp:
-        # json.dump(observations, fp, sort_keys=True, indent=2)
 
 
 if __name__ == '__main__':
-    if True:
-        opts = parser.parse_args()
-
-        parameters = {}
-        if opts.start:
-            parameters['start'] = opts.start
-
-        if opts.end:
-            parameters['end'] = opts.end
-
-        if not (os.path.isfile(opts.db) or opts.create):
-            raise FileNotFoundError('Database does not exist: {opts.db}')
-
-        observations = ObservationsDB(opts.db)
-
-        try:
-            if opts.fetch_new:
-                pages = opts.MAX_EXTRA_PAGES[0]
-
-                fetch_new(observations, pages, params=parameters)
-
-            if opts.retry_unknown:
-                retry_unknown(observations,
-                            reverse=opts.reverse,
-                            idstart=opts.idstart,
-                            idend=opts.idend)
-
-            if opts.retry_observer_null:
-                retry_observer_null(observations,
-                            reverse=opts.reverse,
-                            idstart=opts.idstart,
-                            idend=opts.idend)
-
-        except KeyboardInterrupt:
-            print('Cancelled by user, exiting.')
-
-        # print('Finished getting new/updated obs.')
-        observations.commit()
-    else:
-        data = DemoddataDB('/mnt/ssd2/satnogs-demoddata/demoddata.db')
+    data = DemoddataDB('/mnt/ssd2/satnogs-demoddata/demoddata.db')
