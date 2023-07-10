@@ -150,7 +150,11 @@ class ObservationsDB(dict):
         with self.db_conn:
             result = self.db_conn.execute(query)
 
-    def find(self, query):
+    def __del__(self):
+        self.db_conn.commit()
+        self.db_conn.close()
+
+    def _find(self, query):
         """Execute the query and return a list of id's that match."""
         q = f'SELECT id FROM observations WHERE {query};'
 
@@ -178,7 +182,7 @@ class ObservationsDB(dict):
 
         query += f' ORDER BY id {order}'
         print(query)
-        ids = self.find(query)
+        ids = self._find(query)
         print(f'found: {len(ids)}')
         return ids
 
@@ -199,16 +203,9 @@ class ObservationsDB(dict):
 
         query += f' ORDER BY id {order}'
         print(query)
-        ids = self.find(query)
+        ids = self._find(query)
         print(f'found: {len(ids)}')
         return ids
-
-    def commit(self):
-        self.db_conn.commit()
-
-    def __del__(self):
-        self.commit()
-        self.db_conn.close()
 
     def update(self, obs):
         o_id = int(obs['id'])
@@ -311,6 +308,9 @@ class DemoddataDB(dict):
                 items = result.fetchall()
                 return items[0]
 
+    def __del__(self):
+        self.db_conn.commit()
+        self.db_conn.close()
 
 
 
