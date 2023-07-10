@@ -17,6 +17,8 @@ from observations import retry_observer_null
 parser = argparse.ArgumentParser()
 parser.add_argument('db', metavar='observations.db',
                     help='Database of observations')
+parser.add_argument('demoddata_db', metavar='demoddata.db',
+                    help='Database of demodulated frames')
 parser.add_argument('--create', action='store_true', default=False,
                     help="Create the DB if it doesn't exist")
 parser.add_argument('--fetch', action=argparse.BooleanOptionalAction,
@@ -64,7 +66,10 @@ if __name__ == '__main__':
     if not (os.path.isfile(opts.db) or opts.create):
         raise FileNotFoundError('Database does not exist: {opts.db}')
 
-    observations = ObservationsDB(opts.db)
+    if not (os.path.isfile(opts.demoddata_db) or opts.create):
+        raise FileNotFoundError('Database does not exist: {opts.demoddata_db}')
+
+    observations = ObservationsDB(opts.db, opts.demoddata_db)
 
     try:
         if opts.fetch_new:
@@ -88,5 +93,4 @@ if __name__ == '__main__':
         print('Cancelled by user, exiting.')
 
     # print('Finished getting new/updated obs.')
-    observations.commit()
 
