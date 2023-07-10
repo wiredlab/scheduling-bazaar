@@ -5,17 +5,17 @@ channels:
   - wiredlab
 dependencies:
   - ipython
-  - ipython-sql
   - jupyter
   - jupyter_contrib_nbextensions
+  - jupysql
   - ephem
   - matplotlib
   - intervaltree
   - iso8601
   - requests
   - requests-cache
+  - skyfield
 
-prefix: /home/dan/miniconda3/envs/bazaar
 old:
   - intervaltree=2.1.0=py36_0
   - jplephem=2.7=py36_0
