@@ -461,7 +461,19 @@ class DemoddataDB(dict):
                     raise Error(f"Error: observation ({observation['id']}) does not match frame ({obs})")
 
                 ts = skyfield.api.load.timescale()
-                gs_sat_pos = self._setup_tracking(observation)
+
+                # Occasionally we see a TLE that skyfield / sgp4 doesn't like
+                # Report-and-ignore
+                try:
+                    gs_sat_pos = self._setup_tracking(observation)
+                except ValueError as e:
+                    print(e)
+                    tle0 = observation['tle0']
+                    tle1 = observation['tle1']
+                    tle2 = observation['tle2']
+                    print(F"*** bad TLE for {obs}\n{tle0}\n{tle1}\n{tle2}")
+                    continue
+
 
                 # Only commit() the after all frames, to speed up DB work
                 with self.db_conn:
@@ -487,7 +499,7 @@ class DemoddataDB(dict):
                 duration_futures = tf2 - t1
                 duration_db = t2 - tf2
 
-                print(f"{num_jobs:5d} in {duration:5.1f} s, {rate:5.1f} f/s" +
+                print(f"{obs}: {num_jobs:5d} in {duration:5.1f} s, {rate:5.1f} f/s" +
                       f" | {duration_futures:0.2f} fu, {duration_db:0.2f} db")
         return num_frames
 
