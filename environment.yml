@@ -1,8 +1,8 @@
 name: bazaar
 channels:
-  - defaults
   - conda-forge
   - wiredlab
+  - defaults
 dependencies:
   - ipython
   - jupyter
@@ -10,6 +10,7 @@ dependencies:
   - jupysql
   - ephem
   - matplotlib
+  - mercury
   - intervaltree
   - iso8601
   - requests
