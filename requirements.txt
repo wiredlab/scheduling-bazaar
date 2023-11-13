@@ -4,3 +4,7 @@ lxml
 requests
 requests-cache
 skyfield
+jupyterlab
+matplotlib
+numpy
+iso8601
