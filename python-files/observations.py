@@ -95,6 +95,7 @@ class ObservationsDB(dict):
             tle0 TEXT,
             tle1 TEXT,
             tle2 TEXT,
+            tle_source TEXT,
             center_frequency INTEGER,
             observer INTEGER,
             observation_frequency INTEGER,
