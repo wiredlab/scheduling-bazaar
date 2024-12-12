@@ -37,7 +37,8 @@ def print(*args):
 
 client = requests.session()
 def get(url, params=None):
-    result = client.get(url, params=params) #, verify=False)
+    headers = {"Authorization": f"Token {API_TOKEN}"}
+    result = client.get(url, headers=headers, params=params) #, verify=False)
     print(result.url)
     return result
 
@@ -508,7 +509,11 @@ class DemoddataDB(dict):
 
 def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
     r = get(OBSERVATIONS_API, params)
-    updated = [observations.update(o) for o in r.json()]
+    try:
+        updated = [observations.update(o) for o in r.json()]
+    except:
+        print(r.json())
+        raise
     any_updated = any(updated)
 
     nextpage = r.links.get('next')
@@ -517,12 +522,12 @@ def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
     while (extra_pages > 0) and nextpage:
         r = get(nextpage['url'])
         # network-dev returns a 500 server error at some point 350+ pages in
-        # try:
-        updated = [observations.update(o) for o in r.json()]
-        # except Exception as e:
-            # print('Error on response:', r)
-            # print(e)
-            # raise e
+        try:
+            updated = [observations.update(o) for o in r.json()]
+        except Exception as e:
+            print(r.json())
+            print(e)
+            raise e
 
         nextpage = r.links.get('next')
 
