@@ -23,8 +23,9 @@ import skyfield.api
 
 
 # just for developing script
-# import requests_cache
-# requests_cache.install_cache(expire_after=60*60)
+import requests_cache
+requests_cache.install_cache(expire_after=4*60*60)
+requests_cache.delete(expired=True)
 
 OBSERVATIONS_API = 'https://network.satnogs.org/api/observations'
 
@@ -239,7 +240,7 @@ class ObservationsDB(dict):
         # brand new observation?
         db_obs = self[o_id]
         if db_obs is None:
-            print('%i new' % o_id)
+            print(f'{o_id} new {obs["start"]}')
             self[o_id] = obs
             was_updated = True
 
@@ -256,7 +257,7 @@ class ObservationsDB(dict):
             diff = orig ^ new
 
             if len(diff) > 0:
-                print('%i different data' % o_id)
+                print(f'{o_id} different data {obs["start"]}')
                 print(diff)
                 self[o_id] = obs
                 was_updated = True
@@ -509,7 +510,10 @@ class DemoddataDB(dict):
 
 
 def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
+    n_requests = 0
     r = get(OBSERVATIONS_API, params)
+    n_requests += 1
+    print(f"n_requests: {n_requests}")
     try:
         updated = [observations.update(o) for o in r.json()]
     except:
@@ -522,6 +526,8 @@ def fetch_new(observations, MAX_EXTRA_PAGES, params=None):
 
     while (extra_pages > 0) and nextpage:
         r = get(nextpage['url'])
+        n_requests += 1
+        print(f"n_requests: {n_requests}")
         # network-dev returns a 500 server error at some point 350+ pages in
         try:
             updated = [observations.update(o) for o in r.json()]
