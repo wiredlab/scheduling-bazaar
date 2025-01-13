@@ -419,6 +419,9 @@ class DemoddataDB(dict):
                         print(f"bad,{url}")
                         continue
 
+                    # TODO: for now, we skip items with extensions, remove soon
+                    if len(ext) > 0:
+                        continue
 
                     try:
                         year, month, dayhour, minute, second = datestr.split('-')
@@ -426,10 +429,6 @@ class DemoddataDB(dict):
                     except:
                         print(f"bad-date,{url}")
                         dt = 'YYYY-MM-DDTHH:MM:SS'
-                        continue
-
-                    # TODO: for now, we skip items with extensions, remove soon
-                    if len(ext) > 0:
                         continue
 
                     # do not re-download
